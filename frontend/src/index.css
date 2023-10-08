@@ -111,6 +111,47 @@ code {
   background-color: #f9f9f9;
 }
 
+/* modal css */
+
+.dashboard .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard .modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 100%;
+  height: 600px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+}
+
+.dashboard .close-button {
+  background: rgb(252, 12, 12);
+  border: none;
+  cursor: pointer;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+  padding: 3px 7px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+}
+.dashboard .modal form {
+  display: flex;
+  flex-direction: column;
+}
+
 
 /* register component css */
 .register {
@@ -175,3 +216,7 @@ code {
   outline: none;
   padding: 5px 10px;
 }
+
+
+/* Add any other styles you need for the form inputs and buttons */
+

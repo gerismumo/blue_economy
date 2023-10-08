@@ -8,6 +8,8 @@ function Dashboard() {
 
     const [importedData, setImportedData] = useState(null);
     const[usersList, setUsersList] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingUser, setEditingUser] = useState(null);
 
     const onDrop = (acceptedFiles) => {
         acceptedFiles.forEach((file) => {
@@ -92,7 +94,13 @@ function Dashboard() {
             } catch (error) {
                 console.log(error);
             }
-            
+        }
+
+        //handle edit 
+        
+        const handleEditUser = (user) => {
+            setEditingUser(user);
+            setIsModalOpen(true);
         }
     return (
         <div className="dashboard">
@@ -208,14 +216,156 @@ function Dashboard() {
                                 <td>{user.describe_product}</td>
                                 <td>{user.category_fall}</td>
                                 <td><button onClick={()=>handleDeleteUser(user.user_id)}>Delete</button></td>
-                                <td><button>Edit</button></td>
+                                <td><button onClick={()=>handleEditUser(user)}>Edit</button></td>
                             </tr>
                         ))
                     )}
                 </tbody>
-                </table>
-                
+                </table> 
             </div>
+
+            {isModalOpen && editingUser && (
+            <div className="modal" style={{ display: isModalOpen ? 'flex' : 'none' }}>
+            <div className="modal-content">
+                <button className="close-button" onClick={() => setIsModalOpen(false)}>
+                Close
+                </button>
+                {/* Place your form code here */}
+                <form >
+                        <label htmlFor="email"  >Email</label>
+                        <input 
+                        type='email' 
+                        placeholder='johndoe@gmail.com' 
+                        name='email'
+                        
+                        />
+                        <label htmlFor="name">Full name</label>
+                        <input type='text'
+                        name='name'
+                        placeholder='John Doe' 
+                        />
+                        <label htmlFor="occupation">Designation/Occupation/Role</label>
+                        <input type="text" 
+                        name='occupation'
+                        
+                        />
+                        <label htmlFor="company">Company/Organisation</label>
+                        <input type='text'
+                        name='company'
+                        
+                        />
+                        <label htmlFor="phoneNumber">Phone Number</label>
+                        <input type="tel" 
+                        name='phoneNumber'
+                        
+                        />
+                        <label htmlFor="form">Which industry are you in?</label>
+                        <input type="text" 
+                        name='industry'
+                        
+                        />
+                        <label htmlFor="form">How did you hear about the event?</label>
+                        <div className="select-checkboxes">
+                        <label className="checkbox-label">
+                            <input
+                                type="checkbox"
+                                name="hearChecks"
+                                className='event-CheckBox'
+                                value="Email"
+                                
+                            />
+                            Email
+                        </label>
+                        </div>
+                        <div className="select-checkboxes">
+                        <label className="checkbox-label">
+                            <input
+                                type="checkbox"
+                                name="hearChecks"
+                                className='event-CheckBox'
+                                value="SocialMedia"
+                                
+                            />
+                            Social Media
+                        </label>
+                        </div>
+                        <div className="select-checkboxes">
+                        <label className="checkbox-label">
+                            <input
+                                type="checkbox"
+                                name="hearChecks"
+                                className='event-CheckBox'
+                                value="LinkedIn"
+                                
+                            />
+                            LinkedIn
+                        </label>
+                        </div>
+                        <div className="select-checkboxes">
+                        <label className="checkbox-label">
+                            <input
+                                type="checkbox"
+                                name="hearChecks"
+                                className='event-CheckBox'
+                                value="word Of Mouth"
+                                
+                            />
+                            Word of Month
+                        </label>
+                        </div>
+                        <div className="select-checkboxes">
+                        <label className="checkbox-label">
+                            <input
+                                type="checkbox"
+                                name="hearChecks"
+                                className='event-CheckBox'
+                                value="Whatsapp"
+                                
+                            />
+                            whatsapp
+                        </label>
+                        </div>
+                        
+                        <label htmlFor="form">Did you attend last year's Blue Economy Summit?</label>
+                        <select name="attendLastYear" id="attend" >
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                        <label htmlFor="form">Which areas are of interest to you during the summit?</label>
+                        <select name="areaOfInterests" id="interests-area" >
+                            <option value="blue economy">Blue Economy</option>
+                            <option value="climate change">Climate Change</option>
+                            <option value="digital economy">Digital Economy</option>
+                            <option value="all if possible">All if Possible</option>
+                        </select>
+                        <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>
+                        <select name="joinMailList" id="join-mail" >
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                        <label htmlFor="form">How will you be joining this year's summit?</label>
+                        <select name="JoinAs" id="join-summit" >
+                            <option value="Startup">Start Up</option>
+                            <option value="Delegate">Delegate</option>
+                            <option value="Government">Government</option>
+                            <option value="Exhibitor">Exhibitor</option>
+                            <option value="Sponsor/Donor"></option>
+                        </select>
+                        <label htmlFor="form">Describe your product or the services that you offer?</label>
+                        <input type="text"
+                        name='describeYourProduct'
+                        
+                        />
+                        <label htmlFor="form">Which category do you fall in?</label>
+                        <select name="categoryFall" >
+                            <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>
+                            <option value="Corporate Institution (KES 30,000)">Corporate Institution (KES 30,000)</option>
+                        </select>
+                        <button type='submit'>Submit</button>
+                </form>
+            </div>
+            </div>
+        )}
         </div>
     )
 }
