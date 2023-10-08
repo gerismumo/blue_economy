@@ -7,6 +7,7 @@ import * as XLSX from 'xlsx';
 function Dashboard() {
 
     const [importedData, setImportedData] = useState(null);
+    const[usersList, setUsersList] = useState([]);
 
     const onDrop = (acceptedFiles) => {
         acceptedFiles.forEach((file) => {
@@ -46,20 +47,34 @@ function Dashboard() {
         setSearchQuery(event.target.value);
       }
 
-      const filteredData = importedData
-        ? importedData.slice(1).filter((row) => 
-        row.some((cell) => cell.toString().toLowerCase().includes(searchQuery.toLowerCase())))
-        : [];
-
+      const filteredData = usersList
+        ? usersList.filter((user) => {
+            return (
+                user.user_id.toString().toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+                user.user_email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.user_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.occupation.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.phone_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.industry_in.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.hear_about_event.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.attend_last_year.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.user_interest.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.join_newsletter.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.join_as.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.describe_product.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.category_fall.toLowerCase().includes(searchQuery.toLowerCase())    
+            );
+            })
+        : []
         //get users list 
 
-        const[usersList, setUsersList] = useState([]);
+        
         useEffect(() => {
             fetch('http://localhost:5000/usersList')
             .then(response => response.json())
             .then(data => setUsersList(data.data))
         }, []);
-        console.log(usersList);
     return (
         <div className="dashboard">
             <header>
@@ -149,13 +164,15 @@ function Dashboard() {
                             <th>How will you be joining this year's summit?</th>
                             <th>Describe your product or the services that you offer?</th>
                             <th>Which category do you fall in?</th>
+                            <th>Delete</th>
+                            <th>Edit</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {usersList.length === 0 ? (
+                    {filteredData.length === 0 ? (
                         <p>no available data</p>
                     ): (
-                        usersList.map(user => (
+                        filteredData.map(user => (
                             <tr key={user.user_id}>
                                 <td>{user.user_id}</td>
                                 <td>{user.user_email}</td>
@@ -171,6 +188,8 @@ function Dashboard() {
                                 <td>{user.join_as}</td>
                                 <td>{user.describe_product}</td>
                                 <td>{user.category_fall}</td>
+                                <td><button>Delete</button></td>
+                                <td><button>Edit</button></td>
                             </tr>
                         ))
                     )}
