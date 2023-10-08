@@ -99,11 +99,21 @@ function Dashboard() {
         //handle edit 
         
         const handleEditUser = (user) => {
-            setEditingUser(user);
-            setIsModalOpen(true);
-            
+            if(user) {
+                setEditingUser(user);
+                setIsModalOpen(true);
+            }  
         }
-        const hearAboutEventValues = editingUser.hear_about_event.split(',');
+
+        // const hearAboutEventValues = userData.hear_about_event.split(',');
+        const handleChanges = (event) => {
+            const { name, value } = event.target;
+            setEditingUser((prevEditingUser) => ({
+              ...prevEditingUser,
+              [name]: value,
+            }));
+          }
+        
     return (
         <div className="dashboard">
             <header>
@@ -238,34 +248,40 @@ function Dashboard() {
                         <input 
                         type='email' 
                         placeholder='johndoe@gmail.com' 
-                        name='email'
+                        name='user_email'
                         value={editingUser.user_email}
+                        onChange={handleChanges}
                         />
                         <label htmlFor="name">Full name</label>
                         <input type='text'
-                        name='name'
+                        name='user_name'
                         placeholder='John Doe' 
                         value={editingUser.user_name}
+                        onChange={handleChanges}
                         />
                         <label htmlFor="occupation">Designation/Occupation/Role</label>
                         <input type="text" 
                         name='occupation'
                         value={editingUser.occupation}
+                        onChange={handleChanges}
                         />
                         <label htmlFor="company">Company/Organisation</label>
                         <input type='text'
                         name='company'
                         value={editingUser.company}
+                        onChange={handleChanges}
                         />
                         <label htmlFor="phoneNumber">Phone Number</label>
                         <input type="tel" 
-                        name='phoneNumber'
+                        name='phone_number'
                         value={editingUser.phone_number}
+                        onChange={handleChanges}
                         />
                         <label htmlFor="form">Which industry are you in?</label>
                         <input type="text" 
-                        name='industry'
+                        name='industry_in'
                         value={editingUser.industry_in}
+                        onChange={handleChanges}
                         />
                         <label htmlFor="form">How did you hear about the event?</label>
                         <div className="select-checkboxes">
@@ -275,7 +291,7 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="Email"
-                                checked={hearAboutEventValues.includes('Email')}
+                                // checked={hearAboutEventValues.includes('Email')}
                             />
                             Email
                         </label>
@@ -287,7 +303,7 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="SocialMedia"
-                                checked={hearAboutEventValues.includes('SocialMedia')}
+                                // checked={hearAboutEventValues.includes('SocialMedia')}
                             />
                             Social Media
                         </label>
@@ -299,7 +315,7 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="LinkedIn"
-                                checked={hearAboutEventValues.includes('LinkedIn')}
+                                // checked={hearAboutEventValues.includes('LinkedIn')}
                             />
                             LinkedIn
                         </label>
@@ -311,7 +327,7 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="word Of Mouth"
-                                checked={hearAboutEventValues.includes('word Of Mouth')}
+                                // checked={hearAboutEventValues.includes('word Of Mouth')}
                             />
                             Word of Month
                         </label>
@@ -323,31 +339,31 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="Whatsapp"
-                                checked={hearAboutEventValues.includes('Whatsapp')}
+                                // checked={hearAboutEventValues.includes('Whatsapp')}
                             />
                             whatsapp
                         </label>
                         </div>
                         
                         <label htmlFor="form">Did you attend last year's Blue Economy Summit?</label>
-                        <select name="attendLastYear" id="attend" defaultValue={editingUser.attend_last_year}>
+                        <select name="attend_last_year" id="attend" value={editingUser.attend_last_year} onChange={handleChanges}>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
                         <label htmlFor="form">Which areas are of interest to you during the summit?</label>
-                        <select name="areaOfInterests" id="interests-area" defaultValue={editingUser.user_interest}>
+                        <select name="user_interest" id="interests-area" value={editingUser.user_interest} onChange={handleChanges}>
                             <option value="blue economy">Blue Economy</option>
                             <option value="climate change">Climate Change</option>
                             <option value="digital economy">Digital Economy</option>
                             <option value="all if possible">All if Possible</option>
                         </select>
                         <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>
-                        <select name="joinMailList" id="join-mail" defaultValue={editingUser.join_newsletter}>
+                        <select name="join_newsletter" id="join-mail" value={editingUser.join_newsletter} onChange={handleChanges}>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
                         <label htmlFor="form">How will you be joining this year's summit?</label>
-                        <select name="JoinAs" id="join-summit" defaultValue={editingUser.join_as}>
+                        <select name="join_as" id="join-summit" value={editingUser.join_as} onChange={handleChanges}>
                             <option value="Startup">Start Up</option>
                             <option value="Delegate">Delegate</option>
                             <option value="Government">Government</option>
@@ -356,11 +372,12 @@ function Dashboard() {
                         </select>
                         <label htmlFor="form">Describe your product or the services that you offer?</label>
                         <input type="text"
-                        name='describeYourProduct'
+                        name='describe_product'
                         value={editingUser.describe_product}
+                        onChange={handleChanges}
                         />
                         <label htmlFor="form">Which category do you fall in?</label>
-                        <select name="categoryFall" defaultValue={editingUser.category_fall}>
+                        <select name="category_fall" value={editingUser.category_fall} onChange={handleChanges}>
                             <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>
                             <option value="Corporate Institution (KES 30,000)">Corporate Institution (KES 30,000)</option>
                         </select>
