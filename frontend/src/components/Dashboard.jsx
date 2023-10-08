@@ -105,13 +105,40 @@ function Dashboard() {
             }  
         }
 
-        // const hearAboutEventValues = userData.hear_about_event.split(',');
+        const hearAboutEventValues = editingUser ? editingUser.hear_about_event.split(',') : [];
         const handleChanges = (event) => {
             const { name, value } = event.target;
             setEditingUser((prevEditingUser) => ({
               ...prevEditingUser,
               [name]: value,
             }));
+          }
+          const handleCheckboxChange = (event) => {
+            const checkboxValue = event.target.value;
+            const isChecked = event.target.checked;
+          
+            setEditingUser((prevEditingUser) => {
+              let updatedHearAboutEvent = [...hearAboutEventValues];
+          
+              if (isChecked) {
+                updatedHearAboutEvent.push(checkboxValue);
+              } else {
+                updatedHearAboutEvent = updatedHearAboutEvent.filter(
+                  (value) => value !== checkboxValue
+                );
+              }
+          
+              return {
+                ...prevEditingUser,
+                hear_about_event: updatedHearAboutEvent.join(','),
+              };
+            });
+          };
+
+          //submit edit data
+          const handleSubmitEditData = (e) => {
+            e.preventDefault();
+            console.log(editingUser);
           }
         
     return (
@@ -243,7 +270,7 @@ function Dashboard() {
                 Close
                 </button>
                 {/* Place your form code here */}
-                <form >
+                <form onSubmit={handleSubmitEditData}>
                         <label htmlFor="email"  >Email</label>
                         <input 
                         type='email' 
@@ -291,7 +318,8 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="Email"
-                                // checked={hearAboutEventValues.includes('Email')}
+                                checked={hearAboutEventValues.includes('Email')}
+                                onChange={handleCheckboxChange}
                             />
                             Email
                         </label>
@@ -303,7 +331,8 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="SocialMedia"
-                                // checked={hearAboutEventValues.includes('SocialMedia')}
+                                checked={hearAboutEventValues.includes('SocialMedia')}
+                                onChange={handleCheckboxChange}
                             />
                             Social Media
                         </label>
@@ -315,7 +344,8 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="LinkedIn"
-                                // checked={hearAboutEventValues.includes('LinkedIn')}
+                                checked={hearAboutEventValues.includes('LinkedIn')}
+                                onChange={handleCheckboxChange}
                             />
                             LinkedIn
                         </label>
@@ -327,7 +357,8 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="word Of Mouth"
-                                // checked={hearAboutEventValues.includes('word Of Mouth')}
+                                checked={hearAboutEventValues.includes('word Of Mouth')}
+                                onChange={handleCheckboxChange}
                             />
                             Word of Month
                         </label>
@@ -339,7 +370,8 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="Whatsapp"
-                                // checked={hearAboutEventValues.includes('Whatsapp')}
+                                checked={hearAboutEventValues.includes('Whatsapp')}
+                                onChange={handleCheckboxChange}
                             />
                             whatsapp
                         </label>
