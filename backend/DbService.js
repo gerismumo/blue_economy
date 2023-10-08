@@ -24,26 +24,6 @@ class DbLearning {
         return instance ? instance : new DbLearning();
     }
 
-    //login user
-    async loginUser (email) {
-        try {
-            const query = 'SELECT * FROM users WHERE user_email = ?';
-            const selectUser = await new Promise((resolve, reject) => {
-                connection.query(query,[email], (err,result) => {
-                    if (err) {
-                        console.log('Error in executing query', err);
-                        reject(err);
-                    }
-                    console.log(result[0]);
-                    resolve(result);
-                });
-            });
-            return selectUser;
-        } catch (error) {
-            console.log(error);
-        }
-    }
-   
     //register users here
     async addUsers (requestData) {
         try {
@@ -97,27 +77,25 @@ class DbLearning {
             console.log(error);
         }
     }
-    //queries here
+    
+    //delete users
 
-    //select admin details
-    async getAdmin() {
-        try{
-            const query = "SELECT * FROM admins_table";
-            const getAdminData = await new Promise((resolve, reject) => {
-                connection.query(query, (err, result) => {
-                    if(err){
-                        console.log("Error in executing the query:", err);
+    async deleteUser(user_id) {
+        try {
+            const query = 'DELETE FROM users_list WHERE user_id = ? '
+            const deleteUser = await new Promise((resolve, reject) => {
+                connection.query(query, [user_id], (err, result) => {
+                    if (err) {
                         reject(err);
                     }
                     resolve(result);
                 });
             });
-            return getAdminData;
+            return deleteUser;
         } catch (error) {
             console.log(error);
         }
     }
-    //delete admin
 
 }
     module.exports = DbLearning;

@@ -56,7 +56,7 @@ app.post('/loginUser', async (req, res) => {
 });
 
 //register user
-app.post('/signUpUsers', (req, res) => {
+app.post('/registerUsers', (req, res) => {
   const requestData = req.body;
   const db = DbService.getDbLearningInstance();
 
@@ -92,11 +92,11 @@ app.get('/getAdminsList', (req, res) => {
 });
 
 //delete admin
-app.delete('/deleteAdmin/:admin_id', (req, res) => {
-  const {admin_id } = req.params;
+app.delete('/deleteUser/:user_id', (req, res) => {
+  const {user_id } = req.params;
 
   const db = DbService.getDbLearningInstance();
-  const result = db.deleteAdmin(admin_id);
+  const result = db.deleteUser(user_id);
   result
   .then(data => {
     res.json({success:true, data:data});

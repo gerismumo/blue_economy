@@ -75,6 +75,25 @@ function Dashboard() {
             .then(response => response.json())
             .then(data => setUsersList(data.data))
         }, []);
+
+        //handle delete user
+
+        const handleDeleteUser = async(user_id) => {
+            try {
+                const response = await fetch(`http://localhost:5000/deleteUser/${user_id}`, {
+                method: 'DELETE',  
+                })
+                if(response.ok) {
+                    const updatedUsersList = usersList.filter((user) => user_id !== user.user_id);
+                    setUsersList(updatedUsersList);
+                }
+                const data = await response.json();
+                console.log(data);
+            } catch (error) {
+                console.log(error);
+            }
+            
+        }
     return (
         <div className="dashboard">
             <header>
@@ -188,7 +207,7 @@ function Dashboard() {
                                 <td>{user.join_as}</td>
                                 <td>{user.describe_product}</td>
                                 <td>{user.category_fall}</td>
-                                <td><button>Delete</button></td>
+                                <td><button onClick={()=>handleDeleteUser(user.user_id)}>Delete</button></td>
                                 <td><button>Edit</button></td>
                             </tr>
                         ))
