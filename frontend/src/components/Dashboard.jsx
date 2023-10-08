@@ -101,7 +101,9 @@ function Dashboard() {
         const handleEditUser = (user) => {
             setEditingUser(user);
             setIsModalOpen(true);
+            
         }
+        const hearAboutEventValues = editingUser.hear_about_event.split(',');
     return (
         <div className="dashboard">
             <header>
@@ -237,32 +239,33 @@ function Dashboard() {
                         type='email' 
                         placeholder='johndoe@gmail.com' 
                         name='email'
-                        
+                        value={editingUser.user_email}
                         />
                         <label htmlFor="name">Full name</label>
                         <input type='text'
                         name='name'
                         placeholder='John Doe' 
+                        value={editingUser.user_name}
                         />
                         <label htmlFor="occupation">Designation/Occupation/Role</label>
                         <input type="text" 
                         name='occupation'
-                        
+                        value={editingUser.occupation}
                         />
                         <label htmlFor="company">Company/Organisation</label>
                         <input type='text'
                         name='company'
-                        
+                        value={editingUser.company}
                         />
                         <label htmlFor="phoneNumber">Phone Number</label>
                         <input type="tel" 
                         name='phoneNumber'
-                        
+                        value={editingUser.phone_number}
                         />
                         <label htmlFor="form">Which industry are you in?</label>
                         <input type="text" 
                         name='industry'
-                        
+                        value={editingUser.industry_in}
                         />
                         <label htmlFor="form">How did you hear about the event?</label>
                         <div className="select-checkboxes">
@@ -272,7 +275,7 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="Email"
-                                
+                                checked={hearAboutEventValues.includes('Email')}
                             />
                             Email
                         </label>
@@ -284,7 +287,7 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="SocialMedia"
-                                
+                                checked={hearAboutEventValues.includes('SocialMedia')}
                             />
                             Social Media
                         </label>
@@ -296,7 +299,7 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="LinkedIn"
-                                
+                                checked={hearAboutEventValues.includes('LinkedIn')}
                             />
                             LinkedIn
                         </label>
@@ -308,7 +311,7 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="word Of Mouth"
-                                
+                                checked={hearAboutEventValues.includes('word Of Mouth')}
                             />
                             Word of Month
                         </label>
@@ -320,31 +323,31 @@ function Dashboard() {
                                 name="hearChecks"
                                 className='event-CheckBox'
                                 value="Whatsapp"
-                                
+                                checked={hearAboutEventValues.includes('Whatsapp')}
                             />
                             whatsapp
                         </label>
                         </div>
                         
                         <label htmlFor="form">Did you attend last year's Blue Economy Summit?</label>
-                        <select name="attendLastYear" id="attend" >
+                        <select name="attendLastYear" id="attend" defaultValue={editingUser.attend_last_year}>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
                         <label htmlFor="form">Which areas are of interest to you during the summit?</label>
-                        <select name="areaOfInterests" id="interests-area" >
+                        <select name="areaOfInterests" id="interests-area" defaultValue={editingUser.user_interest}>
                             <option value="blue economy">Blue Economy</option>
                             <option value="climate change">Climate Change</option>
                             <option value="digital economy">Digital Economy</option>
                             <option value="all if possible">All if Possible</option>
                         </select>
                         <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>
-                        <select name="joinMailList" id="join-mail" >
+                        <select name="joinMailList" id="join-mail" defaultValue={editingUser.join_newsletter}>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
                         <label htmlFor="form">How will you be joining this year's summit?</label>
-                        <select name="JoinAs" id="join-summit" >
+                        <select name="JoinAs" id="join-summit" defaultValue={editingUser.join_as}>
                             <option value="Startup">Start Up</option>
                             <option value="Delegate">Delegate</option>
                             <option value="Government">Government</option>
@@ -354,10 +357,10 @@ function Dashboard() {
                         <label htmlFor="form">Describe your product or the services that you offer?</label>
                         <input type="text"
                         name='describeYourProduct'
-                        
+                        value={editingUser.describe_product}
                         />
                         <label htmlFor="form">Which category do you fall in?</label>
-                        <select name="categoryFall" >
+                        <select name="categoryFall" defaultValue={editingUser.category_fall}>
                             <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>
                             <option value="Corporate Institution (KES 30,000)">Corporate Institution (KES 30,000)</option>
                         </select>
