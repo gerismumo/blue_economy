@@ -57,10 +57,10 @@ app.post('/loginUser', async (req, res) => {
 
 //register user
 app.post('/signUpUsers', (req, res) => {
-  const formData = req.body;
+  const requestData = req.body;
   const db = DbService.getDbLearningInstance();
 
-  const result = db.addUsers(formData);
+  const result = db.addUsers(requestData);
 
   result.then(data => {
     res.json({success: true, data: data});
