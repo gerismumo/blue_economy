@@ -55,23 +55,9 @@ function Dashboard() {
 
         const[usersList, setUsersList] = useState([]);
         useEffect(() => {
-            const fetchUsers = async () => {
-                try {
-                    const response = await fetch('http://localhost:5000/user/list');
-
-                    if ( !response.ok ) {
-                        throw new Error('Network is not okay');
-                    }
-                    const data = response.json();
-
-                    if(data && data.data) {
-                        setUsersList(data.data);
-                    }
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-            fetchUsers();
+            fetch('http://localhost:5000/usersList')
+            .then(response => response.json())
+            .then(data => setUsersList(data.data))
         }, []);
         console.log(usersList);
     return (
@@ -109,7 +95,7 @@ function Dashboard() {
                     </div>
                 </div>
             </div>
-            <div className="users-table">
+            {/* <div className="users-table">
                 {importedData === null? (
                     <div className='table-data'>
                         No available Data
@@ -144,6 +130,53 @@ function Dashboard() {
                 </table>
                 </div>
                 )}
+            </div> */}
+            <div className="users-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Designation/Occupation/Role</th>
+                            <th>Company/ Organization Name</th>
+                            <th>Phone number(For communication purposes only)</th>
+                            <th>Which industry are you in?</th>
+                            <th>How did you hear about the event?</th>
+                            <th>Did you attend last year's Blue Economy Summit?</th>
+                            <th>Which areas are of interest to you during the summit?</th>
+                            <th>Do you consent joining our mailing list to receive our newsletter?</th>
+                            <th>How will you be joining this year's summit?</th>
+                            <th>Describe your product or the services that you offer?</th>
+                            <th>Which category do you fall in?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {usersList.length === 0 ? (
+                        <p>no available data</p>
+                    ): (
+                        usersList.map(user => (
+                            <tr key={user.user_id}>
+                                <td>{user.user_id}</td>
+                                <td>{user.user_email}</td>
+                                <td>{user.user_name}</td>
+                                <td>{user.occupation}</td>
+                                <td>{user.company}</td>
+                                <td>{user.phone_number}</td>
+                                <td>{user.industry_in}</td>
+                                <td>{user.hear_about_event}</td>
+                                <td>{user.attend_last_year}</td>
+                                <td>{user.user_interest}</td>
+                                <td>{user.join_newsletter}</td>
+                                <td>{user.join_as}</td>
+                                <td>{user.describe_product}</td>
+                                <td>{user.category_fall}</td>
+                            </tr>
+                        ))
+                    )}
+                </tbody>
+                </table>
+                
             </div>
         </div>
     )
