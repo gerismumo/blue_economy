@@ -136,9 +136,32 @@ function Dashboard() {
           };
 
           //submit edit data
-          const handleSubmitEditData = (e) => {
+          const handleSubmitEditData = async(e) => {
             e.preventDefault();
-            console.log(editingUser);
+                try {
+                    if(!editingUser || !editingUser.user_id) {
+                        console.log('Invalid editing user data or user_id');
+                        return;
+                    }
+                    
+                    const response = await fetch(`http://localhost:5000/editUser/${editingUser.user_id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(editingUser),
+                    });
+                    if(response.ok) {
+                        setUsersList((prevUsersList) => 
+                        prevUsersList.map((user) => user.user_id === editingUser.user_id ? {...user, ...editingUser} : user));
+                        setIsModalOpen(false);
+                    } else {
+                        console.log('failed to edit user');
+                    }        
+                } catch (error) {
+                    console.log(error);
+                }
+            
           }
         
     return (

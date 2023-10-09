@@ -97,5 +97,39 @@ class DbLearning {
         }
     }
 
+    //edit users
+    async  editUsers(user_id,
+        user_email,user_name, occupation, company,phone_number, industry_in,
+        hear_about_event, attend_last_year, user_interest, join_newsletter,join_as,
+        describe_product, category_fall) {
+        try {
+          const query = `UPDATE users_list SET user_email = ?, user_name = ?, occupation = ?, company = ?, phone_number = ?, industry_in = ?, hear_about_event = ?, attend_last_year = ?, user_interest = ?, join_newsletter = ?, join_as = ?, describe_product = ?, category_fall = ? WHERE user_id = ?`;
+         
+        
+          const editUser = await new Promise((resolve, reject) => {
+            connection.query(
+              query,
+              [
+                user_email,user_name ,occupation, company,phone_number, industry_in,
+        hear_about_event, attend_last_year, user_interest, join_newsletter,join_as,
+        describe_product, category_fall, user_id
+              ],
+              (err, result) => {
+                if (err) {
+                  reject(err);
+                }
+                
+                resolve(result);
+              }
+            );
+          });
+      
+          return editUser;
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      }
+     
 }
     module.exports = DbLearning;
