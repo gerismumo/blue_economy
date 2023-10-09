@@ -59,8 +59,7 @@ app.delete('/deleteUser/:user_id', (req, res) => {
 app.put('/editUser/:user_id', (req, res) => {
   const {user_id} = req.params;
   const editingUser = req.body;
-  console.log('user id',user_id);
-  console.log('editingUser',editingUser)
+
   const user_email = editingUser.user_email;
   const user_name  = editingUser.user_name;
   const occupation = editingUser.occupation;
@@ -74,6 +73,7 @@ app.put('/editUser/:user_id', (req, res) => {
   const join_as = editingUser.join_as;
   const describe_product = editingUser.describe_product;
   const category_fall = editingUser.category_fall;
+  
   const db = DbService.getDbLearningInstance();
   const result = db.editUsers(user_id,
      user_email,user_name, occupation, company,phone_number, industry_in,
