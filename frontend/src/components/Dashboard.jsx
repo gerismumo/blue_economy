@@ -1,47 +1,46 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
 import * as XLSX from 'xlsx';
 
 function Dashboard() {
 
-    const [importedData, setImportedData] = useState(null);
+    // const [importedData, setImportedData] = useState(null);
     const[usersList, setUsersList] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
 
-    const onDrop = (acceptedFiles) => {
-        acceptedFiles.forEach((file) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const sheetName = workbook.SheetNames[0];
-            const sheet = workbook.Sheets[sheetName];
-            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-            setImportedData((prevData) => (prevData ? [...prevData, ...jsonData.slice(1)] : jsonData));
-            };
-            reader.readAsArrayBuffer(file);
-        })
-      };
+    // const onDrop = (acceptedFiles) => {
+    //     acceptedFiles.forEach((file) => {
+    //         const reader = new FileReader();
+    //         reader.onload = (e) => {
+    //         const data = new Uint8Array(e.target.result);
+    //         const workbook = XLSX.read(data, { type: 'array' });
+    //         const sheetName = workbook.SheetNames[0];
+    //         const sheet = workbook.Sheets[sheetName];
+    //         const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+    //         setImportedData((prevData) => (prevData ? [...prevData, ...jsonData.slice(1)] : jsonData));
+    //         };
+    //         reader.readAsArrayBuffer(file);
+    //     })
+    //   };
       
-      const { getRootProps, getInputProps } = useDropzone({
-        onDrop,
-        accept: '.xlsx, .xls',
-      });
+    //   const { getRootProps, getInputProps } = useDropzone({
+    //     onDrop,
+    //     accept: '.xlsx, .xls',
+    //   });
       
-      const exportToExcel = () => {
-        if (importedData) {
-          const worksheet = XLSX.utils.aoa_to_sheet(importedData);
-          const workbook = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-          XLSX.writeFile(workbook, 'registered_users.xlsx');
-        }
-      };
-      const clearTable = () => {
-        setImportedData(null);
-      }
+    //   const exportToExcel = () => {
+    //     if (importedData) {
+    //       const worksheet = XLSX.utils.aoa_to_sheet(importedData);
+    //       const workbook = XLSX.utils.book_new();
+    //       XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    //       XLSX.writeFile(workbook, 'registered_users.xlsx');
+    //     }
+    //   };
+    //   const clearTable = () => {
+    //     setImportedData(null);
+    //   }
 
       //handle search 
       const[searchQuery, setSearchQuery] = useState('');
@@ -152,8 +151,6 @@ function Dashboard() {
                         body: JSON.stringify(editingUser),
                     });
                     if(response.ok) {
-                        setUsersList((prevUsersList) => 
-                        prevUsersList.map((user) => user.user_id === editingUser.user_id ? {...user, ...editingUser} : user));
                         setIsModalOpen(false);
                     } else {
                         console.log('failed to edit user');
@@ -208,7 +205,7 @@ function Dashboard() {
                 setCheckedBoxes(updatedCheckedBoxes);
             };
 
-            const handleSubmit = (e) => {
+            const handleSubmit = async(e) => {
                 e.preventDefault();
                
                 const requestData = {
@@ -226,9 +223,55 @@ function Dashboard() {
                     categoryFall: formData.categoryFall,
                     selectedCheckBoxes: checkedBoxes.join(','),
                   };
-                  console.log(requestData);
+                  
+                  
+                  try {
+                    const response = await fetch('http://localhost:5000/registerUsers', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify(requestData),
+                    });
+                
+                    if (!response.ok) {
+                      throw new Error('Failed to register user');
+                    }
+                
+                    const result = await response.json();
+                    console.log('data being submitted', result);
+                    setUsersList((prevUsersList) => [...prevUsersList, result.data]);
+                    setAddFormOpen(false);
+                  } catch (error) {
+                    console.error('Error in registering User', error);
+                  }
             }
-    
+    //export to excel
+
+    const exportToExcel = () => {
+        const dataToExport = filteredData.map((user) => ({
+          'User ID': user.user_id,
+          'User Email': user.user_email,
+          'User Names': user.user_name,
+          'Designation/Occupation/Role': user.occupation,
+          'Company/Organization Name': user.company,
+          'Phone number(For communication purposes only)': user.phone_number,
+          'Which industry are you in?': user.industry_in,
+          'How did you hear about the event?': user.hear_about_event,
+          'Did you attend last year\'s Blue Economy Summit?': user.attend_last_year,
+          'Which areas are of interest to you during the summit?': user.user_interest,
+          'Do you consent joining our mailing list to receive our newsletter?': user.join_newsletter,
+          'How will you be joining this year\'s summit?': user.join_as,
+          'Describe your product or the services that you offer?': user.describe_product,
+          'Which category do you fall in?': user.category_fall,
+        }));
+      
+        const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Users Data');
+        XLSX.writeFile(workbook, 'users_data.xlsx');
+      };
+      
         
     return (
         <div className="dashboard">
@@ -247,13 +290,13 @@ function Dashboard() {
                     />
                 </div>
                 <div className="middle-tabs">
-                    <div {...getRootProps()} className="dropzone">
+                    {/* <div {...getRootProps()} className="dropzone">
                         <input {...getInputProps()}  type='file' placeholder='Import'/>
                         <label htmlFor="file-input">Import Excel</label>
-                    </div>
+                    </div> */}
                     <div className='button-tabs'>
                         <button onClick={exportToExcel}>Export to Excel</button>
-                        <button onClick={clearTable}>Clear Table</button>
+                        {/* <button>Clear Table</button> */}
                     </div>
                     <div className="add-user" onClick={handleAddNewUser}>
                         <div className="add-icon">
@@ -265,42 +308,7 @@ function Dashboard() {
                     </div>
                 </div>
             </div>
-            {/* <div className="users-table">
-                {importedData === null? (
-                    <div className='table-data'>
-                        No available Data
-                    </div>
-                ):(
-                <div>
-                <table>
-                    <thead>
-                    <tr>
-                        {importedData[0].map((header, index) => (
-                            <React.Fragment key={index}>
-                            <th>{header}</th>
-                            </React.Fragment>
-                        ))}
-                        <th>Delete</th>
-                        <th>Edit</th>
-                     </tr>
-                    </thead>
-                    <tbody>
-                    {filteredData.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                        {importedData[0].map((header, index) => (
-                        <td key={index}>{row[index] || ''}</td>
-                        ))}
-                        <td>
-                        <button>Delete</button>
-                        </td>
-                        <td><button>Edit</button></td>
-                    </tr>
-                    ))}
-                    </tbody>
-                </table>
-                </div>
-                )}
-            </div> */}
+            
             <div className="users-table">
                 <table>
                     <thead>

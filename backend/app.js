@@ -73,7 +73,7 @@ app.put('/editUser/:user_id', (req, res) => {
   const join_as = editingUser.join_as;
   const describe_product = editingUser.describe_product;
   const category_fall = editingUser.category_fall;
-  
+
   const db = DbService.getDbLearningInstance();
   const result = db.editUsers(user_id,
      user_email,user_name, occupation, company,phone_number, industry_in,
@@ -85,6 +85,7 @@ app.put('/editUser/:user_id', (req, res) => {
   })
   .catch(err => console.log(err));
 });
+
             
 
 app.listen(process.env.PORT, () => console.log('server is running'));

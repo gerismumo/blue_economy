@@ -49,7 +49,6 @@ class DbLearning {
                         console.log('Error in executing query', err);
                         reject(err);
                     }
-                    console.log(result);
                     resolve(result);
                 });
             });
@@ -131,5 +130,7 @@ class DbLearning {
         }
       }
      
+      //add new user
+
 }
     module.exports = DbLearning;
