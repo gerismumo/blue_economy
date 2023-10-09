@@ -21,12 +21,13 @@ app.post('/registerUsers', (req, res) => {
   const requestData = req.body;
   const db = DbService.getDbLearningInstance();
 
-  const result = db.addUsers(requestData);
-
-  result.then(data => {
-    res.json({success: true, data: data});
-  })
-  .catch(err => console.log(err));
+  try {
+    const result = db.addUsers(requestData);
+    res.json({success: true, data:result });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({success:false, error:'Server error'});
+  }
 });
 
 //select users 

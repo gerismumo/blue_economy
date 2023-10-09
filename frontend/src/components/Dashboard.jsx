@@ -240,7 +240,7 @@ function Dashboard() {
                 
                     const result = await response.json();
                     console.log('data being submitted', result);
-                    setUsersList((prevUsersList) => [...prevUsersList, result.data]);
+                    // setUsersList((prevUsersList) => [...prevUsersList, result.data]);
                     setAddFormOpen(false);
                   } catch (error) {
                     console.error('Error in registering User', error);
