@@ -26,8 +26,21 @@ code {
 }
 .dashboard  nav {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  gap: 50px;
+}
+
+.dashboard  nav .nav-home a {
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 3px 8px;
+  background-color: #A6E3E9;
+  border-radius: 3px;
+}
+.dashboard  nav .nav-home a:hover {
+  background-color: orangered;
 }
 .dashboard .dashboard-tabs {
   margin-top: 80px;
@@ -38,6 +51,27 @@ code {
   background-color: #A6E3E9;
   position: fixed;
   width: 100%;
+}
+.dashboard .dashboard-tabs .search-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+.dashboard .dashboard-tabs .search-tab .no-users {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+}
+.dashboard .dashboard-tabs .search-tab .no-users p:first-child{
+  background-color: white;
+  border-radius: 50%;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
 }
 .dashboard .dashboard-tabs .search-tab input {
   border-radius: 5px;
@@ -166,6 +200,10 @@ code {
   background-color: white;
   position: fixed;
   width: 100%;
+}
+.register .header nav a {
+  color: black;
+  text-decoration: none;
 }
 .register .header nav h1{
   font-size: 20px;

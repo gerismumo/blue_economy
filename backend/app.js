@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const path = require('path');
+const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 dotenv.config;
 
@@ -23,6 +24,33 @@ app.post('/registerUsers', (req, res) => {
 
   try {
     const result = db.addUsers(requestData);
+    //handle send email data
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD
+      },
+    });
+
+    const emailData = {
+      from: process.env.EMAIL_USERNAME,
+      to: requestData.user_email,
+      subject: 'Event Registration Confirmation',
+      text: 'Thank you for registering for the event.'
+    };
+
+    transporter.sendMail(emailData, (error, info) => {
+      if (error) {
+        console.log('Error sending the email:', error);
+      } else {
+        console.log('Email send', info.response)
+      }
+    });
     res.json({success: true, data:result });
   } catch (error) {
     console.log(error);

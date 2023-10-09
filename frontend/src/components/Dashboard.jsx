@@ -1,6 +1,7 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 
 function Dashboard() {
@@ -277,7 +278,12 @@ function Dashboard() {
         <div className="dashboard">
             <header>
                 <nav>
-                    <h1>Dashboard</h1>
+                    <div className="nav-home">
+                        <Link to='/'>Home</Link>
+                    </div>
+                    <div className="nav-header">
+                        <h1>Dashboard</h1>
+                    </div> 
                 </nav>
             </header>
             <div className="dashboard-tabs">
@@ -288,6 +294,10 @@ function Dashboard() {
                         onChange={handleSearch}
                         placeholder='search'
                     />
+                    <div className="no-users">
+                        <p>{usersList.length}</p>
+                        <p>registered Persons</p>
+                    </div>
                 </div>
                 <div className="middle-tabs">
                     {/* <div {...getRootProps()} className="dropzone">
