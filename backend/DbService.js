@@ -130,7 +130,25 @@ class DbLearning {
         }
       }
      
-      //add new user
+     //admin login
+
+     async loginAdmin(email, password) {
+        try {
+            const query = 'SELECT * FROM admin_table WHERE admin_email = ? AND admin_password = ?';
+            const loginUser = await new Promise((resolve,reject) => {
+                connection.query(query,[email, password], (err, result) => {
+                    if(err) {
+                        reject(err);
+                    }else {
+                        resolve(result.length > 0);
+                      }
+                });
+            });
+            return loginUser;
+        } catch (error) {
+            console.log(error);
+        }
+     }
 
 }
     module.exports = DbLearning;

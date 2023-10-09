@@ -86,6 +86,25 @@ app.put('/editUser/:user_id', (req, res) => {
   .catch(err => console.log(err));
 });
 
-            
+//admin login
+
+app.post('/adminLogin', (req, res) => {
+  const {email, password} = req.body;
+  const db = DbService.getDbLearningInstance();
+  const result = db.loginAdmin(email, password);
+
+  result
+    .then((loginSuccessful) => {
+      if (loginSuccessful) {
+        res.json({ success: true, message: 'Login successful' });
+    }else {
+      res.status(401).json({ success: false, message: 'Invalid email and password' });
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).json({ success: false, error: 'Server error' });
+  });
+})
 
 app.listen(process.env.PORT, () => console.log('server is running'));

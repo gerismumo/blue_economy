@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Register() {
     const[formData, setFormData] = useState({
@@ -78,7 +79,9 @@ function Register() {
         <div className='register'>
             <div className="header">
                 <nav>
-                    <h1>Blue Economy Innovation & Investment Summit 2023</h1>
+                    <Link to="/login">
+                    <h1> Blue Economy Innovation & Investment Summit 2023</h1>
+                    </Link>
                 </nav>
             </div>
             <div className="register-form">
