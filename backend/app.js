@@ -28,15 +28,15 @@ app.post('/registerUsers', (req, res) => {
     let config = {
       service: 'gmail',
       auth: {
-        user: 'geraldmumo6@gmail.com',
-        pass:'dvuotqavfdvceqlg'
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD
       }
     }
 
     let transporter = nodemailer.createTransport(config);
 
     const data = {
-      from : 'geraldmumo6@gmail.com',
+      from : process.env.EMAIL_USERNAME,
       to : requestData.email,
       subject: 'Welcome to Blue Economy Summit',
       text: `Dear ${requestData.name},\n\nThank you for registering for the Blue Economy Summit 2023. We are excited to have you join us!\n\nEvent Details:\nDate: October 25, 2023\nLocation:\nMombasa\n\nLooking forward to seeing you at the event.\n\nBest regards,\nThe Blue Economy Summit Team`,

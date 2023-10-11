@@ -39,13 +39,26 @@ function Register() {
 
         const handleCheckboxChange = (event) => {
             const { value } = event.target;
-            const updatedCheckedBoxes = checkedBoxes.includes(value)
-            ? checkedBoxes.filter((item) => item !== value)
-            : [...checkedBoxes, value];
-
-            setCheckedBoxes(updatedCheckedBoxes);
+            setCheckedBoxes((prevCheckedBoxes) => {
+            if (prevCheckedBoxes.includes(value)) {
+                return prevCheckedBoxes.filter((item) => item !== value);
+            } else {
+                return [...prevCheckedBoxes, value];
+            }
+            });
         };
 
+        const resetFormFields = () => {
+            setFormData({
+                email: '',
+                name: '',
+                occupation: '',
+                company: '',
+                phoneNumber: '',
+                industry: '',
+                describeYourProduct: '',
+            }); 
+        }
     const handleSubmit = (e) => {
         e.preventDefault();
         
@@ -122,21 +135,15 @@ function Register() {
         .then(response => response.json())
         .then(result => {
             console.log('data being submitted', result);
-            setFormData({
-                email: '',
-                name: '',
-                occupation: '',
-                company: '',
-                phoneNumber: '',
-                industry: '',
-                attendLastYear: '',
-                areaOfInterests: '',
-                joinMailList: '',
-                JoinAs: '',
-                describeYourProduct: '',
-                categoryFall: ''
-            });
+            
             setCheckedBoxes([]);
+            resetFormFields();
+            document.getElementById('attend').selectedIndex = 0;
+            document.getElementById('interests-area').selectedIndex = 0;
+            document.getElementById('join-mail').selectedIndex = 0;
+            document.getElementById('join-summit').selectedIndex = 0;
+            document.getElementById('category-Fall').selectedIndex = 0;
+            
         })
         
         .catch ((error) => {
@@ -313,7 +320,7 @@ function Register() {
                      />
                     <label htmlFor="form">Which category do you fall in?</label>
                     <span>{errorMessages.categoryFall}</span>
-                    <select name="categoryFall" onChange={handleChange}>
+                    <select name="categoryFall" id='category-Fall' onChange={handleChange}>
                         <option value=""></option>
                         <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>
                         <option value="Corporate Institution (KES 30,000)">Corporate Institution (KES 30,000)</option>
