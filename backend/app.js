@@ -25,15 +25,6 @@ app.post('/registerUsers', (req, res) => {
 
   try {
     const result = db.addUsers(requestData);
-    //handle send email data
-  // mg.messages.create('sandbox66306ef55155474e9b8d4e9e5b8b8dd5.mailgun.org', {
-  //   from: "Excited User <mailgun@sandbox-123.mailgun.org>",
-  //   to: ["geraldmumo6@gmail.com"],
-  //   subject: "Hello",
-  //   text: "Testing some Mailgun awesomeness!",
-  // })
-  // .then(msg => console.log(msg)) // logs response data
-  // .catch(err => console.log(err));
     let config = {
       service: 'gmail',
       auth: {
@@ -46,10 +37,9 @@ app.post('/registerUsers', (req, res) => {
 
     const data = {
       from : 'geraldmumo6@gmail.com',
-      to : 'gerismutinda@gmail.com',
+      to : requestData.email,
       subject: 'Welcome to Blue Economy Summit',
-      text: 'Thank you for registering for the Blue Economy Summit 2023.',
-      
+      text: `Dear ${requestData.name},\n\nThank you for registering for the Blue Economy Summit 2023. We are excited to have you join us!\n\nEvent Details:\nDate: October 25, 2023\nLocation:\nMombasa\n\nLooking forward to seeing you at the event.\n\nBest regards,\nThe Blue Economy Summit Team`,
     };
 
     transporter.sendMail(data).then(() => {
