@@ -256,6 +256,13 @@ code {
   outline: none;
   padding: 5px 10px;
 }
+.register .register-form form span{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ color: red;
+ font-size: 13px;
+}
 
 /* login css */
 

@@ -50,9 +50,41 @@ function Register() {
         e.preventDefault();
         
         const errors = {};
-
+        if(!formData.email) {
+            errors.email = 'Please enter a valid email'
+        }
+        if(!formData.name) {
+            errors.name = 'Please enter a valid name'
+        }
+        if(!formData.occupation) {
+            errors.occupation = 'Please enter your occupation'
+        }
+        if(!formData.company) {
+            errors.company = 'Please enter company name'
+        }
+        if(!formData.phoneNumber) {
+            errors.phoneNumber = 'Please enter phone number'
+        }
+        if(!formData.industry) {
+            errors.industry = 'Please enter Industry name'
+        }
         if(!formData.attendLastYear) {
+            errors.attendLastYear = 'Please select an option';
+        }
+        if(!formData.areaOfInterests) {
             errors.areaOfInterests = 'Please select an option';
+        }
+        if(!formData.joinMailList) {
+            errors.joinMailList = 'Please select an option';
+        }
+        if(!formData.JoinAs) {
+            errors.JoinAs = 'Please select an option';
+        }
+        if(!formData.describeYourProduct) {
+            errors.describeYourProduct = 'Please enter a description';
+        }
+        if(!formData.categoryFall) {
+            errors.categoryFall = 'Please select a option';
         }
 
         if(Object.keys(errors).length > 0) {
@@ -103,7 +135,9 @@ function Register() {
             </div>
             <div className="register-form">
                 <form onSubmit={handleSubmit}>
+                    
                     <label htmlFor="email"  >Email</label>
+                    <span>{errorMessages.email}</span>
                     <input 
                     type='email' 
                     placeholder='johndoe@gmail.com' 
@@ -112,30 +146,39 @@ function Register() {
                     onChange={handleChange}
                     />
                     <label htmlFor="name">Full name</label>
+                    <span>{errorMessages.name}</span>
                     <input type='text'
                     name='name'
                      value={formData.name}
                      placeholder='John Doe' 
-                     onChange={handleChange}/>
+                     onChange={handleChange}
+                     />
                     <label htmlFor="occupation">Designation/Occupation/Role</label>
+                    <span>{errorMessages.occupation}</span>
                     <input type="text" 
                     name='occupation'
                     value={formData.occupation}
                     onChange={handleChange}
                     />
+                    
                     <label htmlFor="company">Company/Organisation</label>
+                    <span>{errorMessages.company}</span>
                     <input type='text'
                     name='company'
                     value={formData.company}
                     onChange={handleChange}
                     />
+                   
                     <label htmlFor="phoneNumber">Phone Number</label>
+                    <span>{errorMessages.phoneNumber}</span>
                     <input type="tel" 
                     name='phoneNumber'
                     value={formData.phoneNumber}
                     onChange={handleChange} 
                     />
+                    
                     <label htmlFor="form">Which industry are you in?</label>
+                    <span>{errorMessages.industry}</span>
                     <input type="text" 
                     name='industry'
                     value={formData.industry}
@@ -207,27 +250,34 @@ function Register() {
                         whatsapp
                     </label>
                     </div>
-                    <span>{errorMessages.areaOfInterests}</span>
+                    
                     <label htmlFor="form">Did you attend last year's Blue Economy Summit?</label>
+                    <span>{errorMessages.attendLastYear}</span>
                     <select name="attendLastYear" id="attend" onChange={handleChange}>
                         <option value=""></option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>
                     <label htmlFor="form">Which areas are of interest to you during the summit?</label>
+                    <span>{errorMessages.areaOfInterests}</span>
                     <select name="areaOfInterests" id="interests-area" onChange={handleChange}>
+                        <option value=""></option>
                         <option value="blue economy">Blue Economy</option>
                         <option value="climate change">Climate Change</option>
                         <option value="digital economy">Digital Economy</option>
                         <option value="all if possible">All if Possible</option>
                     </select>
                     <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>
+                    <span>{errorMessages.joinMailList}</span>
                     <select name="joinMailList" id="join-mail" onChange={handleChange}>
+                        <option value=""></option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>
                     <label htmlFor="form">How will you be joining this year's summit?</label>
+                    <span>{errorMessages.JoinAs}</span>
                     <select name="JoinAs" id="join-summit" onChange={handleChange}>
+                        <option value=""></option>
                         <option value="Startup">Start Up</option>
                         <option value="Delegate">Delegate</option>
                         <option value="Government">Government</option>
@@ -235,13 +285,16 @@ function Register() {
                         <option value="Sponsor/Donor"></option>
                     </select>
                     <label htmlFor="form">Describe your product or the services that you offer?</label>
+                    <span>{errorMessages.describeYourProduct}</span>
                     <input type="text"
                     name='describeYourProduct'
                     value={formData.describeYourProduct}
                     onChange={handleChange}
                      />
                     <label htmlFor="form">Which category do you fall in?</label>
+                    <span>{errorMessages.categoryFall}</span>
                     <select name="categoryFall" onChange={handleChange}>
+                        <option value=""></option>
                         <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>
                         <option value="Corporate Institution (KES 30,000)">Corporate Institution (KES 30,000)</option>
                     </select>
