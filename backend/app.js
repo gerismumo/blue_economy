@@ -6,6 +6,16 @@ const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 dotenv.config;
 
+const formData = require('form-data');
+const Mailgun = require('mailgun.js');
+const mailgun = new Mailgun(formData);
+const mg = mailgun.client(
+  {
+    username: 'api',
+    key: '1924372bbcd7de7c8ee7dbb1971f2ead',
+    public_key: 'pubkey-1e3fda3683f210c07c9a49095751a1c3'
+  });
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -25,32 +35,15 @@ app.post('/registerUsers', (req, res) => {
   try {
     const result = db.addUsers(requestData);
     //handle send email data
+  mg.messages.create('sandbox66306ef55155474e9b8d4e9e5b8b8dd5.mailgun.org', {
+    from: "Excited User <mailgun@sandbox-123.mailgun.org>",
+    to: ["geraldmumo6@gmail.com"],
+    subject: "Hello",
+    text: "Testing some Mailgun awesomeness!",
+  })
+  .then(msg => console.log(msg)) // logs response data
+  .catch(err => console.log(err));
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD
-      },
-    });
-
-    const emailData = {
-      from: process.env.EMAIL_USERNAME,
-      to: requestData.user_email,
-      subject: 'Event Registration Confirmation',
-      text: 'Thank you for registering for the event.'
-    };
-
-    transporter.sendMail(emailData, (error, info) => {
-      if (error) {
-        console.log('Error sending the email:', error);
-      } else {
-        console.log('Email send', info.response)
-      }
-    });
     res.json({success: true, data:result });
   } catch (error) {
     console.log(error);

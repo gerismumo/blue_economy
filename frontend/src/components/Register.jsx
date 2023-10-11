@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Register() {
+    const[errorMessages, setErrorMessages] = useState({});
     const[formData, setFormData] = useState({
+        
         email: '',
         name: '',
         occupation: '',
@@ -27,6 +29,10 @@ function Register() {
 
         })
     
+        setErrorMessages({
+            ...errorMessages,
+            [name]: '',
+        });
     }
 
     const [checkedBoxes, setCheckedBoxes] = useState([]);
@@ -43,6 +49,17 @@ function Register() {
     const handleSubmit = (e) => {
         e.preventDefault();
         
+        const errors = {};
+
+        if(!formData.attendLastYear) {
+            errors.areaOfInterests = 'Please select an option';
+        }
+
+        if(Object.keys(errors).length > 0) {
+            setErrorMessages(errors);
+            return;
+        }
+
         const requestData = {
             email: formData.email,
             name: formData.name,
@@ -190,9 +207,10 @@ function Register() {
                         whatsapp
                     </label>
                     </div>
-                    
+                    <span>{errorMessages.areaOfInterests}</span>
                     <label htmlFor="form">Did you attend last year's Blue Economy Summit?</label>
                     <select name="attendLastYear" id="attend" onChange={handleChange}>
+                        <option value=""></option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>
