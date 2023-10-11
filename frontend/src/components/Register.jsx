@@ -88,12 +88,8 @@ function Register() {
         }
 
         if(checkedBoxes.length === 0) {
-            setErrorMessages((prevErrors) => ({
-                ...prevErrors,
-                checkBoxError: "Please select at least one option."
-            }));
+            errors.checkBoxError = "Please select at least one option."
         }
-
         if(Object.keys(errors).length > 0) {
             setErrorMessages(errors);
             return;
