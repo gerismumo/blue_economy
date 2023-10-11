@@ -87,6 +87,13 @@ function Register() {
             errors.categoryFall = 'Please select a option';
         }
 
+        if(checkedBoxes.length === 0) {
+            setErrorMessages((prevErrors) => ({
+                ...prevErrors,
+                checkBoxError: "Please select at least one option."
+            }));
+        }
+
         if(Object.keys(errors).length > 0) {
             setErrorMessages(errors);
             return;
@@ -119,7 +126,23 @@ function Register() {
         .then(response => response.json())
         .then(result => {
             console.log('data being submitted', result);
+            setFormData({
+                email: '',
+                name: '',
+                occupation: '',
+                company: '',
+                phoneNumber: '',
+                industry: '',
+                attendLastYear: '',
+                areaOfInterests: '',
+                joinMailList: '',
+                JoinAs: '',
+                describeYourProduct: '',
+                categoryFall: ''
+            });
+            setCheckedBoxes([]);
         })
+        
         .catch ((error) => {
             console.log('Error in registerig User', error);
         });  
@@ -185,6 +208,7 @@ function Register() {
                     onChange={handleChange}
                     />
                     <label htmlFor="form">How did you hear about the event?</label>
+                    <span>{errorMessages.checkBoxError}</span>
                     <div className="select-checkboxes">
                     <label className="checkbox-label">
                         <input
