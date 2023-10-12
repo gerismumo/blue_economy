@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 function Register() {
     const[errorMessages, setErrorMessages] = useState({});
@@ -153,7 +152,7 @@ function Register() {
     return (
         <div className='register'>
             <div className="header">
-                <nav>
+                {/* <nav>
                     <div className="nav-logo">
                         <img src="/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg" 
                             className="logo-image"
@@ -162,177 +161,182 @@ function Register() {
                     <Link to="/login">
                     <h1> Blue Economy Innovation & Investment Summit 2023</h1>
                     </Link>
-                </nav>
+                </nav> */}
             </div>
             <div className="register-form">
                 <form onSubmit={handleSubmit}>
+                    <div className="form-header">
+                        <h1>Blue Economy Innovation & Investment Summit 2023</h1>
+                    </div>
+                    <div className="form-elements">
+                        <label htmlFor="email"  >Email <span className="required-asterisk">*</span></label>
+                        <span>{errorMessages.email}</span>
+                        <input 
+                        type='email' 
+                        placeholder='johndoe@gmail.com' 
+                        name='email'
+                        value={formData.email}
+                        onChange={handleChange}
+                        />
+                        <label htmlFor="name">Full name <span className="required-asterisk">*</span></label>
+                        <span>{errorMessages.name}</span>
+                        <input type='text'
+                        name='name'
+                        value={formData.name}
+                        placeholder='John Doe' 
+                        onChange={handleChange}
+                        />
+                        <label htmlFor="occupation">Designation/Occupation/Role <span className="required-asterisk">*</span></label>
+                        <span>{errorMessages.occupation}</span>
+                        <input type="text" 
+                        name='occupation'
+                        value={formData.occupation}
+                        onChange={handleChange}
+                        />
+                        
+                        <label htmlFor="company">Company/Organisation <span className="required-asterisk">*</span></label>
+                        <span>{errorMessages.company}</span>
+                        <input type='text'
+                        name='company'
+                        value={formData.company}
+                        onChange={handleChange}
+                        />
                     
-                    <label htmlFor="email"  >Email</label>
-                    <span>{errorMessages.email}</span>
-                    <input 
-                    type='email' 
-                    placeholder='johndoe@gmail.com' 
-                    name='email'
-                    value={formData.email}
-                    onChange={handleChange}
-                    />
-                    <label htmlFor="name">Full name</label>
-                    <span>{errorMessages.name}</span>
-                    <input type='text'
-                    name='name'
-                     value={formData.name}
-                     placeholder='John Doe' 
-                     onChange={handleChange}
-                     />
-                    <label htmlFor="occupation">Designation/Occupation/Role</label>
-                    <span>{errorMessages.occupation}</span>
-                    <input type="text" 
-                    name='occupation'
-                    value={formData.occupation}
-                    onChange={handleChange}
-                    />
+                        <label htmlFor="phoneNumber">Phone Number <span className="required-asterisk">*</span></label>
+                        <span>{errorMessages.phoneNumber}</span>
+                        <input type="tel" 
+                        name='phoneNumber'
+                        value={formData.phoneNumber}
+                        onChange={handleChange} 
+                        />
+                        
+                        <label htmlFor="form">Which industry are you in? <span className="required-asterisk">*</span></label>
+                        <span>{errorMessages.industry}</span>
+                        <input type="text" 
+                        name='industry'
+                        value={formData.industry}
+                        onChange={handleChange}
+                        />
+                        <label htmlFor="form">How did you hear about the event? <span className="required-asterisk">*</span></label>
+                        <span>{errorMessages.checkBoxError}</span>
+                        <div className="select-checkboxes">
+                        <label className="checkbox-label">
+                            <input
+                                type="checkbox"
+                                name="hearChecks"
+                                className='event-CheckBox'
+                                value="Email"
+                                checked={checkedBoxes.includes('Email')}
+                                onChange={handleCheckboxChange}
+                            />
+                            Email
+                        </label>
+                        </div>
+                        <div className="select-checkboxes">
+                        <label className="checkbox-label">
+                            <input
+                                type="checkbox"
+                                name="hearChecks"
+                                className='event-CheckBox'
+                                value="SocialMedia"
+                                checked={checkedBoxes.includes('SocialMedia')}
+                                onChange={handleCheckboxChange}
+                            />
+                            Social Media
+                        </label>
+                        </div>
+                        <div className="select-checkboxes">
+                        <label className="checkbox-label">
+                            <input
+                                type="checkbox"
+                                name="hearChecks"
+                                className='event-CheckBox'
+                                value="LinkedIn"
+                                checked={checkedBoxes.includes('LinkedIn')}
+                                onChange={handleCheckboxChange}
+                            />
+                            LinkedIn
+                        </label>
+                        </div>
+                        <div className="select-checkboxes">
+                        <label className="checkbox-label">
+                            <input
+                                type="checkbox"
+                                name="hearChecks"
+                                className='event-CheckBox'
+                                value="word Of Mouth"
+                                checked={checkedBoxes.includes('word Of Mouth')}
+                                onChange={handleCheckboxChange}
+                            />
+                            Word of Month
+                        </label>
+                        </div>
+                        <div className="select-checkboxes">
+                        <label className="checkbox-label">
+                            <input
+                                type="checkbox"
+                                name="hearChecks"
+                                className='event-CheckBox'
+                                value="Whatsapp"
+                                checked={checkedBoxes.includes('Whatsapp')}
+                                onChange={handleCheckboxChange}
+                            />
+                            whatsapp
+                        </label>
+                        </div>
+                        
+                        <label htmlFor="form">Did you attend last year's Blue Economy Summit? <span className="required-asterisk">*</span></label>
+                        <span>{errorMessages.attendLastYear}</span>
+                        <select name="attendLastYear" id="attend" onChange={handleChange}>
+                            <option value=""></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                        <label htmlFor="form">Which areas are of interest to you during the summit? <span className="required-asterisk">*</span></label>
+                        <span>{errorMessages.areaOfInterests}</span>
+                        <select name="areaOfInterests" id="interests-area" onChange={handleChange}>
+                            <option value=""></option>
+                            <option value="blue economy">Blue Economy</option>
+                            <option value="climate change">Climate Change</option>
+                            <option value="digital economy">Digital Economy</option>
+                            <option value="all if possible">All if Possible</option>
+                        </select>
+                        <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter? <span className="required-asterisk">*</span></label>
+                        <span>{errorMessages.joinMailList}</span>
+                        <select name="joinMailList" id="join-mail" onChange={handleChange}>
+                            <option value=""></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                        <label htmlFor="form">How will you be joining this year's summit? <span className="required-asterisk">*</span></label>
+                        <span>{errorMessages.JoinAs}</span>
+                        <select name="JoinAs" id="join-summit" onChange={handleChange}>
+                            <option value=""></option>
+                            <option value="Startup">Start Up</option>
+                            <option value="Delegate">Delegate</option>
+                            <option value="Government">Government</option>
+                            <option value="Exhibitor">Exhibitor</option>
+                            <option value="Sponsor/Donor"></option>
+                        </select>
+                        <label htmlFor="form">Describe your product or the services that you offer? <span className="required-asterisk">*</span></label>
+                        <span>{errorMessages.describeYourProduct}</span>
+                        <input type="text"
+                        name='describeYourProduct'
+                        value={formData.describeYourProduct}
+                        onChange={handleChange}
+                        />
+                        <label htmlFor="form">Which category do you fall in? <span className="required-asterisk">*</span></label>
+                        <span>{errorMessages.categoryFall}</span>
+                        <select name="categoryFall" id='category-Fall' onChange={handleChange}>
+                            <option value=""></option>
+                            <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>
+                            <option value="Corporate Institution (KES 30,000)">Corporate Institution (KES 30,000)</option>
+                        </select>
+                        <div className="register-button">
+                            <button type='submit'>Register</button>
+                        </div>
+                    </div>
                     
-                    <label htmlFor="company">Company/Organisation</label>
-                    <span>{errorMessages.company}</span>
-                    <input type='text'
-                    name='company'
-                    value={formData.company}
-                    onChange={handleChange}
-                    />
-                   
-                    <label htmlFor="phoneNumber">Phone Number</label>
-                    <span>{errorMessages.phoneNumber}</span>
-                    <input type="tel" 
-                    name='phoneNumber'
-                    value={formData.phoneNumber}
-                    onChange={handleChange} 
-                    />
-                    
-                    <label htmlFor="form">Which industry are you in?</label>
-                    <span>{errorMessages.industry}</span>
-                    <input type="text" 
-                    name='industry'
-                    value={formData.industry}
-                    onChange={handleChange}
-                    />
-                    <label htmlFor="form">How did you hear about the event?</label>
-                    <span>{errorMessages.checkBoxError}</span>
-                    <div className="select-checkboxes">
-                    <label className="checkbox-label">
-                        <input
-                            type="checkbox"
-                            name="hearChecks"
-                            className='event-CheckBox'
-                            value="Email"
-                            checked={checkedBoxes.includes('Email')}
-                            onChange={handleCheckboxChange}
-                        />
-                        Email
-                    </label>
-                    </div>
-                    <div className="select-checkboxes">
-                    <label className="checkbox-label">
-                        <input
-                            type="checkbox"
-                            name="hearChecks"
-                            className='event-CheckBox'
-                            value="SocialMedia"
-                            checked={checkedBoxes.includes('SocialMedia')}
-                            onChange={handleCheckboxChange}
-                        />
-                        Social Media
-                    </label>
-                    </div>
-                    <div className="select-checkboxes">
-                    <label className="checkbox-label">
-                        <input
-                            type="checkbox"
-                            name="hearChecks"
-                            className='event-CheckBox'
-                            value="LinkedIn"
-                            checked={checkedBoxes.includes('LinkedIn')}
-                            onChange={handleCheckboxChange}
-                        />
-                        LinkedIn
-                    </label>
-                    </div>
-                    <div className="select-checkboxes">
-                    <label className="checkbox-label">
-                        <input
-                            type="checkbox"
-                            name="hearChecks"
-                            className='event-CheckBox'
-                            value="word Of Mouth"
-                            checked={checkedBoxes.includes('word Of Mouth')}
-                            onChange={handleCheckboxChange}
-                        />
-                        Word of Month
-                    </label>
-                    </div>
-                    <div className="select-checkboxes">
-                    <label className="checkbox-label">
-                        <input
-                            type="checkbox"
-                            name="hearChecks"
-                            className='event-CheckBox'
-                            value="Whatsapp"
-                            checked={checkedBoxes.includes('Whatsapp')}
-                            onChange={handleCheckboxChange}
-                        />
-                        whatsapp
-                    </label>
-                    </div>
-                    
-                    <label htmlFor="form">Did you attend last year's Blue Economy Summit?</label>
-                    <span>{errorMessages.attendLastYear}</span>
-                    <select name="attendLastYear" id="attend" onChange={handleChange}>
-                        <option value=""></option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                    <label htmlFor="form">Which areas are of interest to you during the summit?</label>
-                    <span>{errorMessages.areaOfInterests}</span>
-                    <select name="areaOfInterests" id="interests-area" onChange={handleChange}>
-                        <option value=""></option>
-                        <option value="blue economy">Blue Economy</option>
-                        <option value="climate change">Climate Change</option>
-                        <option value="digital economy">Digital Economy</option>
-                        <option value="all if possible">All if Possible</option>
-                    </select>
-                    <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>
-                    <span>{errorMessages.joinMailList}</span>
-                    <select name="joinMailList" id="join-mail" onChange={handleChange}>
-                        <option value=""></option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                    <label htmlFor="form">How will you be joining this year's summit?</label>
-                    <span>{errorMessages.JoinAs}</span>
-                    <select name="JoinAs" id="join-summit" onChange={handleChange}>
-                        <option value=""></option>
-                        <option value="Startup">Start Up</option>
-                        <option value="Delegate">Delegate</option>
-                        <option value="Government">Government</option>
-                        <option value="Exhibitor">Exhibitor</option>
-                        <option value="Sponsor/Donor"></option>
-                    </select>
-                    <label htmlFor="form">Describe your product or the services that you offer?</label>
-                    <span>{errorMessages.describeYourProduct}</span>
-                    <input type="text"
-                    name='describeYourProduct'
-                    value={formData.describeYourProduct}
-                    onChange={handleChange}
-                     />
-                    <label htmlFor="form">Which category do you fall in?</label>
-                    <span>{errorMessages.categoryFall}</span>
-                    <select name="categoryFall" id='category-Fall' onChange={handleChange}>
-                        <option value=""></option>
-                        <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>
-                        <option value="Corporate Institution (KES 30,000)">Corporate Institution (KES 30,000)</option>
-                    </select>
-                    <div className="register-button">
-                        <button type='submit'>Register</button>
-                    </div>
                     
                 </form>
             </div>
