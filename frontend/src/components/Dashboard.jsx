@@ -276,16 +276,17 @@ function Dashboard() {
         
     return (
         <div className="dashboard">
-            <header>
+            < div className='header'>
                 <nav>
+                    <div className="nav-logo">
+                        <img src='/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg'
+                        className='logo'/>
+                    </div>
                     <div className="nav-home">
                         <Link to='/'>Home</Link>
                     </div>
-                    <div className="nav-header">
-                        <h1>Dashboard</h1>
-                    </div> 
                 </nav>
-            </header>
+            </div>
             <div className="dashboard-tabs">
                 <div className="search-tab">
                     <input type="text" 
