@@ -418,6 +418,7 @@ code {
 .home {
   display: flex;
   flex-direction: column;
+  
   /* background-color: whitesmoke; */
 }
 .home .home-header nav {
@@ -427,6 +428,7 @@ code {
   background-color:white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   padding: 10px;
+  animation: fadeIn 1s ease-in-out;
 }
 .home .home-header nav .logo-image{
   height: 60px;
@@ -436,6 +438,7 @@ code {
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: fadeIn 1.5s ease-in-out;
 }
 .home .home-info h1{
   font-size: 25px;
@@ -463,7 +466,7 @@ code {
   border: 1px solid #ccc;
   line-height: 1.8;
   font-size: 18px;
-  animation: fadeIn 1s ease-in-out;
+  animation: fadeIn 1.5s ease-in-out;
   font-weight: 500;
 }
 .home .home-info-text p {
@@ -481,6 +484,7 @@ code {
   margin-left: 40px;
   font-size: 20px;
   color: #38B6FF;
+  animation: fadeIn 1.8s ease-in-out;
 }
 .home .event-info {
   padding: 10px;
@@ -488,6 +492,7 @@ code {
   align-items: center;
   justify-content: space-around;
   background-color: lightgray;
+  animation: fadeIn 2s ease-in-out;
 }
 .home .event-info p {
   font-weight: bold;
@@ -507,4 +512,51 @@ code {
 .home .event-info .register-button button:hover {
   background-color: #1c87d9;
 }
+
+/* registration feedback css */
+
+.submit-message {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  align-items: center;
+}
+.submit-message .feedback-message {
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 700px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  animation: fadeIn 1s forwards;
+}
+.submit-message .feedback-message h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: 500;
+  color: #38b6ff;
+}
+.submit-message .feedback-message p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  line-height: 1.8;
+  text-align: center;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 

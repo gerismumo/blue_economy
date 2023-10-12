@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
+    const navigate = useNavigate();
     const[errorMessages, setErrorMessages] = useState({});
     const[formData, setFormData] = useState({
         
@@ -142,11 +144,11 @@ function Register() {
             document.getElementById('join-mail').selectedIndex = 0;
             document.getElementById('join-summit').selectedIndex = 0;
             document.getElementById('category-Fall').selectedIndex = 0;
-            
+            navigate('/feedback');
         })
         
         .catch ((error) => {
-            console.log('Error in registerig User', error);
+            console.log('Error in registering User', error);
         });  
     }
     return (

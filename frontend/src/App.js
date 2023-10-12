@@ -3,6 +3,7 @@ import Dashboard from './components/Dashboard';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
+import Submit from './components/Submit';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<Home />} />
+        <Route path='/feedback' element={<Submit />} />
       </Routes>
     </Router>
   );
