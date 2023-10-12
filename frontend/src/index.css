@@ -365,4 +365,97 @@ code {
   cursor: not-allowed;
 }
 
+/* home page css */
+.home {
+  display: flex;
+  flex-direction: column;
+  /* background-color: whitesmoke; */
+}
+.home .home-header nav{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color:white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+}
+.home .home-header nav .logo-image{
+  height: 60px;
+  width: 350px;
+}
+.home .home-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.home .home-info h1{
+  font-size: 25px;
+  font-weight:450;
+}
+.home .home-info .home-info-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 50px;
+ 
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.home .home-info p{
+  padding: 20px;
+  color: black;
+  background-color: whitesmoke;
+  border: 1px solid #ccc;
+  line-height: 1.8;
+  font-size: 18px;
+  animation: fadeIn 1s ease-in-out;
+  font-weight: 500;
+}
+.home .home-info-text p {
+  margin-bottom: 20px;
+}
+.home .home-info-text p:hover {
+  background-color: white; 
+  transition: background-color 0.3s ease; 
+}
+.home .event-header{
+  margin-top: 70px;
+  
+}
+.home .event-header h2{
+  margin-left: 40px;
+  font-size: 20px;
+  color: #38B6FF;
+}
+.home .event-info {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: lightgray;
+}
+.home .event-info p {
+  font-weight: bold;
+  color: black;
+  font-size: 18px;
+}
+.home .event-info .register-button button{
+  padding: 18px 15px;
+  background-color: #38b6ff;
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+}
+
+.home .event-info .register-button button:hover {
+  background-color: #1c87d9;
+}
 
