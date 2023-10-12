@@ -5,8 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-color: whitesmoke; */
 }
-
+/* #2F3B69 #38B6FF */
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -15,12 +16,13 @@ code {
   display: flex;
   flex-direction: column;
 }
+
 .dashboard header {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: white;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   position: fixed;
   width: 100%;
 }
@@ -192,14 +194,17 @@ code {
   display: flex;
   flex-direction: column;
   background-color: whitesmoke;
+  color: black;
 }
 .register .header nav{
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   background-color: white;
   position: fixed;
   width: 100%;
+  margin: 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.25);
 }
 .register .header nav a {
   color: black;
@@ -207,6 +212,10 @@ code {
 }
 .register .header nav h1{
   font-size: 20px;
+}
+.register .header nav .logo-image {
+  width: 300px;
+  height: 60px;
 }
 .register .register-form {
   margin-top: 70px;
@@ -218,15 +227,30 @@ code {
   display: flex;
   flex-direction: column;
 }
-/* .register .register-form form input
+.register .register-form form input[type="text"],
+.register .register-form form input[type="email"],
+.register .register-form form input[type="tel"]
 ,.register .register-form form select {
   height: 3.5vh;
-  width: 350px;
-  border-radius: 3px;
-  border: 1px solid rgb(7, 199, 228);
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #38b6ff;
   outline: none;
   margin-top: 10px;
-} */
+}
+.register .register-form form input[type="checkbox"] {
+  border: 1px solid #38b6ff;
+  outline: none;
+  margin-top: 10px;
+  border-radius: 3px;
+  padding: 10px;
+}
+.register-form input:focus,
+.register-form select:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 5px #38B6FF;
+}
 .register .register-form form label {
   margin-top: 4px;
 }
@@ -247,21 +271,39 @@ code {
 .register .register-form form .checkbox-label input[type='checkbox'] {
   margin-right: 10px;
 }
-
+.register .register-form form .register-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+  margin-top: 10px;
+}
 .register .register-form form button {
   margin-top: 10px;
   border-radius: 3px;
-  background-color: aqua;
+  background-color: #38b6ff;
+  color: #ffffff;
   border: none;
   outline: none;
-  padding: 5px 10px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  width: 100px;
+  justify-content: center;
+  font-weight: bold;
+}
+.register .register-form form button:hover {
+  background-color: #1c87d9;
+}
+.register .register-form form button:active {
+  transform: translateY(2px);
 }
 .register .register-form form span{
  display: flex;
  justify-content: center;
  align-items: center;
- color: red;
- font-size: 13px;
+ color: #ff5e5e;
+ font-size: 12px;
 }
 
 /* login css */

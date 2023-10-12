@@ -154,6 +154,11 @@ function Register() {
         <div className='register'>
             <div className="header">
                 <nav>
+                    <div className="nav-logo">
+                        <img src="/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg" 
+                            className="logo-image"
+                        />
+                    </div>
                     <Link to="/login">
                     <h1> Blue Economy Innovation & Investment Summit 2023</h1>
                     </Link>
@@ -325,7 +330,10 @@ function Register() {
                         <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>
                         <option value="Corporate Institution (KES 30,000)">Corporate Institution (KES 30,000)</option>
                     </select>
-                    <button type='submit'>Submit</button>
+                    <div className="register-button">
+                        <button type='submit'>Register</button>
+                    </div>
+                    
                 </form>
             </div>
         </div>
