@@ -78,7 +78,7 @@ function Dashboard() {
             .then(response => response.json())
             .then(data => setUsersList(data.data))
         }, []);
-
+        console.log('userslist',usersList.attend_status);
         //handle delete user
 
         const handleDeleteUser = async(user_id) => {
@@ -323,6 +323,26 @@ function Dashboard() {
                   }
             }
             const [attendedStatuses, setAttendedStatuses] = useState({});
+            const fetchInitialAttendStatuses = async () => {
+                try {
+                  const response = await fetch('http://localhost:5000/attendStatus');
+                  if (!response.ok) {
+                    throw new Error('Failed to fetch initial attendance status from the database');
+                  }
+                  const data = await response.json();
+                  // Assuming the data is returned in the format { userId1: true, userId2: false, ... }
+                  setAttendedStatuses(data.data);
+                } catch (error) {
+                  console.error('Error fetching initial attendance status:', error);
+                }
+              };
+              
+              useEffect(() => {
+                // Fetch and set the initial attendedStatuses when the component mounts
+                fetchInitialAttendStatuses();
+              }, []);
+              console.log('attendedStatuses',attendedStatuses);
+            
 
             async function handleCheckboxConfirm(event) {
                 const userId = event.target.name;
@@ -332,6 +352,7 @@ function Dashboard() {
                 ...attendedStatuses,
                 [userId]: attendedStatus
                 });
+                console.log('attendedStatuses', attendedStatuses);
                 
                 try {
                     const response = await fetch('http://localhost:5000/attendedStatuses', {

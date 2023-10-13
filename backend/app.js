@@ -142,4 +142,14 @@ app.put('/attendedStatuses', (req, res) => {
   .catch(err => console.log(err));
 });
 
+app.get('/attendStatus', (req, res) => {
+  const db = DbService.getDbLearningInstance();
+  const result = db.selectAttendStatus();
+  result
+  .then(data => {
+    res.json({success:true, data:data});
+  })
+  .catch((err) => console.log(err));
+})
+
 app.listen(process.env.PORT, () => console.log('server is running'));

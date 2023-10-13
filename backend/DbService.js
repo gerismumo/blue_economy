@@ -168,5 +168,26 @@ class DbLearning {
         }
      }
 
-}
+     async selectAttendStatus() {
+        try {
+            const query = 'SELECT * FROM users_list';
+            const select = await new Promise((resolve, reject) => {
+                connection.query(query, (err, results) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        const attendedData = {};
+                        results.forEach(row => {
+                            attendedData[row.user_id] = row.attend_status === '1';
+                        });
+                        resolve(attendedData);
+                    }
+                });
+            });
+            return select;
+        } catch (error) {
+            console.log(error);
+        }
+     }
+    }
     module.exports = DbLearning;
