@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import * as XLSX from 'xlsx';
-
 function Dashboard() {
 
     // const [importedData, setImportedData] = useState(null);
@@ -11,6 +10,8 @@ function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const[errorMessages, setErrorMessages] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     // const onDrop = (acceptedFiles) => {
     //     acceptedFiles.forEach((file) => {
@@ -75,10 +76,22 @@ function Dashboard() {
         
         useEffect(() => {
             fetch('http://localhost:5000/usersList')
-            .then(response => response.json())
-            .then(data => setUsersList(data.data))
+            .then(response => {
+                if(!response.ok) {
+                    throw new Error('Failed to fetch persons list');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setUsersList(data.data)
+                setLoading(false);
+            })
+            .catch(error => {
+                setError(error.message);
+                setLoading(false);
+            })
         }, []);
-        console.log('userslist',usersList.attend_status);
+       
         //handle delete user
 
         const handleDeleteUser = async(user_id) => {
@@ -389,7 +402,7 @@ function Dashboard() {
           'How will you be joining this year\'s summit?': user.join_as,
           'Describe your product or the services that you offer?': user.describe_product,
           'Which category do you fall in?': user.category_fall,
-          'Attend': attendedStatuses[user.user_id] ? 'Yes' : 'No',
+          'Attended': attendedStatuses[user.user_id] ? 'Yes' : 'No',
         }));
       
         const worksheet = XLSX.utils.json_to_sheet(dataToExport);
@@ -400,8 +413,12 @@ function Dashboard() {
       
         
     return (
-        <div className="dashboard">
-            < div className='header'>
+        <div>
+            {loading && <p>...loading</p>}
+            {error && <p>Error: {error}</p>}
+            {!loading && !error && (
+                <div className="dashboard">
+                < div className='header'>
                 <nav>
                     <div className="nav-logo">
                         <img src='/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg'
@@ -449,7 +466,8 @@ function Dashboard() {
                 <table>
                     <thead>
                         <tr>
-                            <th>Confirm</th>
+                            <th>Attend Status</th>
+                            <th>Attended</th>
                             <th>User ID</th>
                             <th>Email</th>
                             <th>Name</th>
@@ -464,7 +482,7 @@ function Dashboard() {
                             <th>How will you be joining this year's summit?</th>
                             <th>Describe your product or the services that you offer?</th>
                             <th>Which category do you fall in?</th>
-                            <th>Attended</th>
+
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -481,6 +499,7 @@ function Dashboard() {
                                   checked={attendedStatuses[user.user_id]} 
                                   onChange={handleCheckboxConfirm} 
                                   /></td>
+                                  <td className='attend-text'>{attendedStatuses[user.user_id] ? 'Yes' : 'No'}</td>
                                 <td>{user.user_id}</td>
                                 <td>{user.user_email}</td>
                                 <td>{user.user_name}</td>
@@ -495,7 +514,6 @@ function Dashboard() {
                                 <td>{user.join_as}</td>
                                 <td>{user.describe_product}</td>
                                 <td>{user.category_fall}</td>
-                                <td className='attend-text'>{attendedStatuses[user.user_id] ? 'Yes' : 'No'}</td>
                                 <td><button onClick={()=>handleEditUser(user)}>Edit</button></td>
                                 <td><button onClick={()=>handleDeleteUser(user.user_id)}>Delete</button></td>
                                 
@@ -838,7 +856,11 @@ function Dashboard() {
                     </div>
                     </div>
                 )}
+                {/* <Home usersList={usersList} /> */}
         </div>
+            )}
+        </div>
+        
     )
 }
 

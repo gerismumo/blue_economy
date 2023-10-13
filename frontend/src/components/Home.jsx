@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-function Home() { 
+function Home({ usersList}) { 
+   console.log(usersList);
     const navigate = useNavigate();
     const handleButtonClick = () => {
         navigate('/register');

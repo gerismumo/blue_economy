@@ -12,6 +12,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+p {
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Styles for the error message */
+p.error {
+  color: red;
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 20px;
+}
 .dashboard {
   display: flex;
   flex-direction: column;
