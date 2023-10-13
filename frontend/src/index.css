@@ -176,6 +176,13 @@ code {
 .dashboard .users-table td button:hover{
   background-color: #1c87d9;
 }
+.dashboard .users-table input[type="checkbox"].confirm-check {
+  width: 20px;
+  height: 20px;
+  outline: none;
+  border: 0.8px solid #1c87d9;
+}
+
 /* modal css */
 
 .dashboard .modal {

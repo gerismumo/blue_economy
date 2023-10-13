@@ -150,5 +150,23 @@ class DbLearning {
         }
      }
 
+     async confirmAttend(userId, attendedStatus) {
+        try {
+            const query = 'UPDATE users_list SET attend_status = ? WHERE user_id = ?';
+            const confirmStatus = await new Promise((resolve, reject) => {
+                connection.query(query, [attendedStatus, userId], (err, result) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+            return confirmStatus;
+        } catch (error) {
+            console.log(error);
+        }
+     }
+
 }
     module.exports = DbLearning;

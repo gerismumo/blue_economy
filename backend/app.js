@@ -130,4 +130,16 @@ app.post('/adminLogin', (req, res) => {
   });
 })
 
+app.put('/attendedStatuses', (req, res) => {
+  const {userId, attendedStatus} = req.body;
+
+  const db = DbService.getDbLearningInstance();
+  const result = db.confirmAttend(userId, attendedStatus);
+  result
+  .then(data => {
+    res.json({success:true, data:data});
+  })
+  .catch(err => console.log(err));
+});
+
 app.listen(process.env.PORT, () => console.log('server is running'));

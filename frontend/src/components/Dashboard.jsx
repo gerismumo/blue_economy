@@ -169,6 +169,13 @@ function Dashboard() {
             setAddFormOpen(true);
           }
 
+        //   if(setAddFormOpen) {
+        //     const span = document.getElementsByTagName('span');
+        //             Array.from(span).forEach(span => {
+        //                 span.style.display = 'none';
+        //             });
+        //   }
+
           const[formData, setFormData] = useState({
             email: '',
             name: '',
@@ -309,11 +316,40 @@ function Dashboard() {
                     document.getElementById('join-mail').selectedIndex = 0;
                     document.getElementById('join-summit').selectedIndex = 0;
                     document.getElementById('category-Fall').selectedIndex = 0;
+                    
                     setAddFormOpen(false);
                   } catch (error) {
                     console.error('Error in registering User', error);
                   }
             }
+            const [attendedStatuses, setAttendedStatuses] = useState({});
+
+            async function handleCheckboxConfirm(event) {
+                const userId = event.target.name;
+                const attendedStatus = event.target.checked;
+
+                setAttendedStatuses({
+                ...attendedStatuses,
+                [userId]: attendedStatus
+                });
+                
+                try {
+                    const response = await fetch('http://localhost:5000/attendedStatuses', {
+                      method: 'PUT',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({ userId, attendedStatus }),
+                    });
+                
+                    if (!response.ok) {
+                      throw new Error('Failed to update attendance status in the database');
+                    }
+                  } catch (error) {
+                    console.error('Error updating attendance status:', error);
+                  }
+            }
+
     //export to excel
 
     const exportToExcel = () => {
@@ -391,6 +427,7 @@ function Dashboard() {
                 <table>
                     <thead>
                         <tr>
+                            <th>Confirm</th>
                             <th>User ID</th>
                             <th>Email</th>
                             <th>Name</th>
@@ -405,6 +442,7 @@ function Dashboard() {
                             <th>How will you be joining this year's summit?</th>
                             <th>Describe your product or the services that you offer?</th>
                             <th>Which category do you fall in?</th>
+                            <th>Attended</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -415,6 +453,12 @@ function Dashboard() {
                     ): (
                         filteredData.map(user => (
                             <tr key={user.user_id}>
+                                <td><input type="checkbox"
+                                 className='confirm-check'
+                                  name={user.user_id} 
+                                  checked={attendedStatuses[user.user_id]} 
+                                  onChange={handleCheckboxConfirm} 
+                                  /></td>
                                 <td>{user.user_id}</td>
                                 <td>{user.user_email}</td>
                                 <td>{user.user_name}</td>
@@ -429,6 +473,7 @@ function Dashboard() {
                                 <td>{user.join_as}</td>
                                 <td>{user.describe_product}</td>
                                 <td>{user.category_fall}</td>
+                                <td>{attendedStatuses[user.user_id] ? 'Yes' : 'No'}</td>
                                 <td><button onClick={()=>handleEditUser(user)}>Edit</button></td>
                                 <td><button onClick={()=>handleDeleteUser(user.user_id)}>Delete</button></td>
                                 
