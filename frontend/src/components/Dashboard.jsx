@@ -389,6 +389,7 @@ function Dashboard() {
           'How will you be joining this year\'s summit?': user.join_as,
           'Describe your product or the services that you offer?': user.describe_product,
           'Which category do you fall in?': user.category_fall,
+          'Attend': attendedStatuses[user.user_id] ? 'Yes' : 'No',
         }));
       
         const worksheet = XLSX.utils.json_to_sheet(dataToExport);
@@ -494,7 +495,7 @@ function Dashboard() {
                                 <td>{user.join_as}</td>
                                 <td>{user.describe_product}</td>
                                 <td>{user.category_fall}</td>
-                                <td>{attendedStatuses[user.user_id] ? 'Yes' : 'No'}</td>
+                                <td className='attend-text'>{attendedStatuses[user.user_id] ? 'Yes' : 'No'}</td>
                                 <td><button onClick={()=>handleEditUser(user)}>Edit</button></td>
                                 <td><button onClick={()=>handleDeleteUser(user.user_id)}>Delete</button></td>
                                 
