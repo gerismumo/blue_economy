@@ -120,7 +120,7 @@ code {
 }
 .dashboard .dashboard-tabs .add-user .add-icon {
   border-radius: 50%;
-  border: 3px solid #f9f9f9;
+  border: 3px solid #38B6FF;
   padding:1px 2px;
 }
 .dashboard .dashboard-tabs .add-user{
@@ -140,14 +140,13 @@ code {
 }
 .dashboard .users-table table{
   width: 100%;
-  /* border-collapse: collapse; */
   margin-bottom: 20px;
   border: 1px solid #ccc;
   overflow-x: auto ;
 }
 
 .dashboard .users-table thead {
-  background-color: #f9f9f9;
+  background-color:#F1EFEF; 
 }
 
 .dashboard .users-table th, 
@@ -156,13 +155,27 @@ code {
   text-align: left;
   border-bottom: 1px solid #ddd;
   border-left: 1px solid #ddd;
-
+}
+.dashboard .users-table td:first-child{
+  border-left: none;
 }
 
 .dashboard .users-table tr:hover {
   background-color: #f9f9f9;
 }
-
+.dashboard .users-table td button {
+  background-color: #38b6ff;
+  color: #ffffff;
+  padding: 6px 12px;
+  outline: none;
+  border: none;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 18px;
+}
+.dashboard .users-table td button:hover{
+  background-color: #1c87d9;
+}
 /* modal css */
 
 .dashboard .modal {
@@ -189,21 +202,70 @@ code {
 }
 
 .dashboard .close-button {
-  background: rgb(252, 12, 12);
+  background: #f74949;
   border: none;
   cursor: pointer;
   top: 10px;
   right: 10px;
   font-size: 18px;
-  padding: 3px 7px;
+  padding: 5px 10px;
   margin-bottom: 5px;
   border-radius: 3px;
+  color: white;
+  font-weight: 700;
+}
+.dashboard .close-button:hover {
+  background-color: #fb0606;
 }
 .dashboard .modal form {
   display: flex;
   flex-direction: column;
 }
+.dashboard .modal-content form input,
+.dashboard .modal-content form select {
+  outline: none;
+  border: 0.8px solid #1c87d9;
+  height: 3.5vh;
+}
+.dashboard .modal-content form input[type="checkbox"] {
+  height: 22px;
+}
 
+.dashboard .modal-content form .checkbox-label {
+  display: flex;
+  align-items: center;
+  margin-right: 20px 
+}
+.dashboard .modal-content form label {
+  font-size: 15px;
+  font-weight: 500;
+}
+.dashboard .modal-content form .modal-button {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dashboard .modal-content form .modal-button button {
+  background-color: #38B6FF;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 10px 15px;
+  outline: none;
+  border: none;
+  border-radius: 3px;
+}
+.dashboard .modal-content form .modal-button button:hover {
+  background-color: #1c87d9;
+}
+.dashboard .modal-content form span{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ff5e5e;
+  font-size: 12px;
+ }
 
 /* register component css */
 .register {
