@@ -43,7 +43,7 @@ app.post('/registerUsers', (req, res) => {
     };
 
     transporter.sendMail(data).then(() => {
-      return console.log('Sent mail')
+      return 
     });
     res.json({success: true, data:result });
   } catch (error) {
@@ -172,6 +172,42 @@ app.put('/updateDetails', (req, res) => {
     res.json({success:true, data:data})
   })
   .catch(err => res.json({success:false, err:err}));
+});
+
+app.post('/addAdmin', (req, res) => {
+  const {name,email, password} = req.body;
+
+  const db = DbService.getDbLearningInstance();
+  try {
+    const result = db.addAdmin(name,email, password);
+    let config = {
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD
+      }
+    }
+
+    const loginLink = `http://your-frontend-url/login?token`;
+
+    let transporter = nodemailer.createTransport(config);
+
+    const data = {
+      from : process.env.EMAIL_USERNAME,
+      to : email,
+      subject: 'Welcome to Blue Economy Summit ',
+      text: `Dear ${name},\n\nYou have been added as an admin.\n\nLogin to the admin dashboard using this link: ${loginLink}\n\n  Your login details are: \n\n Email: ${email}\n\n Password: ${password}`,
+    };
+
+    transporter.sendMail(data).then(() => {
+      return console.log('Sent mail')
+    });
+    res.json({success:true, data:result});
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({success:false, error:'Server error'})
+  }
+  
 })
 
 

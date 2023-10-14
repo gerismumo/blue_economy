@@ -57,9 +57,47 @@ function AdminPage() {
             console.error(error.message);
         }
     };
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    
+    const handleNameChange = (e) => {
+        setName(e.target.value);
+    }
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    };
+
+    const handleAddAdmin = async(e) => {
+        e.preventDefault();
+        try {
+            const response = await  fetch('http://localhost:5000/addAdmin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email, password,name}),
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not okay');
+              }
+              alert('Successfully added admin account');
+              return await response.json();
+        } catch (error) {
+            console.log(error);
+        }
+            
+    }
+
     return (
         <div className="admin-page">
-            <form onSubmit={handleSubmit}>
+        <div className="home-detail">
+        <form onSubmit={handleSubmit}>
                 <label>About this event:</label>
                 <textarea
                     name="about_event"
@@ -82,6 +120,26 @@ function AdminPage() {
                 />
                 <button type="submit">Save</button>
             </form>
+        </div>
+            <div className="add-user">
+                <form onSubmit={handleAddAdmin}>
+                    <label>
+                    Name:
+                    <input type='name' value={name} onChange={handleNameChange} />
+                    </label>
+                    <label>
+                    Email:
+                    <input type='email' value={email} onChange={handleEmailChange} />
+                    </label>
+                    <br />
+                    <label>
+                    Password:
+                    <input type='password' value={password} onChange={handlePasswordChange} />
+                    </label>
+                    <br />
+                    <button type='submit'>Add Admin</button>
+                </form>
+            </div>
         </div>
     );
 }

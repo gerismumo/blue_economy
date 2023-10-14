@@ -227,5 +227,23 @@ class DbLearning {
         }
      }
 
+
+     async addAdmin(name,email, password) {
+        try {
+            const query = 'INSERT INTO admin_table (admin_name, admin_email, admin_password) VALUES (?,?,?)'
+            const newAdmin = await new Promise((resolve, reject) => {
+                connection.query(query,[name,email,password] ,(err, result) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+            return newAdmin;
+        } catch (error) {
+            console.log(error);
+        }
+     }
     }
     module.exports = DbLearning;
