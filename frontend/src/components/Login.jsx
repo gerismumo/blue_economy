@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { setAuthenticated } from '../utils/ProtectedRoute';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -30,6 +31,7 @@ function Login() {
       
           const data = await response.json();
           alert(JSON.stringify(data.message)); 
+          setAuthenticated(true);
           navigate ('/dashboard');
     } catch (error) {
         console.log(error);

@@ -438,7 +438,7 @@ function Dashboard() {
                         placeholder='search'
                     />
                     <div className="no-users">
-                        <p>{usersList.length}</p>
+                        <p>{usersList ? usersList.length : '0'}</p>
                         <p>registered Persons</p>
                     </div>
                 </div>
