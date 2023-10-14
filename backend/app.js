@@ -150,6 +150,16 @@ app.get('/attendStatus', (req, res) => {
     res.json({success:true, data:data});
   })
   .catch((err) => console.log(err));
+});
+
+app.get('/eventDetails', (req, res) => {
+  const db = DbService.getDbLearningInstance();
+  const result = db.getEventDetails();
+  result 
+  .then(data => {
+    res.json({success: true, data:data});
+  })
+  .catch((err) => console.log(err));
 })
 
 app.listen(process.env.PORT, () => console.log('server is running'));

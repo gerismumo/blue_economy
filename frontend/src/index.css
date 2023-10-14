@@ -597,6 +597,12 @@ p.error {
   color: black;
   font-size: 18px;
 }
+.home .event-info .event-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
 .home .event-info .register-button button{
   padding: 18px 15px;
   background-color: #38b6ff;
@@ -656,5 +662,50 @@ p.error {
   }
 }
 
+/* admin page css */
+.admin-page {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+}
+
+.admin-page label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.admin-page textarea,
+.admin-page input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.admin-page button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007BFF;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.admin-page button:hover {
+  background-color: #0056b3;
+}
+
+.admin-page button:active {
+  background-color: #004080;
+}
 
 

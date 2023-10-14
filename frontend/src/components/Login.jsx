@@ -40,25 +40,28 @@ function Login() {
   };
 
   return (
-    <div className="login-body">
-        <div className='login'>
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit}>
-            <label>
-            Email:
-            <input type='email' value={email} onChange={handleEmailChange} />
-            </label>
-            <br />
-            <label>
-            Password:
-            <input type='password' value={password} onChange={handlePasswordChange} />
-            </label>
-            <br />
-            <button type='submit'>Login</button>
-        </form>
-        </div>
+    <div>
+        <div className="login-body">
+          <div className='login'>
+          <h1>Login</h1>
+          <form onSubmit={handleSubmit}>
+              <label>
+              Email:
+              <input type='email' value={email} onChange={handleEmailChange} />
+              </label>
+              <br />
+              <label>
+              Password:
+              <input type='password' value={password} onChange={handlePasswordChange} />
+              </label>
+              <br />
+              <button type='submit'>Login</button>
+          </form>
+          </div>
+      </div>
     </div>
     
+  
   );
 }
 

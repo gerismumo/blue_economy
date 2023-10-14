@@ -189,5 +189,24 @@ class DbLearning {
             console.log(error);
         }
      }
+
+     async getEventDetails() {
+        try {
+            const query = 'SELECT * FROM event_details';
+            const getDetails = await new Promise((resolve, reject) => {
+                connection.query(query, (err, result) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+            return getDetails;
+        } catch (error) {
+            console.log(error);
+        }
+     }
+
     }
     module.exports = DbLearning;
