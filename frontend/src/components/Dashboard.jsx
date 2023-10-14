@@ -411,7 +411,7 @@ function Dashboard() {
         XLSX.writeFile(workbook, 'users_data.xlsx');
       };
       
-        
+        const user = 'user';
     return (
         <div>
             {loading && <p>...loading</p>}

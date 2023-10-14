@@ -42,6 +42,16 @@ function Login() {
   return (
     <div>
         <div className="login-body">
+          <div className="header">
+            <nav>
+                    <div className="header-logo">
+                        <img src="/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg" 
+                                className="logo-image"
+                            />
+                    </div>
+                </nav>
+          </div>
+                
           <div className='login'>
           <h1>Login</h1>
           <form onSubmit={handleSubmit}>

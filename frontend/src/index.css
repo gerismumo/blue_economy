@@ -148,14 +148,15 @@ p.error {
   font-size: 18px;
 }
 .dashboard .users-table {
-  margin-top: 170px;
+  margin-top: 190px;
   padding: 20px;
+  overflow: auto;
 }
 .dashboard .users-table table{
   width: 100%;
   margin-bottom: 20px;
   border: 1px solid #ccc;
-  overflow-x: auto ;
+  overflow: auto ;
 }
 
 .dashboard .users-table thead {
@@ -286,6 +287,83 @@ p.error {
   color: #ff5e5e;
   font-size: 12px;
  }
+
+ @media (max-width: 768px) {
+  .dashboard .header{
+    margin: 0;
+  }
+  .dashboard .header nav{
+    margin: 0;
+    padding: 5px;
+    /* gap: 30px; */
+  }
+  .dashboard  nav .logo {
+    width: 250px;
+    height: 50px
+  }
+  .dashboard  nav .nav-home {
+    margin-right: 3px;
+  }
+  .dashboard .dashboard-tabs{
+    margin-top: 70px;
+    padding: 3px;
+  }
+  .dashboard .dashboard-tabs .search-tab{
+    gap: 8px;
+  }
+  .dashboard .dashboard-tabs .search-tab .no-users{
+    gap: 0.2px;
+  }
+  .dashboard .users-table table {
+    overflow: auto;
+  max-height: 80vh;
+  }
+  .dashboard .dashboard-tabs .search-tab .no-users p:first-child{
+    padding: 2px;
+  }
+  .dashboard .dashboard-tabs .search-tab .no-users p:last-child{
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .dashboard .dashboard-tabs .search-tab input {
+    width: 100px;
+    height: 3vh;
+  }
+  .dashboard .middle-tabs button{
+    padding: 4px 7px;
+  }
+  .dashboard .dashboard-tabs .add-user .add-icon {
+    border: 2px solid #38B6FF;
+  }
+  .dashboard .dashboard-tabs .add-user{
+    gap: 1px;
+  }
+  .dashboard .dashboard-tabs .add-user .add-text p{
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .dashboard .users-table{
+    margin-top: 150px;
+    padding: 1px;
+  }
+  .dashboard .users-table th {
+    font-size: 15px;
+  }
+  .dashboard .users-table td button{
+    padding: 4px 8px;
+  }
+  .dashboard .users-table td{
+    font-size: 14px;
+  }
+  .dashboard .users-table th, 
+.dashboard .users-table td {
+  padding: 5px;
+}
+  .dashboard .modal-content {
+    max-width: 300px;
+    border-radius: 5px;
+  }
+}
 
 /* register component css */
 .register {
@@ -453,65 +531,113 @@ p.error {
   color: red;
   font-size: 20px;
 }
+@media screen and (max-width:768px){
+  .register{
+    padding: 10px;
+  }
+  .register .header{
+    display: none;
+  }
+  .register .register-form {
+    margin-top: 0;
+  }
+  .register .register-form form .form-header{
+    padding: 2px 10px;
+  }
+  .register .register-form form .form-header h1{
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .register .register-form form .form-elements {
+    padding: 2px 10px;
+  }
+  .register .register-form form input[type="text"],
+.register .register-form form input[type="email"],
+.register .register-form form input[type="tel"]
+,.register .register-form form select {
+  border-radius: 3px;
+}
+}
 /* login css */
-
-.login {
-  max-width: 300px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-top: 50px;
+.login-body .header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #fff; 
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.25);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.login h1 {
-  text-align: center;
+
+.login-body .logo-image {
+  max-width: 400px;
+  height: 60px;
+}
+
+
+.login-body .login-body {
+  padding-top: 60px; 
+  padding: 20px;
+}
+
+.login-body .login {
+  margin: 100px auto 0px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 0.5px solid black;
+}
+
+.login-body .login h1 {
+  font-size: 24px;
   margin-bottom: 20px;
 }
 
-.login label {
+.login-body .login label {
   display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-.login input {
-  width: 100%;
-  padding: 8px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  font-weight: 700;
 }
 
-.login button {
+.login-body .login input {
   width: 100%;
   padding: 10px;
-  background-color: #3498db;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.login button:hover {
-  background-color: #2980b9;
-}
-
-.login button:active {
-  background-color: #1abc9c;
-}
-
-.login button:focus {
+  border-radius: 3px;
+  border: 1px solid #38b6ff;
+  margin-bottom: 10px;
   outline: none;
 }
-
-.login button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.login-body .login input:focus{
+  box-shadow: 0 0 5px #38B6FF;
 }
 
+.login-body .login button {
+  padding: 10px 20px;
+  background-color: #38B6FF;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.login-body .login button:hover {
+  background-color: #1c87d9;
+}
+
+@media (max-width: 768px) {
+  .login-body .login{
+    max-width: 300px;
+    padding: 20px;
+  }
+}
 /* home page css */
 .home {
   display: flex;
@@ -617,6 +743,40 @@ p.error {
   background-color: #1c87d9;
 }
 
+@media screen and (max-width:768px) {
+  .home .home-header nav{
+    padding: 5px;
+  }
+  .home .home-info h1{
+    font-size: 20px;
+    font-weight:450;
+  }
+  .home .home-info .home-info-text{
+    margin: 0 8px;
+  }
+  .home .home-info p{
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .home .home-info-text p {
+    margin-bottom: 5px;
+  }
+  .home .event-header h2{
+    margin-left: 20px;
+    font-size: 18px;
+  }
+  .home .event-info p{
+    font-weight: 450;
+    font-size: 15px;
+  }
+  .home .event-info .event-date{
+    gap: 10px;
+  }
+  .home .event-info .register-button button{
+    padding: 8px 7px;
+  }
+}
 /* registration feedback css */
 
 .submit-message {
@@ -662,18 +822,69 @@ p.error {
   }
 }
 
+@media (max-width: 768px) {
+  .submit-message{
+    margin-top: 50px;
+    height: auto;
+  }
+  .submit-message .feedback-message{
+    width: 90%;
+    padding: 10px;
+  }
+  .submit-message .feedback-message h1 {
+    font-size: 20px;
+    margin: 0;
+  }
+  .submit-message .feedback-message p{
+    line-height: none;
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 15px;
+  }
+}
+
 /* admin page css */
 
+/* Style for the header */
+.admin-page .header {
+  background-color: white;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.25);
+}
 .admin-page .header nav {
   display: flex;
   align-items: center;
-  justify-content:  space-around;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  justify-content: space-between;
 }
-.admin-page .header nav .logo{
-  height: 60px;
-  width: 350px;
+.admin-page .nav-logo img.logo {
+  max-width: 300px;
+  height: 60Px;
 }
+
+.admin-page .nav-home button,
+.admin-page .nav-home a {
+  margin-left: 10px;
+  padding: 10px 20px;
+  border: none;
+  /* background-color: #38b6ff; */
+  background-color: whitesmoke;
+  color: black;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 3px;
+}
+
+.admin-page .nav-home button:hover,
+.admin-page .nav-home a:hover {
+  background-color: #1c87d9;
+}
+
+.admin-page .nav-home button:last-child,
+.admin-page .nav-home a:last-child {
+  margin-left: 20px;
+}
+
+
 
 /* .home-detail {
   max-width: 400px;
@@ -710,6 +921,7 @@ p.error {
   color: white;
   font-size: 16px;
   cursor: pointer;
+  border-radius: 3px;
 }
 
 .home-detail button:hover {
@@ -799,5 +1011,118 @@ p.error {
 .admin-page .modal-content form .modal-button button:hover {
   background-color: #1c87d9;
 }
+
+/* Style for the admin table */
+.admin-table {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.admin-table h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th, .admin-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.admin-table th {
+  font-weight: bold;
+  text-align: left;
+}
+
+.admin-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.admin-table tbody tr:hover {
+  background-color: #e0e0e0;
+}
+
+.admin-table button {
+  padding: 5px 10px;
+  background-color: #38b6ff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.admin-table button:hover {
+  background-color: #1c87d9;
+}
+
+@media (max-width: 768px){
+  .admin-page{
+    margin: 0;
+  }
+  .admin-page .header{
+    padding: 5px;
+  }
+  .admin-page .nav-logo img.logo{
+    max-width: 180px;
+    height: 50px;
+  }
+  .admin-page .nav-home button,
+.admin-page .nav-home a {
+  padding: 4px 8px;
+}
+.admin-page .nav-home button:last-child,
+.admin-page .nav-home a:last-child {
+  margin-left: 10px;
+}
+
+.admin-table {
+  padding: 7px 8px;
+}
+.admin-table table{
+  padding: 0px;
+  margin: 0;
+}
+.admin-table h2 {
+  font-size: 20px;
+  font-weight: 500;
+}
+.admin-table button{
+  padding: 4px 8px;
+}
+.admin-table th, .admin-table td{
+  padding: 5px;
+}
+.admin-table th {
+  font-weight: 500;
+}
+.admin-table tbody tr:hover {
+  background-color: none;
+}
+.admin-page .modal-content {
+  padding: 10px;
+  max-width: 300px;
+}
+.admin-page .close-button {
+  padding: 3px 8px;
+}
+.admin-page .modal-content form input {
+  height: 3vh;
+  border-radius: 3px;
+}
+.admin-page .modal-content form textarea {
+  border-radius: 3px;
+}
+.admin-page .modal-content form .modal-button button {
+  padding: 5px 10px;
+}
+}
+
 
 

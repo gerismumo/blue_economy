@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function AdminPage() {
     const navigate = useNavigate();
+    const[showAdminAddForm, setShowAdminAddForm] = useState(false);
     const [eventDetails, setEventDetails] = useState({
         about_event: '',
         event_date: '',
@@ -52,6 +53,7 @@ function AdminPage() {
             if (!response.ok) {
                 throw new Error('Error updating event details');
             }
+            setShowEditDetails(false);
             navigate('/');
         } catch (error) {
             console.error(error.message);
@@ -86,15 +88,17 @@ function AdminPage() {
             if (!response.ok) {
                 throw new Error('Network response was not okay');
               }
+              setShowAdminAddForm(false);
               alert('Successfully added admin account');
               return await response.json();
+              
         } catch (error) {
             console.log(error);
         }
             
     }
 
-    const[showAdminAddForm, setShowAdminAddForm] = useState(false);
+    
     const handleAdminAddClick = () => {
         setShowAdminAddForm(prevShowAdmin => !prevShowAdmin);
     }
@@ -143,39 +147,43 @@ function AdminPage() {
                         className='logo'/>
                     </div>
                     <div className="nav-home">
-                        <button onClick={handleEditForm}>{showEditDetails ? 'Close' : 'Edit Event Details'}</button>
-                        <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add Admin'}</button>
+                        <button onClick={handleEditForm}>{showEditDetails ? 'Close' : 'Event Details'}</button>
+                        <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add'}</button>
                         <Link to='/'>Home</Link>
                     </div>
                 </nav>
             </div>
-        <div className="admin-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Admin ID</th>
-                        <th>Admin Name</th>
-                        <th>Admin Email</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {adminList.map(admin => (
-                        <tr key={admin.admin_id}>
-                            <td>{admin.admin_id}</td>
-                            <td>{admin.admin_name}</td>
-                            <td>{admin.admin_email}</td>
-                            <td><button onClick={() => handleDeleteUser(admin.admin_id)}>Delete</button></td>
+            <div className="table-data">
+                <div className="admin-table">
+                <h2>Event Organisers Table</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Delete</th>
                         </tr>
-                    )
-                    )}
-                </tbody>
-            </table>
-        </div>
-            {showEditDetails && (
-                 <div className="modal" style={{ display: showEditDetails ? 'flex' : 'none' }}>
+                    </thead>
+                    <tbody>
+                        {adminList.map(admin => (
+                            <tr key={admin.admin_id}>
+                                <td>{admin.admin_id}</td>
+                                <td>{admin.admin_name}</td>
+                                <td>{admin.admin_email}</td>
+                                <td><button onClick={() => handleDeleteUser(admin.admin_id)}>Delete</button></td>
+                            </tr>
+                        )
+                        )}
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        
+            {showAdminAddForm && (
+                 <div className="modal" style={{ display: showAdminAddForm ? 'flex' : 'none' }}>
                     <div className="modal-content">
-                    <button className="close-button" onClick={() => setShowEditDetails(false)}>
+                    <button className="close-button" onClick={() => setShowAdminAddForm(false)}>
                     Close
                     </button>
                     <div className="add-user">
@@ -189,7 +197,7 @@ function AdminPage() {
                             <input type='password' value={password} onChange={handlePasswordChange} />
                             <br />
                             <div className="modal-button">
-                                <button type="submit">Add Admin</button>
+                                <button type="submit">Add Organiser</button>
                             </div>
                         </form>
                     </div>
@@ -199,10 +207,10 @@ function AdminPage() {
              
             )
             }
-            {showAdminAddForm && (
-                <div className="modal" style={{ display: showAdminAddForm ? 'flex' : 'none' }}>
+            {showEditDetails && (
+                <div className="modal" style={{ display: showEditDetails ? 'flex' : 'none' }}>
                     <div className="modal-content">
-                    <button className="close-button" onClick={() => setShowAdminAddForm(false)}>
+                    <button className="close-button" onClick={() => setShowEditDetails(false)}>
                     Close
                     </button>
                     <form onSubmit={handleSubmit}>
