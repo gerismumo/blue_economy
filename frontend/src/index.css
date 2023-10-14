@@ -663,7 +663,19 @@ p.error {
 }
 
 /* admin page css */
-.admin-page {
+
+.admin-page .header nav {
+  display: flex;
+  align-items: center;
+  justify-content:  space-around;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.admin-page .header nav .logo{
+  height: 60px;
+  width: 350px;
+}
+
+/* .home-detail {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
@@ -671,16 +683,16 @@ p.error {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-top: 30px;
-}
+} */
 
-.admin-page label {
+.home-detail label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
-.admin-page textarea,
-.admin-page input {
+.home-detail textarea,
+.home-detail input {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -688,7 +700,7 @@ p.error {
   border-radius: 5px;
 }
 
-.admin-page button {
+.home-detail button {
   display: block;
   width: 100%;
   padding: 10px;
@@ -700,12 +712,92 @@ p.error {
   cursor: pointer;
 }
 
-.admin-page button:hover {
+.home-detail button:hover {
   background-color: #0056b3;
 }
 
-.admin-page button:active {
+.home-detail button:active {
   background-color: #004080;
+}
+
+.admin-page .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-page .modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+}
+
+.admin-page .close-button {
+  background: #f74949;
+  border: none;
+  cursor: pointer;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  color: white;
+  font-weight: 700;
+}
+.admin-page .close-button:hover {
+  background-color: #fb0606;
+}
+.admin-page .modal form {
+  display: flex;
+  flex-direction: column;
+}
+.admin-page .modal-content form input {
+  margin-top: 5px;
+  outline: none;
+  border: 0.8px solid #1c87d9;
+  height: 3.5vh;
+}
+.admin-page .modal-content form textarea {
+  margin-top: 5px;
+  outline: none;
+  border: 0.8px solid #1c87d9;
+}
+
+.admin-page .modal-content form label {
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 10px;
+}
+.admin-page .modal-content form .modal-button {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.admin-page .modal-content form .modal-button button {
+  background-color: #38B6FF;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 10px 15px;
+  outline: none;
+  border: none;
+  border-radius: 3px;
+}
+.admin-page .modal-content form .modal-button button:hover {
+  background-color: #1c87d9;
 }
 
 

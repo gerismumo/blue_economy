@@ -245,5 +245,43 @@ class DbLearning {
             console.log(error);
         }
      }
+
+     async adminList() {
+        try {
+            const query = 'SELECT * FROM admin_table';
+            const selectAdmin = await new Promise((resolve, reject) => {
+                connection.query(query, (err, result) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+            return selectAdmin;
+        } catch (error) {
+            console.log(error);
+        }
+     }
+
+
+     async deleteAdmin(admin_id) {
+        try {
+            const query = 'DELETE FROM admin_table WHERE admin_id = ?';
+            const deleteUser = await  new Promise((resolve, reject) => {
+                connection.query(query, [admin_id], (err, result) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+            return deleteUser;
+        } catch (error) {
+            console.log(error);
+        }
+     }
+
     }
     module.exports = DbLearning;

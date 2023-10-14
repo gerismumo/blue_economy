@@ -208,6 +208,28 @@ app.post('/addAdmin', (req, res) => {
     res.status(500).send({success:false, error:'Server error'})
   }
   
+});
+
+app.get('/adminList', (req, res) => {
+ 
+  const db = DbService.getDbLearningInstance();
+  const result = db.adminList();
+  result
+  .then(data => {
+    res.json({success: true, data:data})
+  }) 
+  .catch(err => res.json({success: false, err:err}));
+});
+
+app.delete('/deleteAdmin/:admin_id', (req, res) => {
+  const {admin_id} = req.params;
+  const db = DbService.getDbLearningInstance();
+  const result = db.deleteAdmin(admin_id);
+  result
+  .then(data => {
+    req.json({success: true, data: data});
+  })
+  .catch(err => res.json({error: err}));
 })
 
 

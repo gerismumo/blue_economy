@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function AdminPage() {
     const navigate = useNavigate();
@@ -94,52 +94,148 @@ function AdminPage() {
             
     }
 
+    const[showAdminAddForm, setShowAdminAddForm] = useState(false);
+    const handleAdminAddClick = () => {
+        setShowAdminAddForm(prevShowAdmin => !prevShowAdmin);
+    }
+    const[showEditDetails, setShowEditDetails] = useState(false);
+    const handleEditForm = () =>{
+        setShowEditDetails(prevShowForm => !prevShowForm);
+    }
+
+    const[adminList, setAdminList] = useState([]);
+    useEffect(() => {
+        fetch('http://localhost:5000/adminList')
+        .then(response => {
+            if(!response.ok) {
+                throw new Error('Error fetching admin list');
+            }
+            return response.json();
+        })
+        .then(data => {
+            setAdminList(data.data);
+        })
+        .catch(err => console.error(err));
+    }, []);
+
+    const handleDeleteUser = async(admin_id) => {
+        try{
+            const response = await fetch(`http://localhost:5000/deleteAdmin/${admin_id}`, {
+            method: 'DELETE',
+            });
+            if(!response.ok) {
+                throw new Error('Error deleting');
+            }
+
+            const updatedList = adminList.filter(list => list.admin_id !== admin_id);
+            setAdminList(updatedList);
+        } catch(error) {
+            console.log(error.message);
+        }
+        
+    }
     return (
         <div className="admin-page">
-        <div className="home-detail">
-        <form onSubmit={handleSubmit}>
-                <label>About this event:</label>
-                <textarea
-                    name="about_event"
-                    value={eventDetails.about_event}
-                    onChange={handleInputChange}
-                />
-                <label>Date:</label>
-                <input
-                    type="date"
-                    name="event_date"
-                    value={eventDetails.event_date}
-                    onChange={handleInputChange}
-                />
-                <label>RSVPs:</label>
-                <input
-                    type="text"
-                    name="event_location"
-                    value={eventDetails.event_location}
-                    onChange={handleInputChange}
-                />
-                <button type="submit">Save</button>
-            </form>
-        </div>
-            <div className="add-user">
-                <form onSubmit={handleAddAdmin}>
-                    <label>
-                    Name:
-                    <input type='name' value={name} onChange={handleNameChange} />
-                    </label>
-                    <label>
-                    Email:
-                    <input type='email' value={email} onChange={handleEmailChange} />
-                    </label>
-                    <br />
-                    <label>
-                    Password:
-                    <input type='password' value={password} onChange={handlePasswordChange} />
-                    </label>
-                    <br />
-                    <button type='submit'>Add Admin</button>
-                </form>
+            < div className='header'>
+                <nav>
+                    <div className="nav-logo">
+                        <img src='/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg'
+                        className='logo'/>
+                    </div>
+                    <div className="nav-home">
+                        <button onClick={handleEditForm}>{showEditDetails ? 'Close' : 'Edit Event Details'}</button>
+                        <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add Admin'}</button>
+                        <Link to='/'>Home</Link>
+                    </div>
+                </nav>
             </div>
+        <div className="admin-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Admin ID</th>
+                        <th>Admin Name</th>
+                        <th>Admin Email</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {adminList.map(admin => (
+                        <tr key={admin.admin_id}>
+                            <td>{admin.admin_id}</td>
+                            <td>{admin.admin_name}</td>
+                            <td>{admin.admin_email}</td>
+                            <td><button onClick={() => handleDeleteUser(admin.admin_id)}>Delete</button></td>
+                        </tr>
+                    )
+                    )}
+                </tbody>
+            </table>
+        </div>
+            {showEditDetails && (
+                 <div className="modal" style={{ display: showEditDetails ? 'flex' : 'none' }}>
+                    <div className="modal-content">
+                    <button className="close-button" onClick={() => setShowEditDetails(false)}>
+                    Close
+                    </button>
+                    <div className="add-user">
+                        <form onSubmit={handleAddAdmin}>
+                            <label>Name:</label>
+                            <input type='name' value={name} onChange={handleNameChange} />
+                            <label>Email:</label>
+                            <input type='email' value={email} onChange={handleEmailChange} />
+                            <br />
+                            <label>Password:</label>
+                            <input type='password' value={password} onChange={handlePasswordChange} />
+                            <br />
+                            <div className="modal-button">
+                                <button type="submit">Add Admin</button>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                 </div>
+                 
+             
+            )
+            }
+            {showAdminAddForm && (
+                <div className="modal" style={{ display: showAdminAddForm ? 'flex' : 'none' }}>
+                    <div className="modal-content">
+                    <button className="close-button" onClick={() => setShowAdminAddForm(false)}>
+                    Close
+                    </button>
+                    <form onSubmit={handleSubmit}>
+                        <label>About this event:</label>
+                        <textarea
+                            name="about_event"
+                            value={eventDetails.about_event}
+                            onChange={handleInputChange}
+                        />
+                        <label>Date:</label>
+                        <input
+                            type="date"
+                            name="event_date"
+                            value={eventDetails.event_date}
+                            onChange={handleInputChange}
+                        />
+                        <label>RSVPs:</label>
+                        <input
+                            type="text"
+                            name="event_location"
+                            value={eventDetails.event_location}
+                            onChange={handleInputChange}
+                        />
+                        <div className="modal-button">
+                            <button type="submit">Save</button>
+                        </div>
+                        
+                    </form>
+                    </div>
+                </div>
+                
+            
+            )}
         </div>
     );
 }
