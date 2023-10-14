@@ -45,7 +45,6 @@ function Home() {
     }, []);
       
     const originalDate = eventDetails.event_date;
-    console.log(originalDate);
     const formattedDate = new Date(originalDate).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
