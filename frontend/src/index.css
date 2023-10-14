@@ -374,11 +374,12 @@ p.error {
  
 }
 .register .header  {
-  display: flex;
+  /* display: flex;
   width: 100%;
   background-color: whitesmoke;
   height: 60px;
-  position: fixed;
+  position: fixed; */
+  display: none;
 }
 .register .header nav{
   display: flex;
@@ -476,6 +477,7 @@ p.error {
 
 .register .register-form form .checkbox-label input[type='checkbox'] {
   margin-right: 10px;
+  z-index: 0;
 }
 .register .register-form form .register-button {
   display: flex;

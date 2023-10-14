@@ -78,7 +78,7 @@ function Home() {
                     <div className="event-info">
                     <div className="event-date">
                         <p>{formattedDate}</p>
-                        <p>Location: Mombasa{eventDetails.event_location}</p>
+                        <p>Location: {eventDetails.event_location}</p>
                     </div>
                     <div className="rsvp-persons">
                         <p>{usersList ? usersList.length : '0'} RSVP'd</p>
