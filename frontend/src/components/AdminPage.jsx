@@ -91,12 +91,27 @@ function AdminPage() {
                 },
                 body: JSON.stringify({email, password,name}),
             });
-            if (!response.ok) {
-                toast.error('Network response was not okay');
-              }
-              setShowAdminAddForm(false);
-              toast.success('Successfully added account');
-              return await response.json();
+            // if (!response.ok) {
+            //     throw new Error('Network response was not okay');
+            //   }
+
+              const result = await response.json();
+
+                if (result.success) {
+                toast.success('Successfully added organiser');
+                setTimeout(() => {
+                    setShowAdminAddForm(false);
+                },2000);
+                
+                } else {
+                toast.error('User already exists');
+                setTimeout(() => {
+                    setShowAdminAddForm(false);
+                },2000);
+                }
+            //   setShowAdminAddForm(false);
+            //   toast.success('Successfully added account');
+            //   return await response.json();
               
         } catch (error) {
             toast.error(error.message);
@@ -190,6 +205,7 @@ function AdminPage() {
         
             {showAdminAddForm && (
                  <div className="modal" style={{ display: showAdminAddForm ? 'flex' : 'none' }}>
+                    <ToastContainer />
                     <div className="modal-content">
                     <button className="close-button" onClick={() => setShowAdminAddForm(false)}>
                     Close
@@ -217,6 +233,7 @@ function AdminPage() {
             }
             {showEditDetails && (
                 <div className="modal" style={{ display: showEditDetails ? 'flex' : 'none' }}>
+                    <ToastContainer />
                     <div className="modal-content">
                     <button className="close-button" onClick={() => setShowEditDetails(false)}>
                     Close

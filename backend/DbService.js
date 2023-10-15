@@ -282,6 +282,24 @@ class DbLearning {
         }
      }
 
+     async getOrganiserByEmail(email) {
+        try {
+            const query = 'SELECT * FROM admin_table WHERE admin_email = ?';
+            const getUser = await new Promise((resolve,reject) => {
+                connection.query(query,[email], (err, result) => {
+                    if(err) {
+                        reject(err);
+                    }else {
+                        resolve(result.length > 0);
+                      }
+                });
+            });
+            return getUser;
+        } catch (error) {
+            console.log(error);
+        }
+     }
+
 
      async deleteAdmin(admin_id) {
         try {

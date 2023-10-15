@@ -4,7 +4,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Register() {
-    
+
     const navigate = useNavigate();
     const[errorMessages, setErrorMessages] = useState({});
     const[formData, setFormData] = useState({
@@ -109,6 +109,7 @@ function Register() {
         }
         if(Object.keys(errors).length > 0) {
             setErrorMessages(errors);
+            toast.error('Fill all fields with errors')
             return;
         }
 
@@ -143,11 +144,14 @@ function Register() {
                 toast.success('Registration was successfully registered');
                 setTimeout(() => {
                     navigate('/feedback');
-                }, 3000);
+                }, 2000);
+                setTimeout(() => {
+                    navigate('/');
+                }, 9000);
             } else {
                 toast.error('Email already exists'); 
                 setTimeout(() => {
-                    navigate('/');
+                    toast.success('Try another email address')
                 }, 3000);
             }
             

@@ -185,12 +185,17 @@ app.put('/updateDetails', (req, res) => {
   .catch(err => res.json({success:false, err:err}));
 });
 
-app.post('/addAdmin', (req, res) => {
+app.post('/addAdmin', async(req, res) => {
   const {name,email, password} = req.body;
 
   const db = DbService.getDbLearningInstance();
   try {
-    const result = db.addAdmin(name,email, password);
+    const userExists = await db.getOrganiserByEmail(email);
+    if (userExists) {
+      return res.status(400).json({ success: false, error: 'User already registered' });
+      
+    }
+    const result = await db.addAdmin(name,email, password);
     let config = {
       service: 'gmail',
       auth: {
@@ -211,7 +216,7 @@ app.post('/addAdmin', (req, res) => {
     };
 
     transporter.sendMail(data).then(() => {
-      return console.log('Sent mail')
+      return ;
     });
     res.json({success:true, data:result});
   } catch (error) {
