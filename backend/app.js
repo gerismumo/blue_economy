@@ -17,14 +17,25 @@ app.use(express.urlencoded({extended: false}));
 
 const DbService = require('./DbService');
 
+// async function isUserRegistered(email) {
+//   const db = DbService.getDbLearningInstance();
+//   const user = db.getUserByEmail(email);
+//   return user !== null;
+// }
 
 //register user
-app.post('/registerUsers', (req, res) => {
+app.post('/registerUsers', async(req, res) => {
   const requestData = req.body;
   const db = DbService.getDbLearningInstance();
 
   try {
-    const result = db.addUsers(requestData);
+    const userExists = await db.getUserByEmail(requestData.email);
+    if (userExists) {
+      return res.status(400).json({ success: false, error: 'User already registered' });
+      
+    }
+
+    const result = await db.addUsers(requestData);
     let config = {
       service: 'gmail',
       auth: {
@@ -48,7 +59,7 @@ app.post('/registerUsers', (req, res) => {
     res.json({success: true, data:result });
   } catch (error) {
     console.log(error);
-    res.status(500).send({success:false, error:'Server error'});
+    res.status(500).send({success:false, error: error.message});
   }
 });
 

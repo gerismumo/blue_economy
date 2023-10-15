@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Register() {
     const navigate = useNavigate();
@@ -125,6 +127,7 @@ function Register() {
             selectedCheckBoxes: checkedBoxes.join(','),
           };
         
+          
 
         fetch('http://localhost:5000/registerUsers', {
             method: 'POST',
@@ -135,7 +138,17 @@ function Register() {
         })
         .then(response => response.json())
         .then(result => {
-            console.log('data being submitted', result);
+            if (result && result.success) {
+                toast.success('Registration was successfully registered');
+                setTimeout(() => {
+                    navigate('/feedback');
+                }, 3000);
+            } else {
+                toast.error('Email already exists'); 
+                setTimeout(() => {
+                    navigate('/');
+                }, 3000);
+            }
             
             setCheckedBoxes([]);
             resetFormFields();
@@ -144,11 +157,12 @@ function Register() {
             document.getElementById('join-mail').selectedIndex = 0;
             document.getElementById('join-summit').selectedIndex = 0;
             document.getElementById('category-Fall').selectedIndex = 0;
-            navigate('/feedback');
+            // navigate('/feedback');
         })
         
         .catch ((error) => {
             console.log('Error in registering User', error);
+            toast.error('Error in registering User');
         });  
     }
     return (
@@ -166,6 +180,7 @@ function Register() {
                 </nav> */}
             </div>
             <div className="register-form">
+            <ToastContainer />
                 <form onSubmit={handleSubmit}>
                     <div className="form-header">
                         <h1>Blue Economy Innovation & Investment Summit 2023</h1>

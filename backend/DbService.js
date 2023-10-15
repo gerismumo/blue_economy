@@ -58,6 +58,24 @@ class DbLearning {
         }
     }
 
+    async getUserByEmail(email) {
+        try {
+            const query = 'SELECT * FROM users_list WHERE user_email = ?';
+            const getUser = await new Promise((resolve,reject) => {
+                connection.query(query,[email], (err, result) => {
+                    if(err) {
+                        reject(err);
+                    }else {
+                        resolve(result.length > 0);
+                      }
+                });
+            });
+            return getUser;
+        } catch (error) {
+            console.log(error);
+        }
+     }
+
     //select users list
 
     async usersList() {
