@@ -4,6 +4,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Register() {
+    
     const navigate = useNavigate();
     const[errorMessages, setErrorMessages] = useState({});
     const[formData, setFormData] = useState({
@@ -20,7 +21,7 @@ function Register() {
         JoinAs:'',
         describeYourProduct:'',
         categoryFall:''
-    })
+    });
 
     
     

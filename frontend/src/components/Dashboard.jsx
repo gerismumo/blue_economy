@@ -2,6 +2,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import * as XLSX from 'xlsx';
 function Dashboard() {
 
@@ -102,9 +104,8 @@ function Dashboard() {
                 if(response.ok) {
                     const updatedUsersList = usersList.filter((user) => user_id !== user.user_id);
                     setUsersList(updatedUsersList);
+                    toast.success('Successfully deleted');
                 }
-                const data = await response.json();
-                console.log(data);
             } catch (error) {
                 console.log(error);
             }
@@ -166,12 +167,16 @@ function Dashboard() {
                         body: JSON.stringify(editingUser),
                     });
                     if(response.ok) {
-                        setIsModalOpen(false);
+                        toast.success('Successfully updated');
+                        setTimeout(() => {
+                            setIsModalOpen(false);
+                        }, 2000)
+                        
                     } else {
-                        console.log('failed to edit user');
+                        toast.success('Error updating');
                     }        
                 } catch (error) {
-                    console.log(error);
+                    toast.error(error.message);
                 }
             
           }
@@ -287,6 +292,7 @@ function Dashboard() {
                 }
                 if(Object.keys(errors).length > 0) {
                     setErrorMessages(errors);
+                    toast.error('Fill all required fields');
                     return;
                 }
                 const requestData = {
@@ -306,22 +312,26 @@ function Dashboard() {
                   };
                   
                   
-                  try {
-                    const response = await fetch('http://localhost:5000/registerUsers', {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify(requestData),
-                    });
-                
-                    if (!response.ok) {
-                      throw new Error('Failed to register user');
+                  fetch('http://localhost:5000/registerUsers', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type' : 'application/json'
+                    },
+                    body: JSON.stringify(requestData),
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result && result.success) {
+                        toast.success('Registration was successfully registered');
+                        setTimeout(() => {
+                            setAddFormOpen(false);
+                        }, 3000);
+                    } else {
+                        toast.error('Email already exists'); 
+                        setTimeout(() => {
+                            setAddFormOpen(false);
+                        }, 3000);
                     }
-                
-                    const result = await response.json();
-                    console.log('data being submitted', result);
-                    // setUsersList((prevUsersList) => [...prevUsersList, result.data]);
                     setCheckedBoxes([]);
                     resetFormFields();
                     document.getElementById('attend').selectedIndex = 0;
@@ -330,10 +340,11 @@ function Dashboard() {
                     document.getElementById('join-summit').selectedIndex = 0;
                     document.getElementById('category-Fall').selectedIndex = 0;
                     
-                    setAddFormOpen(false);
-                  } catch (error) {
-                    console.error('Error in registering User', error);
-                  }
+                    
+                })
+                  .catch ((error) => {
+                    toast.error('server error');
+                  });
             }
             const [attendedStatuses, setAttendedStatuses] = useState({});
             const fetchInitialAttendStatuses = async () => {
@@ -379,8 +390,9 @@ function Dashboard() {
                     if (!response.ok) {
                       throw new Error('Failed to update attendance status in the database');
                     }
+                    toast.success('Successfully updated');
                   } catch (error) {
-                    console.error('Error updating attendance status:', error);
+                    toast.error(error.message);
                   }
             }
 
@@ -461,7 +473,7 @@ function Dashboard() {
                     </div>
                 </div>
             </div>
-            
+            <ToastContainer />
             <div className="users-table">
                 <table>
                     <thead>
@@ -483,8 +495,8 @@ function Dashboard() {
                             <th>Describe your product or the services that you offer?</th>
                             <th>Which category do you fall in?</th>
 
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            {/* <th>Edit</th>
+                            <th>Delete</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -526,6 +538,7 @@ function Dashboard() {
 
             {isModalOpen && editingUser && (
             <div className="modal" style={{ display: isModalOpen ? 'flex' : 'none' }}>
+                 <ToastContainer />
             <div className="modal-content">
                 <button className="close-button" onClick={() => setIsModalOpen(false)}>
                 Close
@@ -684,6 +697,7 @@ function Dashboard() {
 
         {isAddFormOpen  && (
                     <div className="modal" style={{ display: isAddFormOpen ? 'flex' : 'none' }}>
+                        <ToastContainer />
                     <div className="modal-content">
                         <button className="close-button" onClick={() => setAddFormOpen(false)}>
                         Close

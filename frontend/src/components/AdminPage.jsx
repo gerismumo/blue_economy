@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AdminPage() {
     const navigate = useNavigate();
@@ -14,7 +16,7 @@ function AdminPage() {
         fetch('http://localhost:5000/eventDetails')
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Error fetching event details');
+                    toast.error('Error fetching event details');
                 }
                 return response.json();
             })
@@ -22,11 +24,11 @@ function AdminPage() {
                 if (data.success && Array.isArray(data.data) && data.data.length > 0) {
                     setEventDetails(data.data[0]);
                 } else {
-                    console.log('Unexpected data format:', data);
+                    toast.error('Error fetching event details');
                 }
             })
             .catch(error => {
-                console.log(error.message);
+                toast.error(error.message);
             });
     }, []);
 
@@ -51,10 +53,14 @@ function AdminPage() {
             });
 
             if (!response.ok) {
-                throw new Error('Error updating event details');
+                toast.error('Error updating event details');
             }
-            setShowEditDetails(false);
-            navigate('/');
+            toast.success('Event details updated successfully');
+            setTimeout(() => {
+                setShowEditDetails(false);
+                navigate('/');
+            },3000);
+            
         } catch (error) {
             console.error(error.message);
         }
@@ -86,14 +92,14 @@ function AdminPage() {
                 body: JSON.stringify({email, password,name}),
             });
             if (!response.ok) {
-                throw new Error('Network response was not okay');
+                toast.error('Network response was not okay');
               }
               setShowAdminAddForm(false);
-              alert('Successfully added admin account');
+              toast.success('Successfully added account');
               return await response.json();
               
         } catch (error) {
-            console.log(error);
+            toast.error(error.message);
         }
             
     }
@@ -112,14 +118,14 @@ function AdminPage() {
         fetch('http://localhost:5000/adminList')
         .then(response => {
             if(!response.ok) {
-                throw new Error('Error fetching admin list');
+                toast.error('Error fetching admin list');
             }
             return response.json();
         })
         .then(data => {
             setAdminList(data.data);
         })
-        .catch(err => console.error(err));
+        .catch(err => toast.error(err.message));
     }, []);
 
     const handleDeleteUser = async(admin_id) => {
@@ -128,13 +134,14 @@ function AdminPage() {
             method: 'DELETE',
             });
             if(!response.ok) {
-                throw new Error('Error deleting');
+                toast.error('Error deleting');
             }
 
             const updatedList = adminList.filter(list => list.admin_id !== admin_id);
             setAdminList(updatedList);
+            toast.success('Organiser deleted successfully');
         } catch(error) {
-            console.log(error.message);
+            toast.error(error.message);
         }
         
     }
@@ -153,6 +160,7 @@ function AdminPage() {
                     </div>
                 </nav>
             </div>
+            <ToastContainer />
             <div className="table-data">
                 <div className="admin-table">
                 <h2>Event Organisers Table</h2>
