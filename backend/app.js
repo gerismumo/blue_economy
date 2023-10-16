@@ -42,7 +42,7 @@ app.post('/api/registerUsers', async(req, res) => {
       day: 'numeric'
       });
     const eventLocation = eventDetails[0].event_location;
-    
+
     const result = await db.addUsers(requestData);
     let config = {
       service: 'gmail',
@@ -130,24 +130,46 @@ app.put('/api/editUser/:user_id', (req, res) => {
 
 //admin login
 
-app.post('/api/adminLogin', (req, res) => {
-  const {email, password} = req.body;
-  const db = DbService.getDbLearningInstance();
-  const result = db.loginAdmin(email, password);
+// app.post('/api/adminLogin', async(req, res) => {
+//   const {email, password} = req.body;
+//   const db = DbService.getDbLearningInstance();
+//   console.log(db);
+//   const result = db.loginAdmin(email, password);
+//   // console.log(result);
+//   result
+//     .then((loginSuccessful) => {
+//       if (loginSuccessful) {
+//         const adminData = await db.getAdminEmail(email);
+//         res.json({ success: true, message: 'Login successful' });
+//     }else {
+//       res.status(401).json({ success: false, message: 'Invalid email and password' });
+//     }
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//     res.status(500).json({ success: false, error: 'Server error' });
+//   });
+// })
 
-  result
-    .then((loginSuccessful) => {
-      if (loginSuccessful) {
-        res.json({ success: true, message: 'Login successful' });
-    }else {
+app.post('/api/adminLogin', async (req, res) => {
+  const { email, password } = req.body;
+  const db = DbService.getDbLearningInstance();
+
+  try {
+    const loginSuccessful = await db.loginAdmin(email, password);
+
+    if (loginSuccessful) {
+      const adminData = await db.getAdminEmail(email);
+      // console.log('adminData',adminData);
+      res.json({ success: true, message: 'Login successful', adminData });
+    } else {
       res.status(401).json({ success: false, message: 'Invalid email and password' });
     }
-  })
-  .catch((err) => {
+  } catch (err) {
     console.log(err);
     res.status(500).json({ success: false, error: 'Server error' });
-  });
-})
+  }
+});
 
 
 //   try {

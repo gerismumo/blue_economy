@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function AdminPage() {
     const navigate = useNavigate();
+    let user = JSON.parse(localStorage.getItem('user'));
     const[showAdminAddForm, setShowAdminAddForm] = useState(false);
     const [eventDetails, setEventDetails] = useState({
         about_event: '',
@@ -134,6 +135,14 @@ function AdminPage() {
     const[adminList, setAdminList] = useState([]);
     const admin_list_api = `${process.env.REACT_APP_API_URL}/api/adminList`;
     useEffect(() => {
+
+        if(user.organiser_role != 'admin'){
+            navigate('/login');
+        }
+        if(!user){
+            navigate('/');
+          }
+
         fetch(admin_list_api)
         .then(response => {
             if(!response.ok) {
@@ -165,20 +174,88 @@ function AdminPage() {
         }
         
     }
+    const logout = () => {
+        localStorage.removeItem('user');
+        navigate('/');
+    }
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+
+    const toggleDropdown = () => {
+        setDropdownVisible((dropdownVisible) => !dropdownVisible);
+    }
     return (
         <div className="admin-page">
             < div className='header'>
+                
                 <nav>
-                    <div className="nav-logo">
-                        <img src='/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg'
-                        className='logo'/>
+                    <div className="header-logo">
+                        <img src="/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg" width="200px" 
+                                className="logo-image"
+                            />
                     </div>
-                    <div className="nav-home">
-                        <button onClick={handleEditForm}>{showEditDetails ? 'Close' : 'Event Details'}</button>
-                        <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add'}</button>
-                        <Link to='/'>Home</Link>
+                    <div className="links">
+                    
+                    <div className="bigscreen">
+                    {user ? (
+                                <>
+                                {user.organiser_role === 'admin' ?(
+                                    <>
+                                        <button><Link to='/'>Home</Link></button>
+                                        <button><Link  to="/dashboard">Dashboard</Link></button>
+                                        <button onClick={handleEditForm}>{showEditDetails ? 'Close' : 'Event Details'}</button>
+                                        <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add'}</button>
+                                        
+                                        
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
+                                
+                                <div className="profile">
+                                    <h3 style={{marginTop: '-5px'}}>{user.admin_name}</h3>
+                                    <span style={{position: 'relative', fontSize: 'small', fontWeight:'700', marginTop:'-20px'}}>{user.organiser_role}</span>
+                                </div>
+                                
+                                <button onClick={() =>logout()}>Logout</button>
+                            </>
+                            ) : (
+                                <Link  to="/login">Login</Link>
+                            )}
+                    </div>
+                    <div className="dropdown" onClick={toggleDropdown}>
+                        Menu
+                    </div>
+
                     </div>
                 </nav>
+                {dropdownVisible && (
+                <div className="dropdown-content" onClick={toggleDropdown}>
+                     {user ? (
+                                <>
+                                {user.organiser_role === 'admin' ?(
+                                    <>
+                                        <button><Link to='/'>Home</Link></button>
+                                        <button><Link  to="/dashboard">Dashboard</Link></button>
+                                        <button onClick={handleEditForm}>{showEditDetails ? 'Close' : 'Event Details'}</button>
+                                        <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add'}</button>
+                                        
+                                        
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
+                                
+                                <div className="profile">
+                                    <h3 style={{marginTop: '-5px'}}>{user.admin_name}</h3>
+                                    <span style={{position: 'relative', fontSize: 'small', fontWeight:'700'}}>{user.organiser_role}</span>
+                                </div>
+                                
+                                <button onClick={() =>logout()}>Logout</button>
+                            </>
+                            ) : (
+                                <Link  to="/login">Login</Link>
+                            )}
+                </div>)}
             </div>
             <ToastContainer />
             <div className="table-data">

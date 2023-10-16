@@ -161,6 +161,24 @@ class DbLearning {
         }
      }
 
+     async getAdminEmail(email) {
+        try {
+            const query = 'SELECT * FROM admin_table WHERE admin_email = ?';
+            const getUser = await new Promise((resolve,reject) => {
+                connection.query(query,[email], (err, result) => {
+                    if(err) {
+                        reject(err);
+                    }else {
+                        resolve(result.length > 0 ? result[0] : null);
+                      }
+                });
+            });
+            return getUser;
+        } catch (error) {
+            console.log(error);
+        }
+     }
+
      async confirmAttend(userId, attendedStatus) {
         try {
             const query = 'UPDATE users_list SET attend_status = ? WHERE user_id = ?';

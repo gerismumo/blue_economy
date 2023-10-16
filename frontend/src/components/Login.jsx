@@ -55,17 +55,27 @@ function Login() {
           }
       
           const data = await response.json();
-
+        
           if (data.success) {
+            
+            localStorage.setItem('user', JSON.stringify(data.adminData));
+           
+            let user = JSON.parse(localStorage.getItem('user'));
+            console.log('user',user);
             const isAdmin = adminList.some((admin) => {
-                      return admin.admin_email === email && admin.organiser_role === 'organiser';
+                      return (admin.admin_email === email && admin.organiser_role === 'organiser') || (admin.admin_email === email && admin.organiser_role === 'admin') ;
                         });
       
             if (isAdmin) {
               setAuthenticated(true);
               toast.success('Successfully logged in');
               setTimeout(() => {
-                navigate('/dashboard');
+                if(user.organiser_role==='admin') {
+                  navigate('/adminPage');
+                } else {
+                  navigate('/dashboard');
+                }
+                
               },3000)
               
             } else {

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 function Home() { 
     const navigate = useNavigate();
+    let user = JSON.parse(localStorage.getItem('user'));
     const handleButtonClick = () => {
         navigate('/register');
     }
@@ -53,9 +54,30 @@ function Home() {
     month: 'long',
     day: 'numeric'
     });
+
+   
+    const logout = () => {
+        localStorage.removeItem('user');
+        navigate('/');
+    }
+    // useEffect(() => {
+    //     if(user.organiser_role != 'admin'){
+    //       navigate('/login');
+    //    }
+    //    if(!user){
+    //     navigate('/');
+    //   }
+    //   }, navigate);
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+
+    const toggleDropdown = () => {
+        setDropdownVisible((dropdownVisible) => !dropdownVisible);
+    }
     return (
         <div className="home">
            <div className="home-header">
+            
+            
                 <nav>
                     <div className="header-logo">
                         <img src="/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg" 
@@ -63,12 +85,60 @@ function Home() {
                             />
                     </div>
                     <div className="links">
-                        <Link  to="/login">Login</Link>
-                        <Link  to="/adminPage">Admin Page </Link>
-                        <Link  to="/dashboard">Dashboard</Link>
-                    </div>    
+                    
+                    <div className="bigscreen">
+                    {user ? (
+                                <>
+                                {user.organiser_role === 'admin' ?(
+                                    <>
+                                        <Link  to="/adminPage">Admin Page </Link>
+                                        
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
+                                
+                                <div className="profile">
+                                    <h3 style={{marginTop: '-5px'}}>{user.admin_name}</h3>
+                                    <span style={{position: 'relative', fontSize: 'small', fontWeight:'700', marginTop:'-20px'}}>{user.organiser_role}</span>
+                                </div>
+                                <Link  to="/dashboard">Dashboard</Link>
+                                <button onClick={() =>logout()}>Logout</button>
+                            </>
+                            ) : (
+                                <Link  to="/login">Login</Link>
+                            )}
+                    </div>
+                    <div className="dropdown" onClick={toggleDropdown}>
+                        Menu
+                    </div>
+
+                    </div>
                 </nav>
-           </div>
+                {dropdownVisible && (
+                <div className="dropdown-content" onClick={toggleDropdown}>
+                    {user ? (
+                                <>
+                                {user.organiser_role === 'admin' ?(
+                                    <>
+                                        <Link  to="/adminPage">Admin Page </Link>
+                                        
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
+                                
+                                <div className="profile">
+                                    <h3 style={{marginTop: '-5px'}}>{user.admin_name}</h3>
+                                    <span style={{position: 'relative', fontSize: 'small', fontWeight:'700'}}>{user.organiser_role}</span>
+                                </div>
+                                <Link  to="/dashboard">Dashboard</Link>
+                                <button onClick={() =>logout()}>Logout</button>
+                            </>
+                    ) : (
+                     <Link  to="/login">Login</Link>
+                    )}
+                </div>)}
            <div className="home-content">
                 <div className="home-info">
                     <h1>About this event</h1>
@@ -99,6 +169,7 @@ function Home() {
                 </div>
                 
            </div>
+            </div>
         </div>
     )
 }

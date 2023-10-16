@@ -1,15 +1,16 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as XLSX from 'xlsx';
 import { setAuthenticated } from '../utils/ProtectedRoute';
 function Dashboard() {
-
+const navigate = useNavigate();
     // const [importedData, setImportedData] = useState(null);
     const[usersList, setUsersList] = useState([]);
+    let user = JSON.parse(localStorage.getItem('user'));
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const[errorMessages, setErrorMessages] = useState({});
@@ -317,7 +318,7 @@ function Dashboard() {
                     
                 })
                   .catch ((error) => {
-                    toast.error('server error');
+                    console.error('Error:', error);
                   });
             }
             const [attendedStatuses, setAttendedStatuses] = useState({});
@@ -340,7 +341,7 @@ function Dashboard() {
                 // Fetch and set the initial attendedStatuses when the component mounts
                 fetchInitialAttendStatuses();
               }, []);
-              console.log('attendedStatuses',attendedStatuses);
+            //   console.log('attendedStatuses',attendedStatuses);
             
 
             async function handleCheckboxConfirm(event) {
@@ -397,7 +398,21 @@ function Dashboard() {
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Users Data');
         XLSX.writeFile(workbook, 'users_data.xlsx');
       };
-      
+   
+      const logout = () => {
+        localStorage.removeItem('user');
+        navigate('/');
+    }
+    useEffect(() => {
+       if(!user){
+        navigate('/');
+      }
+      }, navigate);
+      const [dropdownVisible, setDropdownVisible] = useState(false);
+
+      const toggleDropdown = () => {
+          setDropdownVisible((dropdownVisible) => !dropdownVisible);
+      }
     return (
         <div>
             {loading && <p>...loading</p>}
@@ -412,6 +427,7 @@ function Dashboard() {
                     </div>
                     <div className="nav-home">
                         <Link to='/'>Home</Link>
+                        <button onClick={logout}>Logout</button>
                     </div>
                 </nav>
             </div>
@@ -585,7 +601,7 @@ function Dashboard() {
                             Social Media
                         </label>
                         </div>
-                        <div className="select-checkboxes">
+                        {/* <div className="select-checkboxes">
                         <label className="checkbox-label">
                             <input
                                 type="checkbox"
@@ -597,7 +613,7 @@ function Dashboard() {
                             />
                             LinkedIn
                         </label>
-                        </div>
+                        </div> */}
                         <div className="select-checkboxes">
                         <label className="checkbox-label">
                             <input
@@ -611,7 +627,7 @@ function Dashboard() {
                             Word of Month
                         </label>
                         </div>
-                        <div className="select-checkboxes">
+                        {/* <div className="select-checkboxes">
                         <label className="checkbox-label">
                             <input
                                 type="checkbox"
@@ -623,7 +639,7 @@ function Dashboard() {
                             />
                             whatsapp
                         </label>
-                        </div>
+                        </div> */}
                         
                         <label htmlFor="form">Did you attend last year's Blue Economy Summit?</label>
                         <select name="attend_last_year" id="attend" value={editingUser.attend_last_year} onChange={handleChanges}>
@@ -635,6 +651,8 @@ function Dashboard() {
                             <option value="blue economy">Blue Economy</option>
                             <option value="climate change">Climate Change</option>
                             <option value="digital economy">Digital Economy</option>
+                            <option value="circular economy">Circular economy</option>
+                            <option value="cybersecurity ">Cybersecurity </option>
                             <option value="all if possible">All if Possible</option>
                         </select>
                         <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>
@@ -651,11 +669,18 @@ function Dashboard() {
                             <option value="Sponsor/Donor"></option>
                         </select>
                         <label htmlFor="form">Describe your product or the services that you offer?</label>
-                        <input type="text"
+                        {/* <input type="text"
                         name='describe_product'
                         value={editingUser.describe_product}
                         onChange={handleChanges}
-                        />
+                        /> */}
+                        <textarea
+                            name='describe_product'
+                            value={editingUser.describe_product}
+                            onChange={handleChanges}
+                            rows={5} // Adjust the number of rows as needed
+                            cols={40} // Adjust the number of columns as needed
+                            ></textarea>
                         <label htmlFor="form">Which category do you fall in?</label>
                         <select name="category_fall" value={editingUser.category_fall} onChange={handleChanges}>
                             <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>
@@ -750,7 +775,7 @@ function Dashboard() {
                         Social Media
                     </label>
                     </div>
-                    <div className="select-checkboxes">
+                    {/* <div className="select-checkboxes">
                     <label className="checkbox-label">
                         <input
                             type="checkbox"
@@ -762,7 +787,7 @@ function Dashboard() {
                         />
                         LinkedIn
                     </label>
-                    </div>
+                    </div> */}
                     <div className="select-checkboxes">
                     <label className="checkbox-label">
                         <input
@@ -776,7 +801,7 @@ function Dashboard() {
                         Word of Month
                     </label>
                     </div>
-                    <div className="select-checkboxes">
+                    {/* <div className="select-checkboxes">
                     <label className="checkbox-label">
                         <input
                             type="checkbox"
@@ -788,7 +813,7 @@ function Dashboard() {
                         />
                         whatsapp
                     </label>
-                    </div>
+                    </div> */}
                     
                     <label htmlFor="form">Did you attend last year's Blue Economy Summit?</label>
                     <span>{errorMessages.attendLastYear}</span>
@@ -804,6 +829,8 @@ function Dashboard() {
                         <option value="blue economy">Blue Economy</option>
                         <option value="climate change">Climate Change</option>
                         <option value="digital economy">Digital Economy</option>
+                        <option value="circular economy">Circular economy</option>
+                        <option value="cybersecurity ">Cybersecurity </option>
                         <option value="all if possible">All if Possible</option>
                     </select>
                     <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>
@@ -821,15 +848,22 @@ function Dashboard() {
                         <option value="Delegate">Delegate</option>
                         <option value="Government">Government</option>
                         <option value="Exhibitor">Exhibitor</option>
-                        <option value="Sponsor/Donor"></option>
+                        <option value="Sponsor/Donor">Sponsor/Donor</option>
                     </select>
                     <label htmlFor="form">Describe your product or the services that you offer?</label>
                     <span>{errorMessages.describeYourProduct}</span>
-                    <input type="text"
+                    {/* <input type="text"
                     name='describeYourProduct'
                     value={formData.describeYourProduct}
                     onChange={handleChange}
-                     />
+                     /> */}
+                     <textarea
+                            name='describeYourProduct'
+                            value={formData.describeYourProduct}
+                            onChange={handleChange}
+                            rows={5} // Adjust the number of rows as needed
+                            cols={40} // Adjust the number of columns as needed
+                            ></textarea>
                     <label htmlFor="form">Which category do you fall in?</label>
                     <span>{errorMessages.categoryFall}</span>
                     <select name="categoryFall" onChange={handleChange}>
