@@ -34,7 +34,15 @@ app.post('/api/registerUsers', async(req, res) => {
       return res.status(400).json({ success: false, error: 'User already registered' });
       
     }
-
+    const eventDetails = await db.getEventDetails();
+    const eventDate = eventDetails[0].event_date;
+    const formattedDate = new Date(eventDate).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+      });
+    const eventLocation = eventDetails[0].event_location;
+    
     const result = await db.addUsers(requestData);
     let config = {
       service: 'gmail',
@@ -50,7 +58,7 @@ app.post('/api/registerUsers', async(req, res) => {
       from : process.env.EMAIL_USERNAME,
       to : requestData.email,
       subject: 'Welcome to Blue Economy Summit',
-      text: `Dear ${requestData.name},\n\nThank you for registering for the Blue Economy Summit 2023. We are excited to have you join us!\n\nEvent Details:\nDate: October 25, 2023\nLocation:\nMombasa\n\nLooking forward to seeing you at the event.\n\nBest regards,\nThe Blue Economy Summit Team`,
+      text: `Dear ${requestData.name},\n\nThank you for registering for the Blue Economy Summit 2023. We are excited to have you join us!\n\nEvent Details:\nDate: ${formattedDate}\nLocation:\n${eventLocation}\n\nLooking forward to seeing you at the event.\n\nBest regards,\nThe Blue Economy Summit Team`,
     };
 
     transporter.sendMail(data).then(() => {
