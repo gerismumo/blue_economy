@@ -76,8 +76,6 @@ function Home() {
     return (
         <div className="home">
            <div className="home-header">
-            
-            
                 <nav>
                     <div className="header-logo">
                         <img src="/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg" 
@@ -110,7 +108,7 @@ function Home() {
                             )}
                     </div>
                     <div className="dropdown" onClick={toggleDropdown}>
-                        Menu
+                        {dropdownVisible ? 'Close' : 'Menu'}
                     </div>
 
                     </div>
@@ -121,6 +119,10 @@ function Home() {
                                 <>
                                 {user.organiser_role === 'admin' ?(
                                     <>
+                                        <div className="profile-icon">
+                                            <h3 style={{marginTop: '-5px'}}>{user.admin_name}</h3>
+                                            <span style={{position: 'relative', fontSize: 'small', fontWeight:'700'}}>{user.organiser_role}</span>
+                                        </div>
                                         <Link  to="/adminPage">Admin Page </Link>
                                         
                                     </>
@@ -128,10 +130,6 @@ function Home() {
                                     <></>
                                 )}
                                 
-                                <div className="profile">
-                                    <h3 style={{marginTop: '-5px'}}>{user.admin_name}</h3>
-                                    <span style={{position: 'relative', fontSize: 'small', fontWeight:'700'}}>{user.organiser_role}</span>
-                                </div>
                                 <Link  to="/dashboard">Dashboard</Link>
                                 <button onClick={() =>logout()}>Logout</button>
                             </>

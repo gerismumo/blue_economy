@@ -203,27 +203,23 @@ function AdminPage() {
                                         <button><Link to='/'>Home</Link></button>
                                         <button><Link  to="/dashboard">Dashboard</Link></button>
                                         <button onClick={handleEditForm}>{showEditDetails ? 'Close' : 'Event Details'}</button>
-                                        <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add'}</button>
-                                        
-                                        
+                                        <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add'}</button>    
                                     </>
                                 ) : (
                                     <></>
                                 )}
-                                
+                                <button onClick={() =>logout()}>Logout</button>
                                 <div className="profile">
                                     <h3 style={{marginTop: '-5px'}}>{user.admin_name}</h3>
                                     <span style={{position: 'relative', fontSize: 'small', fontWeight:'700', marginTop:'-20px'}}>{user.organiser_role}</span>
                                 </div>
-                                
-                                <button onClick={() =>logout()}>Logout</button>
                             </>
                             ) : (
                                 <Link  to="/login">Login</Link>
                             )}
                     </div>
                     <div className="dropdown" onClick={toggleDropdown}>
-                        Menu
+                        {dropdownVisible ? 'Close' : 'Menu'}
                     </div>
 
                     </div>
@@ -234,6 +230,10 @@ function AdminPage() {
                                 <>
                                 {user.organiser_role === 'admin' ?(
                                     <>
+                                        <div className="profile-icon">
+                                            <h3 style={{marginTop: '-10px'}}>{user.admin_name}</h3>
+                                            <span style={{position: 'relative', fontSize: 'small', fontWeight:'700'}}>{user.organiser_role}</span>
+                                        </div>
                                         <button><Link to='/'>Home</Link></button>
                                         <button><Link  to="/dashboard">Dashboard</Link></button>
                                         <button onClick={handleEditForm}>{showEditDetails ? 'Close' : 'Event Details'}</button>
@@ -244,12 +244,6 @@ function AdminPage() {
                                 ) : (
                                     <></>
                                 )}
-                                
-                                <div className="profile">
-                                    <h3 style={{marginTop: '-5px'}}>{user.admin_name}</h3>
-                                    <span style={{position: 'relative', fontSize: 'small', fontWeight:'700'}}>{user.organiser_role}</span>
-                                </div>
-                                
                                 <button onClick={() =>logout()}>Logout</button>
                             </>
                             ) : (

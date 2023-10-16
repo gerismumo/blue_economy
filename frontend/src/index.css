@@ -665,7 +665,7 @@ p.error {
     padding: 20px;
   }
 }
-.profile{
+.home .home-header .profile{
   /* margin: 10px; */
   border-radius: 3px;
   background-color: gray;
@@ -706,7 +706,7 @@ p.error {
 }
 .home .home-header nav .logo-image{
   height: 60px;
-  width: 250px;
+  width: 350px;
 }
 /* CSS for styling the links */
 .home .home-header nav .links {
@@ -718,8 +718,8 @@ p.error {
   background-color: #f0f0f0; */
 }
 
-.home .home-header nav .links a ,
-.home .home-header nav .links button
+.home .home-header nav .links .bigscreen a ,
+.home .home-header nav .links .bigscreen button
 {
   text-decoration: none;
   color: #ffffff;
@@ -728,14 +728,14 @@ p.error {
   background-color: #38b6ff;
   border-radius: 3px;
 }
-.home .home-header nav .links button{
+.home .home-header nav .links .bigscreen button{
   outline: none;
   border: none;
   cursor: pointer;
 }
 
-.home .home-header nav .links a:hover,
-.home .home-header nav .links button:hover
+.home .home-header nav .links .bigscreen a:hover,
+.home .home-header nav .links .bigscreen button:hover
  {
   background-color: #1c87d9;
   color: #fff;
@@ -830,45 +830,85 @@ p.error {
 /* .home .links .dropdown {
   display: none;
 } */
-.bigscreen{
+.home .bigscreen{
   display: flex;
   justify-content: flex-end;
+  margin-right: 30px;
+  align-items: center;
 }
 .dropdown {
-  position: fixed;
+  /* position: fixed; */
   top: 10px;
   right: 20px;
   cursor:grab;
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  font-weight: 700;
+  padding: 6px 10px;
+  background-color: #38b6ff;
+  border-radius: 3px;
+  color: #ffffff;
 }
 .dropdown-content {
-
 display: flex;
 flex-direction: column;
 position: fixed;
-top: 50px;
+top: 70px;
 right: 20px;
-background-color: grey;
+background-color: #222831;
 color: black;
+font-weight: 700;
 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 border-radius: 5px;
 padding: 10px;
 z-index: 999;
+border: 1px solid #ccc;
 }
 
 .dropdown-content a {
-color: black;
+color: white;
 text-decoration: none;
-padding: 8px 16px;
+padding: 5px 16px;
 display: block;
 cursor: pointer;
+margin-bottom: 3px;
+}
+.dropdown-content a:hover{
+  background-color: lightgray;
+}
+.dropdown-content .profile{
+  background-color: #222831;
 }
 .dropdown-content button {
-  background-color: grey;
+  /* background-color: gre; */
   border: none;
+  margin-bottom: 3px;
+  padding: 5px 16px;
+  background-color: #222831;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 17px;
 }
-.dropdown-content a:hover {
-background-color: #f1f1f1;
+.dropdown-content button:hover {
+  background-color: lightgray;
 }
+.dropdown-content .profile-icon {
+  margin-bottom: 3px;
+  border-radius: 3px;
+  background-color: #ccc;
+  color: black;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.dropdown-content .profile-icon:hover{
+  background-color: lightgray;
+}
+/* .dropdown-content a:hover {
+background-color: grey;
+} */
 
 @media screen and (min-width:800px) {
   .dropdown {
@@ -877,11 +917,14 @@ background-color: #f1f1f1;
 }
 @media screen and (max-width:800px) {
  
-  .bigscreen{
+  .home .bigscreen{
     display: none;
   }
   .home .home-header nav{
     padding: 5px;
+  }
+  .home .home-header nav .logo-image{
+    width: 250px;
   }
   .home .home-info h1{
     font-size: 20px;
@@ -1010,46 +1053,85 @@ background-color: #f1f1f1;
 /* admin page css */
 
 /* Style for the header */
-.admin-page .header {
-  background-color: white;
-  padding: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.25);
-  width: 100%;
+.admin-page .header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   position: fixed;
+  width: 100%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.25);
+  padding: 10px;
+  background-color: white;
+  top: 0;
+  /* margin-bottom: 100px; */
 }
-.admin-page .header nav {
+.admin-page .header nav{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
-.admin-page .nav-logo img.logo {
-  max-width: 300px;
+/* .admin-page .home-header nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+} */
+.admin-page .header-logo .logo-image {
+  max-width: 400px;
   height: 60Px;
 }
-
-.admin-page .nav-home button,
-.admin-page .nav-home a {
+.admin-page .links .bigscreen{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 40px;
+}
+.admin-page .header .profile{
+  /* margin: 10px; */
+  border-radius: 3px;
+  background-color: gray;
+  color: black;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.admin-page .header nav  .links {
+  display: flex;
+  align-items: center;
+}
+.admin-page .header nav  .links .dropdown {
+  display: flex;
+  align-items: center;
+}
+.admin-page .links .bigscreen .profile {
+  margin-left: 20px;
+}
+.admin-page .links .bigscreen button,
+.admin-page .links .bigscreen a {
   margin-left: 10px;
   padding: 10px 20px;
   border: none;
-  /* background-color: #38b6ff; */
-  background-color: whitesmoke;
-  color: black;
+  background-color: #38b6ff;
+  color: #ffffff;
+  font-weight: 700;
   cursor: pointer;
   text-decoration: none;
   border-radius: 3px;
 }
 
-.admin-page .nav-home button:hover,
-.admin-page .nav-home a:hover {
+.admin-page .links .bigscreen button:hover,
+.admin-page .links .bigscreen a:hover {
   background-color: #1c87d9;
 }
 
-.admin-page .nav-home button:last-child,
+/* .admin-page .nav-home button:last-child,
 .admin-page .nav-home a:last-child {
   margin-left: 20px;
+} */
+.admin-page .links .bigscreen {
+  margin-left: 20px;
 }
-
 
 
 /* .home-detail {
@@ -1180,7 +1262,7 @@ background-color: #f1f1f1;
 
 /* Style for the admin table */
 .admin-page .table-data {
-  margin-top: 80px;
+ margin-top: 100px;
 }
 .admin-table {
  
@@ -1242,6 +1324,9 @@ background-color: #f1f1f1;
   .admin-page .nav-logo img.logo{
     max-width: 180px;
     height: 50px;
+  }
+  .admin-page .links .bigscreen{
+    display: none;
   }
   .admin-page .nav-home button,
 .admin-page .nav-home a {
