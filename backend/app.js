@@ -24,7 +24,7 @@ const DbService = require('./DbService');
 // }
 
 //register user
-app.post('/registerUsers', async(req, res) => {
+app.post('/api/registerUsers', async(req, res) => {
   const requestData = req.body;
   const db = DbService.getDbLearningInstance();
 
@@ -64,7 +64,7 @@ app.post('/registerUsers', async(req, res) => {
 });
 
 //select users 
-app.get('/usersList', (req, res) => {
+app.get('/api/usersList', (req, res) => {
   const db = DbService.getDbLearningInstance();
   const result = db.usersList();
 
@@ -77,7 +77,7 @@ app.get('/usersList', (req, res) => {
 
 
 //delete admin
-app.delete('/deleteUser/:user_id', (req, res) => {
+app.delete('/api/deleteUser/:user_id', (req, res) => {
   const {user_id } = req.params;
    
   const db = DbService.getDbLearningInstance();
@@ -90,7 +90,7 @@ app.delete('/deleteUser/:user_id', (req, res) => {
 });
 //edit admin
 
-app.put('/editUser/:user_id', (req, res) => {
+app.put('/api/editUser/:user_id', (req, res) => {
   const {user_id} = req.params;
   const editingUser = req.body;
 
@@ -122,7 +122,7 @@ app.put('/editUser/:user_id', (req, res) => {
 
 //admin login
 
-app.post('/adminLogin', (req, res) => {
+app.post('/api/adminLogin', (req, res) => {
   const {email, password} = req.body;
   const db = DbService.getDbLearningInstance();
   const result = db.loginAdmin(email, password);
@@ -141,7 +141,30 @@ app.post('/adminLogin', (req, res) => {
   });
 })
 
-app.put('/attendedStatuses', (req, res) => {
+
+//   try {
+//     const { email, password } = req.body;
+//     const db = DbService.getDbLearningInstance();
+//     const admin = await db.getOrganiserByEmail(email);
+
+//     if (!admin) {
+//       return res.status(401).json({ success: false, message: 'Invalid email or password' });
+//     }
+
+//     const isPasswordValid = password === admin.admin_password;
+
+//     if (!isPasswordValid) {
+//       return res.status(401).json({ success: false, message: 'Invalid email or password' });
+//     }
+
+//     res.json({ success: true, message: 'Login successful' });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ success: false, message: 'Server error' });
+//   }
+// });
+
+app.put('/api/attendedStatuses', (req, res) => {
   const {userId, attendedStatus} = req.body;
 
   const db = DbService.getDbLearningInstance();
@@ -153,7 +176,7 @@ app.put('/attendedStatuses', (req, res) => {
   .catch(err => console.log(err));
 });
 
-app.get('/attendStatus', (req, res) => {
+app.get('/api/attendStatus', (req, res) => {
   const db = DbService.getDbLearningInstance();
   const result = db.selectAttendStatus();
   result
@@ -163,7 +186,7 @@ app.get('/attendStatus', (req, res) => {
   .catch((err) => console.log(err));
 });
 
-app.get('/eventDetails', (req, res) => {
+app.get('/api/eventDetails', (req, res) => {
   const db = DbService.getDbLearningInstance();
   const result = db.getEventDetails();
   result 
@@ -173,7 +196,7 @@ app.get('/eventDetails', (req, res) => {
   .catch((err) => console.log(err));
 });
 
-app.put('/updateDetails', (req, res) => {
+app.put('/api/updateDetails', (req, res) => {
   const {about_event, event_date, event_location  } = req.body;
 
   const db = DbService.getDbLearningInstance();
@@ -185,7 +208,7 @@ app.put('/updateDetails', (req, res) => {
   .catch(err => res.json({success:false, err:err}));
 });
 
-app.post('/addAdmin', async(req, res) => {
+app.post('/api/addAdmin', async(req, res) => {
   const {name,email, password} = req.body;
 
   const db = DbService.getDbLearningInstance();
@@ -226,7 +249,7 @@ app.post('/addAdmin', async(req, res) => {
   
 });
 
-app.get('/adminList', (req, res) => {
+app.get('/api/adminList', (req, res) => {
  
   const db = DbService.getDbLearningInstance();
   const result = db.adminList();
@@ -237,7 +260,7 @@ app.get('/adminList', (req, res) => {
   .catch(err => res.json({success: false, err:err}));
 });
 
-app.delete('/deleteAdmin/:admin_id', (req, res) => {
+app.delete('/api/deleteAdmin/:admin_id', (req, res) => {
   const {admin_id} = req.params;
   const db = DbService.getDbLearningInstance();
   const result = db.deleteAdmin(admin_id);
@@ -246,7 +269,16 @@ app.delete('/deleteAdmin/:admin_id', (req, res) => {
     req.json({success: true, data: data});
   })
   .catch(err => res.json({error: err}));
-})
+});
+
+app.get('/api/combinedRoles', (req, res) => {
+  const db = DbService.getDbLearningInstance();
+  const result = db.combineRoles();
+  result.then(data => {
+    res.json({success: true, data: data});
+  })
+  .catch(err => res.json({error: err}));
+});
 
 
 app.listen(process.env.PORT, () => console.log('server is running'));

@@ -649,7 +649,7 @@ p.error {
 }
 .home .home-header nav {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background-color:white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -660,6 +660,29 @@ p.error {
   height: 60px;
   width: 350px;
 }
+/* CSS for styling the links */
+.home .home-header nav .links {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  /* padding: 10px;
+  background-color: #f0f0f0; */
+}
+
+.home .home-header nav .links a {
+  text-decoration: none;
+  color: #ffffff;
+  padding: 6px 10px;
+  margin: 0 10px;
+  background-color: #38b6ff;
+  border-radius: 3px;
+}
+
+.home .home-header nav .links a:hover {
+  background-color: #1c87d9;
+  color: #fff;
+}
+
 .home .home-info {
   display: flex;
   flex-direction: column;

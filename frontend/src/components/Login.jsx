@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import { setAuthenticated } from '../utils/ProtectedRoute';
 
 function Login() {
@@ -15,10 +17,33 @@ function Login() {
     setPassword(e.target.value);
   };
 
+  const[adminList, setAdminList] = useState([]);
+  const admin_list_api = `${process.env.REACT_APP_API_URL}/api/adminList`;
+    useEffect(() => {
+        fetch(admin_list_api)
+        .then(response => {
+            if(!response.ok) {
+                toast.error('Error fetching admin list');
+            }
+            return response.json();
+        })
+        .then(data => {
+            setAdminList(data.data);
+        })
+        .catch(err => toast.error(err.message));
+    }, [admin_list_api]);
+    // console.log('admilist',adminList);
+
+    // for(const admin of adminList) {
+    //   console.log(admin.admin_email)
+    //   console.log(admin.organiser_role)
+    // }
+
   const handleSubmit = async(e) => {
     e.preventDefault();
     try {
-        const response = await  fetch('http://localhost:5000/adminLogin', {
+      const admin_login_api = `${process.env.REACT_APP_API_URL}/api/adminLogin`;
+        const response = await  fetch(admin_login_api, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,22 +51,40 @@ function Login() {
             body: JSON.stringify({email, password}),
         });
         if (!response.ok) {
-            throw new Error('Network response was not okay');
+            toast.error('Invalid credentials');
           }
       
           const data = await response.json();
-          alert(JSON.stringify(data.message)); 
-          setAuthenticated(true);
-          navigate ('/dashboard');
+
+          if (data.success) {
+            const isAdmin = adminList.some((admin) => {
+                      return admin.admin_email === email && admin.organiser_role === 'organiser';
+                        });
+      
+            if (isAdmin) {
+              setAuthenticated(true);
+              toast.success('Successfully logged in');
+              setTimeout(() => {
+                navigate('/dashboard');
+              },3000)
+              
+            } else {
+              toast.error('Invalid email or role');
+            }
+          }
+          return;
+           
     } catch (error) {
         console.log(error);
     }
         
   };
 
+ 
   return (
     <div>
         <div className="login-body">
+          <ToastContainer />
           <div className="header">
             <nav>
                     <div className="header-logo">

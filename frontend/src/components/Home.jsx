@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
+
+
 function Home() { 
     const navigate = useNavigate();
     const handleButtonClick = () => {
         navigate('/register');
     }
-
-    
+    const API_URL = `${process.env.REACT_APP_API_URL}/api/usersList`;
     const[usersList, setUsersList] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/usersList')
+        fetch(API_URL)
         .then(response => {
             if(!response.ok) {
                 throw new Error('Failed to fetch persons list');
@@ -22,10 +23,12 @@ function Home() {
         .catch(error => {
             console.log(error.message);
         })
-    }, [])
+    }, [API_URL])
     const[eventDetails, setEventDetails] = useState([]);
+    const Event_Detail_API = `${process.env.REACT_APP_API_URL}/api/eventDetails`;
+    
     useEffect(() => {
-        fetch('http://localhost:5000/eventDetails')
+        fetch(Event_Detail_API)
         .then(response => {
             if(!response.ok) {
                 throw new Error('Error fetching event details');
@@ -42,7 +45,7 @@ function Home() {
         .catch(error => {
             console.log(error.message);
         })
-    }, []);
+    }, [Event_Detail_API]);
       
     const originalDate = eventDetails.event_date;
     const formattedDate = new Date(originalDate).toLocaleDateString('en-US', {
@@ -59,18 +62,23 @@ function Home() {
                                 className="logo-image"
                             />
                     </div>
+                    <div className="links">
+                        <Link  to="/login">Login</Link>
+                        <Link  to="/adminPage">Admin Page </Link>
+                        <Link  to="/dashboard">Dashboard</Link>
+                    </div>    
                 </nav>
            </div>
            <div className="home-content">
                 <div className="home-info">
                     <h1>About this event</h1>
                     <div className="home-info-text">
-                        {/* <p>
-                        {eventDetails.about_event}
-                        </p> */}
                         <p>
-                        The blue economy innovation and investment summit is a one week series of events that will seek to expand knowledge and opportunities that will foster growth of the blue economy. Growing the blue economy will open up opportunities for growth of new industries, innovation of new and improved technologies and open investment opportunities for entrepreneurs. The event is themed at unlocking the potential in the blue economy value chain which is at the heart of the coast region. With a series of events our participants will upskill and upscale through various sessions that will dissect different industries and upholding industry knowledge pillar of good ventures.
+                        {eventDetails.about_event}
                         </p>
+                        {/* <p>
+                        The blue economy innovation and investment summit is a one week series of events that will seek to expand knowledge and opportunities that will foster growth of the blue economy. Growing the blue economy will open up opportunities for growth of new industries, innovation of new and improved technologies and open investment opportunities for entrepreneurs. The event is themed at unlocking the potential in the blue economy value chain which is at the heart of the coast region. With a series of events our participants will upskill and upscale through various sessions that will dissect different industries and upholding industry knowledge pillar of good ventures.
+                        </p> */}
                     </div>
                 </div>
                 <div className="event-header">

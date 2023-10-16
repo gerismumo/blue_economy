@@ -130,8 +130,9 @@ function Register() {
           };
         
           
+          const register_user_api = `${process.env.REACT_APP_API_URL}/api/registerUsers`;
 
-        fetch('http://localhost:5000/registerUsers', {
+        fetch(register_user_api, {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json'

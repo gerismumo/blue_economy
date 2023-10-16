@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as XLSX from 'xlsx';
+import { setAuthenticated } from '../utils/ProtectedRoute';
 function Dashboard() {
 
     // const [importedData, setImportedData] = useState(null);
@@ -15,37 +16,7 @@ function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // const onDrop = (acceptedFiles) => {
-    //     acceptedFiles.forEach((file) => {
-    //         const reader = new FileReader();
-    //         reader.onload = (e) => {
-    //         const data = new Uint8Array(e.target.result);
-    //         const workbook = XLSX.read(data, { type: 'array' });
-    //         const sheetName = workbook.SheetNames[0];
-    //         const sheet = workbook.Sheets[sheetName];
-    //         const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-    //         setImportedData((prevData) => (prevData ? [...prevData, ...jsonData.slice(1)] : jsonData));
-    //         };
-    //         reader.readAsArrayBuffer(file);
-    //     })
-    //   };
-      
-    //   const { getRootProps, getInputProps } = useDropzone({
-    //     onDrop,
-    //     accept: '.xlsx, .xls',
-    //   });
-      
-    //   const exportToExcel = () => {
-    //     if (importedData) {
-    //       const worksheet = XLSX.utils.aoa_to_sheet(importedData);
-    //       const workbook = XLSX.utils.book_new();
-    //       XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-    //       XLSX.writeFile(workbook, 'registered_users.xlsx');
-    //     }
-    //   };
-    //   const clearTable = () => {
-    //     setImportedData(null);
-    //   }
+    
 
       //handle search 
       const[searchQuery, setSearchQuery] = useState('');
@@ -75,9 +46,9 @@ function Dashboard() {
         : []
         //get users list 
 
-        
+        const User_List_Api = `${process.env.REACT_APP_API_URL}/api/usersList`;
         useEffect(() => {
-            fetch('http://localhost:5000/usersList')
+            fetch(User_List_Api)
             .then(response => {
                 if(!response.ok) {
                     throw new Error('Failed to fetch persons list');
@@ -87,18 +58,21 @@ function Dashboard() {
             .then(data => {
                 setUsersList(data.data)
                 setLoading(false);
+                setAuthenticated(true);
             })
             .catch(error => {
                 setError(error.message);
                 setLoading(false);
             })
-        }, []);
+        }, [User_List_Api]);
        
         //handle delete user
 
+        
         const handleDeleteUser = async(user_id) => {
             try {
-                const response = await fetch(`http://localhost:5000/deleteUser/${user_id}`, {
+                const delete_user_api = `${process.env.REACT_APP_API_URL}/api/deleteUser/${user_id}`
+                const response = await fetch(delete_user_api, {
                 method: 'DELETE',  
                 })
                 if(response.ok) {
@@ -158,8 +132,8 @@ function Dashboard() {
                         console.log('Invalid editing user data or user_id');
                         return;
                     }
-                    
-                    const response = await fetch(`http://localhost:5000/editUser/${editingUser.user_id}`, {
+                    const API_URL = `${process.env.REACT_APP_API_URL}/api/editUser/${editingUser.user_id}`
+                    const response = await fetch(API_URL, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
@@ -311,8 +285,8 @@ function Dashboard() {
                     selectedCheckBoxes: checkedBoxes.join(','),
                   };
                   
-                  
-                  fetch('http://localhost:5000/registerUsers', {
+                  const Register_User_Api = `${process.env.REACT_APP_API_URL}/api/registerUsers`;
+                  fetch(Register_User_Api, {
                     method: 'POST',
                     headers: {
                         'Content-Type' : 'application/json'
@@ -349,7 +323,8 @@ function Dashboard() {
             const [attendedStatuses, setAttendedStatuses] = useState({});
             const fetchInitialAttendStatuses = async () => {
                 try {
-                  const response = await fetch('http://localhost:5000/attendStatus');
+                    const attend_status_api = `${process.env.REACT_APP_API_URL}/api/attendStatus`;
+                  const response = await fetch(attend_status_api);
                   if (!response.ok) {
                     throw new Error('Failed to fetch initial attendance status from the database');
                   }
@@ -376,10 +351,10 @@ function Dashboard() {
                 ...attendedStatuses,
                 [userId]: attendedStatus
                 });
-                console.log('attendedStatuses', attendedStatuses);
                 
                 try {
-                    const response = await fetch('http://localhost:5000/attendedStatuses', {
+                    const attend_status_ap = `${process.env.REACT_APP_API_URL}/api/attendedStatuses`;
+                    const response = await fetch(attend_status_ap, {
                       method: 'PUT',
                       headers: {
                         'Content-Type': 'application/json',
@@ -423,7 +398,6 @@ function Dashboard() {
         XLSX.writeFile(workbook, 'users_data.xlsx');
       };
       
-        const user = 'user';
     return (
         <div>
             {loading && <p>...loading</p>}

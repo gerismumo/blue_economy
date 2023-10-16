@@ -1,24 +1,6 @@
-const mysql = require('mysql');
-const dotenv = require('dotenv');
-dotenv.config();
+
+const connection = require('./config');
 let instance = null;
-
-const connection =mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    port: process.env.DB_PORT,
-    timeout: 60000 
-});
-
-connection.connect((err) => {
-    if(err){
-        console.log(err.message);
-    }
-    console.log('database' + ' ' + connection.state);
-});
-
 class DbLearning {
     static getDbLearningInstance() {
         return instance ? instance : new DbLearning();
@@ -158,8 +140,19 @@ class DbLearning {
                     if(err) {
                         reject(err);
                     }else {
-                        resolve(result.length > 0);
-                      }
+                        if (result.length > 0) {
+                            const storedPassword = result[0].admin_password;
+                
+                            // Compare the stored password with the provided password
+                            if (storedPassword === password) {
+                              resolve(true); // Passwords match, login successful
+                            } else {
+                              resolve(false); // Passwords do not match
+                            }
+                          } else {
+                            resolve(false); // No user found with the given email
+                          }
+                        }
                 });
             });
             return loginUser;
@@ -315,6 +308,31 @@ class DbLearning {
             });
             return deleteUser;
         } catch (error) {
+            console.log(error);
+        }
+     }
+
+     //select users role 
+
+     async combinedRoles() {
+        try {
+            const query =  `
+            SELECT 'user_role' AS role, * FROM users_list
+            UNION ALL
+            SELECT 'organiser_role' AS role, * FROM admin_table;
+          `;
+
+          const combine = await new Promise((resolve, reject) => {
+            connection.query(query, (err, result) => {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+          });
+          return combine;
+        } catch(error) {
             console.log(error);
         }
      }

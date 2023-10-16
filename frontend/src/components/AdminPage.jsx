@@ -12,8 +12,9 @@ function AdminPage() {
         event_location: ''
     });
 
+    const event_detail_api = `${process.env.REACT_APP_API_URL}/api/eventDetails`;
     useEffect(() => {
-        fetch('http://localhost:5000/eventDetails')
+        fetch(event_detail_api)
             .then(response => {
                 if (!response.ok) {
                     toast.error('Error fetching event details');
@@ -44,7 +45,8 @@ function AdminPage() {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:5000/updateDetails', {
+            const update_detail_api = `${process.env.REACT_APP_API_URL}/api/updateDetails`;
+            const response = await fetch(update_detail_api, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -84,7 +86,8 @@ function AdminPage() {
     const handleAddAdmin = async(e) => {
         e.preventDefault();
         try {
-            const response = await  fetch('http://localhost:5000/addAdmin', {
+            const add_admin_api = `${process.env.REACT_APP_API_URL}/api/addAdmin`;
+            const response = await  fetch(add_admin_api, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -129,8 +132,9 @@ function AdminPage() {
     }
 
     const[adminList, setAdminList] = useState([]);
+    const admin_list_api = `${process.env.REACT_APP_API_URL}/api/adminList`;
     useEffect(() => {
-        fetch('http://localhost:5000/adminList')
+        fetch(admin_list_api)
         .then(response => {
             if(!response.ok) {
                 toast.error('Error fetching admin list');
@@ -141,11 +145,12 @@ function AdminPage() {
             setAdminList(data.data);
         })
         .catch(err => toast.error(err.message));
-    }, []);
+    }, [admin_list_api]);
 
     const handleDeleteUser = async(admin_id) => {
         try{
-            const response = await fetch(`http://localhost:5000/deleteAdmin/${admin_id}`, {
+            const delete_admin_api = `${process.env.REACT_APP_API_URL}/api/deleteAdmin/${admin_id}`;
+            const response = await fetch(delete_admin_api, {
             method: 'DELETE',
             });
             if(!response.ok) {
