@@ -1,5 +1,5 @@
 
-const connection = require('./config');
+const connection = require('../database/config');
 let instance = null;
 class DbLearning {
     static getDbLearningInstance() {
