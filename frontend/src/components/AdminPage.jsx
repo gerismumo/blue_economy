@@ -183,6 +183,8 @@ function AdminPage() {
     const toggleDropdown = () => {
         setDropdownVisible((dropdownVisible) => !dropdownVisible);
     }
+
+    
     return (
         <div className="admin-page">
             < div className='header'>
