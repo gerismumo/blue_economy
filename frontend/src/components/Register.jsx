@@ -167,8 +167,7 @@ function Register() {
         })
         
         .catch ((error) => {
-            console.log('Error in registering User', error);
-            toast.error('Error in registering User');
+            throw(error);
         });  
     }
 

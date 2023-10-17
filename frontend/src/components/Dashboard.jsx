@@ -82,7 +82,7 @@ const navigate = useNavigate();
                     toast.success('Successfully deleted');
                 }
             } catch (error) {
-                console.log(error);
+                throw(error);
             }
         }
 
@@ -319,7 +319,7 @@ const navigate = useNavigate();
                     
                 })
                   .catch ((error) => {
-                    console.error('Error:', error);
+                    throw(error);
                   });
             }
             const [attendedStatuses, setAttendedStatuses] = useState({});
@@ -334,7 +334,7 @@ const navigate = useNavigate();
                   // Assuming the data is returned in the format { userId1: true, userId2: false, ... }
                   setAttendedStatuses(data.data);
                 } catch (error) {
-                  console.error('Error fetching initial attendance status:', error);
+                  throw('Error fetching initial attendance status:', error);
                 }
               };
               

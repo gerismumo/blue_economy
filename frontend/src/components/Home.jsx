@@ -22,7 +22,7 @@ function Home() {
             setUsersList(data.data)
         })
         .catch(error => {
-            console.log(error.message);
+            throw(error.message);
         })
     }, [API_URL])
     const[eventDetails, setEventDetails] = useState([]);
@@ -44,7 +44,7 @@ function Home() {
               }
         })
         .catch(error => {
-            console.log(error.message);
+            throw(error.message);
         })
     }, [Event_Detail_API]);
       

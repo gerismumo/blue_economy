@@ -28,7 +28,6 @@ class DbLearning {
             const addUser = await new Promise((resolve, reject) => {
                 connection.query(query, values, (err, result) => {
                     if (err) {
-                        console.log('Error in executing query', err);
                         reject(err);
                     }
                     resolve(result);
@@ -36,7 +35,7 @@ class DbLearning {
             });
             return addUser;
         } catch (error) {
-            console.log(error);
+            throw(error);
         }
     }
 
@@ -54,7 +53,7 @@ class DbLearning {
             });
             return getUser;
         } catch (error) {
-            console.log(error);
+            throw(error);
         }
      }
 
@@ -73,7 +72,7 @@ class DbLearning {
             });
             return selectUsers;
         }catch (error) {
-            console.log(error);
+            throw(error);
         }
     }
     
@@ -92,7 +91,7 @@ class DbLearning {
             });
             return deleteUser;
         } catch (error) {
-            console.log(error);
+            throw(error);
         }
     }
 
@@ -125,7 +124,6 @@ class DbLearning {
       
           return editUser;
         } catch (error) {
-          console.log(error);
           throw error;
         }
       }
@@ -157,7 +155,7 @@ class DbLearning {
             });
             return loginUser;
         } catch (error) {
-            console.log(error);
+            throw(error);
         }
      }
 
@@ -175,7 +173,7 @@ class DbLearning {
             });
             return getUser;
         } catch (error) {
-            console.log(error);
+            throw(error);
         }
      }
 
@@ -193,7 +191,7 @@ class DbLearning {
             });
             return confirmStatus;
         } catch (error) {
-            console.log(error);
+            throw(error);
         }
      }
 
@@ -215,7 +213,7 @@ class DbLearning {
             });
             return select;
         } catch (error) {
-            console.log(error);
+            throw(error);
         }
      }
 
@@ -233,7 +231,7 @@ class DbLearning {
             });
             return getDetails;
         } catch (error) {
-            console.log(error);
+            throw(error);
         }
      }
 
@@ -252,7 +250,7 @@ class DbLearning {
             });
             return editDetail;
         } catch(error) {
-            console.log(error);
+            throw(error);
         }
      }
 
@@ -271,7 +269,7 @@ class DbLearning {
             });
             return newAdmin;
         } catch (error) {
-            console.log(error);
+            throw(error);
         }
      }
 
@@ -289,7 +287,7 @@ class DbLearning {
             });
             return selectAdmin;
         } catch (error) {
-            console.log(error);
+            throw(error);
         }
      }
 
@@ -307,7 +305,7 @@ class DbLearning {
             });
             return getUser;
         } catch (error) {
-            console.log(error);
+            throw(error);
         }
      }
 
@@ -326,7 +324,7 @@ class DbLearning {
             });
             return deleteUser;
         } catch (error) {
-            console.log(error);
+            throw(error);
         }
      }
 
@@ -351,7 +349,7 @@ class DbLearning {
           });
           return combine;
         } catch(error) {
-            console.log(error);
+            throw(error);
         }
      }
 

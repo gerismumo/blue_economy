@@ -53,9 +53,9 @@ app.post('/api/registerUsers', async(req, res) => {
     }
 
     let transporter = nodemailer.createTransport(config);
-
+    // process.env.EMAIL_USERNAME
     const data = {
-      from : process.env.EMAIL_USERNAME,
+      from : 'noreply@gmail.com',
       to : requestData.email,
       subject: 'Welcome to Blue Economy Summit',
       text: `Dear ${requestData.name},\n\nThank you for registering for the Blue Economy Summit 2023. We are excited to have you join us!\n\nEvent Details:\nDate: ${formattedDate}\nLocation:\n${eventLocation}\n\nLooking forward to seeing you at the event.\n\nBest regards,\nThe Blue Economy Summit Team`,
@@ -66,7 +66,6 @@ app.post('/api/registerUsers', async(req, res) => {
     });
     res.json({success: true, data:result });
   } catch (error) {
-    console.log(error);
     res.status(500).send({success:false, error: error.message});
   }
 });
@@ -79,7 +78,7 @@ app.get('/api/usersList', (req, res) => {
   result.then(data => {
     res.json({success: true, data: data});
   })
-  .catch(err => console.log(err));
+  .catch(err => res.json({error: err}));
 });
 
 
@@ -94,7 +93,7 @@ app.delete('/api/deleteUser/:user_id', (req, res) => {
   .then(data => {
     res.json({success:true, data:data});
   })
-  .catch(err => console.log(err));
+  .catch(err => res.json({success:false, err:err}));
 });
 //edit admin
 
@@ -125,7 +124,7 @@ app.put('/api/editUser/:user_id', (req, res) => {
   .then(data => {
     res.json({success: true, data:data});
   })
-  .catch(err => console.log(err));
+  .catch(err => res.json({error: err}));
 });
 
 //admin login
@@ -166,8 +165,7 @@ app.post('/api/adminLogin', async (req, res) => {
       res.status(401).json({ success: false, message: 'Invalid email and password' });
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ success: false, error: 'Server error' });
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 
@@ -203,7 +201,7 @@ app.put('/api/attendedStatuses', (req, res) => {
   .then(data => {
     res.json({success:true, data:data});
   })
-  .catch(err => console.log(err));
+  .catch(err => res.json({error:err.message}));
 });
 
 app.get('/api/attendStatus', (req, res) => {
@@ -213,7 +211,7 @@ app.get('/api/attendStatus', (req, res) => {
   .then(data => {
     res.json({success:true, data:data});
   })
-  .catch((err) => console.log(err));
+  .catch((err) => res.json({error:err.message}));
 });
 
 app.get('/api/eventDetails', (req, res) => {
@@ -223,7 +221,7 @@ app.get('/api/eventDetails', (req, res) => {
   .then(data => {
     res.json({success: true, data:data});
   })
-  .catch((err) => console.log(err));
+  .catch((err) => res.json({error: err.message}));
 });
 
 app.put('/api/updateDetails', (req, res) => {
@@ -273,8 +271,7 @@ app.post('/api/addAdmin', async(req, res) => {
     });
     res.json({success:true, data:result});
   } catch (error) {
-    console.log(error);
-    res.status(500).send({success:false, error:'Server error'})
+    res.status(500).send({success:false, error:error.message})
   }
   
 });
