@@ -267,6 +267,12 @@ p.error {
 .dashboard .modal-content form input[type="checkbox"] {
   height: 22px;
 }
+.dashboard .modal-content form textarea{
+  resize: vertical;
+  outline: none;
+  border: 0.8px solid #1c87d9;
+  height: 3.5vh;
+}
 
 .dashboard .modal-content form .checkbox-label {
   display: flex;

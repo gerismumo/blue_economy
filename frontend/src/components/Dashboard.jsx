@@ -146,7 +146,7 @@ const navigate = useNavigate();
                         setTimeout(() => {
                             setIsModalOpen(false);
                         }, 2000)
-                        
+                        window.location.reload();
                     } else {
                         toast.success('Error updating');
                     }        
@@ -301,6 +301,7 @@ const navigate = useNavigate();
                         setTimeout(() => {
                             setAddFormOpen(false);
                         }, 3000);
+                       window.location.reload();
                     } else {
                         toast.error('Email already exists'); 
                         setTimeout(() => {

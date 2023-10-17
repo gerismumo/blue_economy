@@ -171,6 +171,7 @@ function Register() {
             toast.error('Error in registering User');
         });  
     }
+
     return (
         <div className='register'>
             <div className="header">
