@@ -236,11 +236,11 @@ class DbLearning {
      }
 
 
-     async updateEventDetails(about_event, event_date, event_location ) {
+     async updateEventDetails(about_event, event_date,event_time, event_location ) {
         try {
-            const query = 'UPDATE event_details SET about_event =? , event_date =? , event_location = ? WHERE detail_id = 1';
+            const query = 'UPDATE event_details SET about_event =? , event_date =? ,event_time =?, event_location = ? WHERE detail_id = 1';
             const editDetail = await new Promise((resolve, reject) => {
-                connection.query(query, [about_event, event_date, event_location ], (err, result) => {
+                connection.query(query, [about_event, event_date, event_time, event_location ], (err, result) => {
                     if(err) {
                         reject(err);
                     } else {

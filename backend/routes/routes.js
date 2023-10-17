@@ -205,10 +205,10 @@ router.post('/api/registerUsers', async(req, res) => {
   });
   
   router.put('/api/updateDetails', (req, res) => {
-    const {about_event, event_date, event_location  } = req.body;
+    const {about_event, event_date,event_time, event_location  } = req.body;
   
     const db = DbService.getDbLearningInstance();
-    const result = db.updateEventDetails(about_event, event_date, event_location );
+    const result = db.updateEventDetails(about_event, event_date,event_time, event_location );
     result
     .then(data => {
       res.json({success:true, data:data})

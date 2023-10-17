@@ -805,7 +805,7 @@ p.error {
   padding: 10px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   background-color: lightgray;
   animation: fadeIn 2s ease-in-out;
 }
@@ -819,6 +819,14 @@ p.error {
   align-items: center;
   justify-content: center;
   gap: 30px;
+  margin-left: 30px;
+}
+.home .event-info .register-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-right: 30px;
 }
 .home .event-info .register-button button{
   padding: 18px 15px;
@@ -957,11 +965,15 @@ background-color: grey;
     font-size: 18px;
   }
   .home .event-info p{
-    font-weight: 450;
-    font-size: 15px;
+    font-weight: 600;
+    font-size: 13px;
   }
   .home .event-info .event-date{
-    gap: 10px;
+    gap: 8px;
+    margin-left: 10px;
+  }
+  .home .event-info .register-button{
+    margin-right: 10px;
   }
   .home .event-info .register-button button{
     padding: 8px 7px;

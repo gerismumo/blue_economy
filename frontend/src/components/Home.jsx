@@ -73,6 +73,22 @@ function Home() {
     const toggleDropdown = () => {
         setDropdownVisible((dropdownVisible) => !dropdownVisible);
     }
+    
+    const formatTime = (timeString) => {
+        const date = new Date(`2000-01-01T${timeString}`);
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+        // Convert hours from 24-hour format to 12-hour format
+        const displayHours = hours % 12 === 0 ? 12 : hours % 12;
+    
+        // Pad single-digit minutes with leading zero
+        const displayMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    
+        return `${displayHours}:${displayMinutes} ${ampm}`;
+      };
+      
     return (
         <div className="home">
            <div className="home-header">
@@ -154,13 +170,15 @@ function Home() {
                     <div className="event-info">
                     <div className="event-date">
                         <p>{formattedDate}</p>
+                        <p>Time: {formatTime(eventDetails.event_time)}</p>
                         <p>Location: {eventDetails.event_location}</p>
                     </div>
-                    <div className="rsvp-persons">
-                        <p>{usersList ? usersList.length : '0'} RSVP'd</p>
-                        
-                    </div>
+                    
                     <div className="register-button">
+                        <div className="rsvp-persons">
+                            <p>{usersList ? usersList.length : '0'} RSVP'd</p>
+                            
+                        </div>
                         <button onClick={handleButtonClick}>RSVP Now</button>
                     </div>
                 </div>

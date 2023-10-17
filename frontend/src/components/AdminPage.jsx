@@ -12,6 +12,7 @@ function AdminPage() {
     const [eventDetails, setEventDetails] = useState({
         about_event: '',
         event_date: '',
+        event_time: '',
         event_location: ''
     });
 
@@ -340,6 +341,13 @@ function AdminPage() {
                                     value={eventDetails.event_date}
                                     onChange={handleInputChange}
                                 />
+                                <label>Time:</label>
+                                    <input
+                                    type="time"
+                                    name="event_time"
+                                    value={eventDetails.event_time}
+                                    onChange={handleInputChange}
+                                    />
                                 <label>RSVPs:</label>
                                 <input
                                     type="text"
