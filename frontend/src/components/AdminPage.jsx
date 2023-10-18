@@ -35,7 +35,7 @@ function AdminPage() {
             .catch(error => {
                 toast.error(error.message);
             });
-    }, []);
+    }, [event_detail_api]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -109,7 +109,13 @@ function AdminPage() {
                 setTimeout(() => {
                     setShowAdminAddForm(false);
                 },2000);
-                window.location.reload();
+                const newAdmin = {
+                    admin_id: result.data.insertId,
+                    admin_name: name,
+                    admin_email:email,
+                };
+    
+                setAdminList(prevAdminList => [...prevAdminList, newAdmin]);
                 } else {
                 toast.error('User already exists');
                 setTimeout(() => {
@@ -139,7 +145,7 @@ function AdminPage() {
     const admin_list_api = `${process.env.REACT_APP_API_URL}/api/adminList`;
     useEffect(() => {
 
-        if(user.organiser_role != 'admin'){
+        if(user.organiser_role !== 'admin'){
             navigate('/login');
         }
         if(!user){
@@ -161,7 +167,7 @@ function AdminPage() {
             setError(error.message)
             setLoading(false);
         });
-    }, [admin_list_api]);
+    }, [admin_list_api, navigate, user]);
 
     const handleDeleteUser = async(admin_id) => {
         try{
@@ -202,7 +208,7 @@ function AdminPage() {
                         
                         <nav>
                             <div className="header-logo">
-                                <img src="/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg" width="200px" 
+                                <img src="/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg" alt="logo" width="200px" 
                                         className="logo-image"
                                     />
                             </div>

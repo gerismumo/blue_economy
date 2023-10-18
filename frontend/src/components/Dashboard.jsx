@@ -146,7 +146,31 @@ const navigate = useNavigate();
                         setTimeout(() => {
                             setIsModalOpen(false);
                         }, 2000)
-                        window.location.reload();
+                        setUsersList(prevAdminList => {
+                            const updatedUsersList = prevAdminList.map(user => {
+                                if (user.user_id === editingUser.user_id) {
+                                    return {
+                                        ...user,
+                                        user_email: editingUser.user_email,
+                                        user_name: editingUser.user_name,
+                                        occupation: editingUser.occupation,
+                                        company: editingUser.company,
+                                        phone_number: editingUser.phone_number,
+                                        industry_in: editingUser.industry_in,
+                                        hear_about_event: editingUser.hear_about_event,
+                                        attend_last_year: editingUser.attend_last_year,
+                                        user_interest: editingUser.user_interest,
+                                        join_newsletter: editingUser.join_newsletter,
+                                        join_as: editingUser.join_as,
+                                        describe_product: editingUser.describe_product,
+                                        category_fall: editingUser.category_fall
+                                    };
+                                }
+                                return user;
+                            });
+                            return updatedUsersList;
+                        });
+                        // window.location.reload();
                     } else {
                         toast.success('Error updating');
                     }        
@@ -298,10 +322,27 @@ const navigate = useNavigate();
                 .then(result => {
                     if (result && result.success) {
                         toast.success('Registration was successfully registered');
+                        console.log('result', result.data);
                         setTimeout(() => {
                             setAddFormOpen(false);
                         }, 3000);
-                       window.location.reload();
+                        const newAttendee = {
+                            user_id : result.data.insertId,
+                            user_email: requestData.email,
+                            user_name: requestData.name,
+                            occupation: requestData.occupation,
+                            company:requestData.company,
+                            phone_number:requestData.phoneNumber,
+                            industry_in: requestData.industry,
+                            hear_about_event: requestData.selectedCheckBoxes,
+                            attend_last_year: requestData.attendLastYear,
+                            user_interest: requestData.areaOfInterests,
+                            join_newsletter: requestData.joinMailList,
+                            join_as: requestData.JoinAs,
+                            describe_product: requestData.describeYourProduct,
+                            category_fall: requestData.categoryFall
+                        }
+                        setUsersList(prevList => [...prevList, newAttendee]);
                     } else {
                         toast.error('Email already exists'); 
                         setTimeout(() => {
@@ -408,12 +449,12 @@ const navigate = useNavigate();
        if(!user){
         navigate('/');
       }
-      }, navigate);
-      const [dropdownVisible, setDropdownVisible] = useState(false);
+      }, [navigate, user]);
+    //   const [dropdownVisible, setDropdownVisible] = useState(false);
 
-      const toggleDropdown = () => {
-          setDropdownVisible((dropdownVisible) => !dropdownVisible);
-      }
+    //   const toggleDropdown = () => {
+    //       setDropdownVisible((dropdownVisible) => !dropdownVisible);
+    //   }
     return (
         <div>
             {loading && <p>...loading</p>}
@@ -423,7 +464,7 @@ const navigate = useNavigate();
                 < div className='header'>
                 <nav>
                     <div className="nav-logo">
-                        <img src='/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg'
+                        <img src='/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg' alt='logo'
                         className='logo'/>
                     </div>
                     <div className="nav-home">
@@ -867,7 +908,7 @@ const navigate = useNavigate();
                             ></textarea>
                     <label htmlFor="form">Which category do you fall in?</label>
                     <span>{errorMessages.categoryFall}</span>
-                    <select name="categoryFall" onChange={handleChange}>
+                    <select name="categoryFall" id='category-Fall' onChange={handleChange}>
                         <option value=""></option>
                         <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>
                         <option value="Corporate Institution (KES 30,000)">Corporate Institution (KES 30,000)</option>
