@@ -222,7 +222,7 @@ function AdminPage() {
                                                 <button><Link to='/'>Home</Link></button>
                                                 <button><Link  to="/dashboard">Dashboard</Link></button>
                                                 <button onClick={handleEditForm}>{showEditDetails ? 'Close' : 'Event Details'}</button>
-                                                <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add'}</button>    
+                                                <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add Organiser'}</button>    
                                             </>
                                         ) : (
                                             <></>
@@ -354,7 +354,7 @@ function AdminPage() {
                                     value={eventDetails.event_time}
                                     onChange={handleInputChange}
                                     />
-                                <label>RSVPs:</label>
+                                <label>Location:</label>
                                 <input
                                     type="text"
                                     name="event_location"
