@@ -666,7 +666,7 @@ const navigate = useNavigate();
                                 checked={hearAboutEventValues.includes('word Of Mouth')}
                                 onChange={handleCheckboxChange}
                             />
-                            Word of Month
+                            Word of Mouth
                         </label>
                         </div>
                         {/* <div className="select-checkboxes">
@@ -840,7 +840,7 @@ const navigate = useNavigate();
                             checked={checkedBoxes.includes('word Of Mouth')}
                             onChange={handleCheckboxClick}
                         />
-                        Word of Month
+                        Word of Mouth
                     </label>
                     </div>
                     {/* <div className="select-checkboxes">

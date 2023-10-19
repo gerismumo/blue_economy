@@ -22,13 +22,30 @@ router.post('/api/registerUsers', async(req, res) => {
         day: 'numeric'
         });
       const eventLocation = eventDetails[0].event_location;
+      const eventTime = eventDetails[0].event_time;
+      const formatTime = (timeString) => {
+        const date = new Date(`2000-01-01T${timeString}`);
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+        // Convert hours from 24-hour format to 12-hour format
+        const displayHours = hours % 12 === 0 ? 12 : hours % 12;
+    
+        // Pad single-digit minutes with leading zero
+        const displayMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    
+        return `${displayHours}:${displayMinutes} ${ampm}`;
+      };
   
       const result = await db.addUsers(requestData);
       let config = {
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
         auth: {
-          user: process.env.EMAIL_USERNAME,
-          pass: process.env.EMAIL_PASSWORD
+          user: "geraldmumo6@gmail.com",
+          pass: "dvuotqavfdvceqlg",
         }
       }
   
@@ -38,7 +55,7 @@ router.post('/api/registerUsers', async(req, res) => {
         from : 'noreply@gmail.com',
         to : requestData.email,
         subject: 'Welcome to Blue Economy Summit',
-        text: `Dear ${requestData.name},\n\nThank you for registering for the Blue Economy Summit 2023. We are excited to have you join us!\n\nEvent Details:\nDate: ${formattedDate}\nLocation:\n${eventLocation}\n\nLooking forward to seeing you at the event.\n\nBest regards,\nThe Blue Economy Summit Team`,
+        text: `Dear ${requestData.name},\n\nThank you for registering for the Blue Economy Summit 2023. We are excited to have you join us!\n\nEvent Details:\nDate: ${formattedDate}\nLocation:\n${eventLocation}\nTime:\n${formatTime(eventTime)}\n\nLooking forward to seeing you at the event.\n\nBest regards,\nThe Blue Economy Summit Team`,
       };
   
       transporter.sendMail(data).then(() => {
