@@ -245,14 +245,16 @@ router.post('/api/registerUsers', async(req, res) => {
       }
       const result = await db.addAdmin(name,email, password);
       let config = {
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
         auth: {
-          user: process.env.EMAIL_USERNAME,
-          pass: process.env.EMAIL_PASSWORD
+          user: "geraldmumo6@gmail.com",
+          pass: "dvuotqavfdvceqlg",
         }
       }
   
-      const loginLink = `http://your-frontend-url/login?token`;
+      const loginLink = `https://rsvp.blueeconomysummit.co.ke/login`;
   
       let transporter = nodemailer.createTransport(config);
   
@@ -260,7 +262,7 @@ router.post('/api/registerUsers', async(req, res) => {
         from : process.env.EMAIL_USERNAME,
         to : email,
         subject: 'Welcome to Blue Economy Summit ',
-        text: `Dear ${name},\n\nYou have been added as an admin.\n\nLogin to the admin dashboard using this link: ${loginLink}\n\n  Your login details are: \n\n Email: ${email}\n\n Password: ${password}`,
+        text: `Dear ${name},\n\nYou have been added as a Event Organiser.\n\nLogin to the admin dashboard using this link: ${loginLink}\n\n  Your login details are: \n\n Email: ${email}\n\n Password: ${password}`,
       };
   
       transporter.sendMail(data).then(() => {

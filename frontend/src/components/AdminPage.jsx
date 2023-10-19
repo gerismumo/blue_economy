@@ -256,7 +256,7 @@ function AdminPage() {
                                                 <button><Link to='/'>Home</Link></button>
                                                 <button><Link  to="/dashboard">Dashboard</Link></button>
                                                 <button onClick={handleEditForm}>{showEditDetails ? 'Close' : 'Event Details'}</button>
-                                                <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add'}</button>
+                                                <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add Organiser'}</button>
                                                 
                                                 
                                             </>
