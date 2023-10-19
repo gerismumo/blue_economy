@@ -285,6 +285,17 @@ router.post('/api/registerUsers', async(req, res) => {
     }) 
     .catch(err => res.json({success: false, err:err}));
   });
+
+  router.get('/api/organiserList', (req, res) => {
+   
+    const db = DbService.getDbLearningInstance();
+    const result = db.organisersList();
+    result
+    .then(data => {
+      res.json({success: true, data:data})
+    }) 
+    .catch(err => res.json({success: false, err:err}));
+  });
   
   router.delete('/api/deleteAdmin/:admin_id', (req, res) => {
     const {admin_id} = req.params;

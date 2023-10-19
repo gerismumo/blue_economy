@@ -61,7 +61,7 @@ function Login() {
             localStorage.setItem('user', JSON.stringify(data.adminData));
            
             let user = JSON.parse(localStorage.getItem('user'));
-            console.log('user',user);
+            // console.log('user',user);
             const isAdmin = adminList.some((admin) => {
                       return (admin.admin_email === email && admin.organiser_role === 'organiser') || (admin.admin_email === email && admin.organiser_role === 'admin') ;
                         });

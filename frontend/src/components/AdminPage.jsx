@@ -142,7 +142,7 @@ function AdminPage() {
     }
 
     const[adminList, setAdminList] = useState([]);
-    const admin_list_api = `${process.env.REACT_APP_API_URL}/api/adminList`;
+    const admin_list_api = `${process.env.REACT_APP_API_URL}/api/organiserList`;
     useEffect(() => {
 
         if(user.organiser_role !== 'admin'){

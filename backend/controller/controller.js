@@ -275,7 +275,7 @@ class DbLearning {
 
      async adminList() {
         try {
-            const query = 'SELECT * FROM admin_table';
+            const query = "SELECT * FROM admin_table";
             const selectAdmin = await new Promise((resolve, reject) => {
                 connection.query(query, (err, result) => {
                     if(err) {
@@ -290,6 +290,25 @@ class DbLearning {
             throw(error);
         }
      }
+
+     async organisersList() {
+        try {
+            const query = `SELECT * FROM admin_table WHERE organiser_role = 'organiser'`;
+            const selectAdmin = await new Promise((resolve, reject) => {
+                connection.query(query, (err, result) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+            return selectAdmin;
+        } catch (error) {
+            throw(error);
+        }
+     }
+
 
      async getOrganiserByEmail(email) {
         try {
