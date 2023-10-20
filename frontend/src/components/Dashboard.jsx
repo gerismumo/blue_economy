@@ -325,7 +325,7 @@ const navigate = useNavigate();
                         console.log('result', result.data);
                         setTimeout(() => {
                             setAddFormOpen(false);
-                        }, 3000);
+                        }, 1000);
                         const newAttendee = {
                             user_id : result.data.insertId,
                             user_email: requestData.email,
@@ -347,7 +347,7 @@ const navigate = useNavigate();
                         toast.error('Email already exists'); 
                         setTimeout(() => {
                             setAddFormOpen(false);
-                        }, 3000);
+                        }, 1000);
                     }
                     setCheckedBoxes([]);
                     resetFormFields();

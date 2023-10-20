@@ -148,7 +148,7 @@ function Register() {
                 }, 2000);
                 setTimeout(() => {
                     navigate('/');
-                }, 9000);
+                }, 5000);
             } else {
                 toast.error('Email already exists'); 
                 setTimeout(() => {

@@ -108,7 +108,7 @@ function AdminPage() {
                 toast.success('Successfully added organiser');
                 setTimeout(() => {
                     setShowAdminAddForm(false);
-                },2000);
+                },1000);
                 const newAdmin = {
                     admin_id: result.data.insertId,
                     admin_name: name,
