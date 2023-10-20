@@ -40,19 +40,19 @@ router.post('/api/registerUsers', async(req, res) => {
   
       const result = await db.addUsers(requestData);
       let config = {
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        secure: process.env.EMAIL_SECURE,
         auth: {
-          user: "geraldmumo6@gmail.com",
-          pass: "dvuotqavfdvceqlg",
+          user: process.env.EMAIL_USERNAME,
+          pass: process.env.EMAIL_PASSWORD,
         }
       }
   
       let transporter = nodemailer.createTransport(config);
       // process.env.EMAIL_USERNAME
       const data = {
-        from : 'noreply@gmail.com',
+        from : process.env.EMAIL_USERNAME,
         to : requestData.email,
         subject: 'Welcome to Blue Economy Summit',
         text: `Dear ${requestData.name},\n\nThank you for registering for the Blue Economy Summit 2023. We are excited to have you join us!\n\nEvent Details:\nDate: ${formattedDate}\nLocation:\n${eventLocation}\nTime:\n${formatTime(eventTime)}\n\nLooking forward to seeing you at the event.\n\nBest regards,\nThe Blue Economy Summit Team`,
@@ -245,12 +245,12 @@ router.post('/api/registerUsers', async(req, res) => {
       }
       const result = await db.addAdmin(name,email, password);
       let config = {
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        secure: process.env.EMAIL_SECURE,
         auth: {
-          user: "geraldmumo6@gmail.com",
-          pass: "dvuotqavfdvceqlg",
+          user: process.env.EMAIL_USERNAME,
+          pass: process.env.EMAIL_PASSWORD,
         }
       }
   
