@@ -1,88 +1,125 @@
-import React, { useState } from 'react';
-import { QrReader } from 'react-qr-reader';
+import { Html5QrcodeScanner } from 'html5-qrcode';
+import React, { useEffect, useState } from 'react';
+
 function Confirm() {
-    const [phone, setPhone] = useState('');
-    const [email, setEmail] = useState('');
-    const [result, setResult] = useState('');
-    const [scanEnabled, setScanEnabled] = useState(false);
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [result, setResult] = useState('');
+  const [scanEnabled, setScanEnabled] = useState(false);
 
-    // Function to handle the QR code scan
-    const handleScan = (data) => {
-        if (data === `${email}${phone}`) {
-        setResult('You are eligible to attend the event.');
+  // Define the Html5QrcodeScanner instance in the component's state
+  const [html5QrCode, setHtml5QrCode] = useState(null);
+
+  useEffect(() => {
+    const identifyQRCodeData = (qrCodeData) => {
+      // Extract the data from the QR code
+      const extractedData = qrCodeData.split(',');
+      return extractedData;
+    };
+
+    const handleScan = (qrCodeData) => {
+      if (qrCodeData) {
+        const data = identifyQRCodeData(qrCodeData);
+
+        if (data[0] === email && data[1] === phone) {
+          setResult('You are eligible to attend the event.');
         } else {
-        setResult('You are not eligible to attend the event.');
-        }
-    };
-
-    // Function to handle scan error
-    const handleError = (error) => {
-        console.error(error);
-        setResult('Error scanning the QR code.');
-    };
-
-    const handleNext = () => {
-        if (email && phone) {
-          setScanEnabled(true);
+          setResult('You are not eligible to attend the event.');
         }
       }
+    };
 
-      const handleBack = () => {
-        setScanEnabled(false);
+    if (scanEnabled) {
+      // Start scanning
+      if (!html5QrCode) {
+        // Initialize the Html5QrcodeScanner instance
+        const newHtml5QrCode = new Html5QrcodeScanner(
+          'qr-reader',
+          { fps: 10, qrbox: 250 }
+        );
+        setHtml5QrCode(newHtml5QrCode);
+        newHtml5QrCode.render(
+          (qrCodeData) => {
+            handleScan(qrCodeData);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       }
-    return(
-        <div className="confirm-page">
-            < div className='header'>
-                <nav>
-                    <div className="nav-logo">
-                        <img src='/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg' alt='logo'
-                        className='logo'/>
-                    </div>
-                </nav>
-            </div>
-        <div className="confirm-content">
-            <h1>Event Check-In</h1>
-            <div className="confirm-form">
+    } else {
+      // Stop scanning
+      if (html5QrCode) {
+        html5QrCode.stop();
+        setHtml5QrCode(null); // Clear the instance
+      }
+    }
+
+    // Cleanup the QR code scanner when the component unmounts
+    return () => {
+      if (html5QrCode) {
+        html5QrCode.stop();
+      }
+    };
+  }, [scanEnabled, email, phone, html5QrCode]);
+
+  const handleBack = () => {
+    setScanEnabled(false); // Stop scanning
+  };
+
+  return (
+    <div className="confirm-page">
+      <div className="header">
+        <nav>
+          <div className="nav-logo">
+            <img
+              src="/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg"
+              alt="logo"
+              className="logo"
+            />
+          </div>
+        </nav>
+      </div>
+      <div className="confirm-content">
+        <div className="confirm-form">
             {!scanEnabled ? (
-                    <div>
-                    <label>Email:
-                        <input 
-                        type="text" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
-                        required
-                        />
-                    </label>
-                    <label>Phone:
-                        <input type="text" 
-                        value={phone} 
-                        onChange={(e) => setPhone(e.target.value)} 
-                        required
-                        />
-                    </label>
-                    <div className="confirm-btn">
-                        <button onClick={handleNext}>Next</button>
-                    </div>
-                    </div>
-                ) : (
-                    <div>
-                    <QrReader
-                        onScan={handleScan}
-                        onError={handleError}
-                        style={{ width: '100%' }}
-                    />
-                    <p>{result}</p>
-                    <div className="confirm-btn">
-                        <button onClick={handleBack}>Back</button>
-                    </div>
-                    
-                    </div>
-                    
-                )}
-            </div> 
+            <div>
+                <label>
+                Email:
+                <input
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                </label>
+                <label>
+                Phone:
+                <input
+                    type="text"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
+                />
+                </label>
+                <div className="confirm-btn">
+                <button onClick={() => setScanEnabled(true)}>Next</button>
+                </div>
             </div>
+            ) : (
+            <div>
+                <div id="qr-reader" style={{ width: '100%', height: '300px' }}></div>
+                <p>{result}</p>
+                <div className="confirm-btn">
+                <button onClick={handleBack}>Back</button>
+                </div>
+            </div>
+            )}
         </div>
-    )
+      </div>
+      
+    </div>
+  );
 }
 
 export default Confirm;

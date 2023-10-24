@@ -1487,7 +1487,7 @@ background-color: grey;
   background-color: #0056b3;
 }
 
-.confirm-content .QrReader {
+/* .confirm-content .QrReader {
   margin-top: 20px;
 }
 
@@ -1497,7 +1497,7 @@ background-color: grey;
   color: #007bff;
 }
 
-/* Animation for the form transition */
+
 .confirm-form > div {
   transition: opacity 0.5s, transform 0.5s;
 }
@@ -1510,7 +1510,7 @@ background-color: grey;
 .confirm-form > div.exit {
   opacity: 0;
   transform: translateX(-20px);
-}
+} */
 
 
 .data-page {

@@ -128,7 +128,10 @@ function Home() {
                                      <button onClick={() =>logout()}>Logout</button>
                                  </>
                                  ) : (
+                                    <>
+                                    <Link to="/confirmAttend">Scan Me</Link>
                                      <Link  to="/login">Login</Link>
+                                    </>
                                  )}
                          </div>
                          <div className="dropdown" onClick={toggleDropdown}>
@@ -158,7 +161,12 @@ function Home() {
                                      <button onClick={() =>logout()}>Logout</button>
                                  </>
                          ) : (
-                          <Link  to="/login">Login</Link>
+                            <>
+                            
+                            <Link  to="/login">Login</Link>
+                            <Link to="/confirmAttend">Scan Me</Link>
+                            </>
+                          
                          )}
                      </div>)}
                 <div className="home-content">
