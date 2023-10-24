@@ -1,5 +1,6 @@
-
+const xlsx = require('xlsx');
 const connection = require('../database/config');
+
 let instance = null;
 class DbLearning {
     static getDbLearningInstance() {
@@ -368,6 +369,45 @@ class DbLearning {
           });
           return combine;
         } catch(error) {
+            throw(error);
+        }
+     }
+
+     //file upload
+     async fileUpload(jsonData) {
+        try {
+            if (Array.isArray(jsonData)) {
+              
+                const valuesToInsert = jsonData.map(item => {
+                  return [
+                    item['User Email'],
+                    item['User Names'],
+                    item['Designation/Occupation/Role'],
+                    item['Company/Organization Name'],
+                    item['Phone number(For communication purposes only)'],
+                    item['Which industry are you in?'],
+                    item['How did you hear about the event?'],
+                    item["Did you attend last year's Blue Economy Summit?"],
+                    item['Which areas are of interest to you during the summit?'],
+                    item['Do you consent joining our mailing list to receive our newsletter?'],
+                    item["How will you be joining this year's summit?"],
+                    item['Describe your product or the services that you offer?'],
+                    item['Which category do you fall in?']
+                  ];
+                });
+                const query = 'INSERT INTO users_list (user_email,user_name,occupation, company, phone_number, industry_in, hear_about_event, attend_last_year, user_interest, join_newsletter, join_as, describe_product, category_fall) VALUES ?';
+
+                connection.query(query, [valuesToInsert], (err, results) => {
+                    if(err) {
+                        console.error('Error inserting data: ' + err.message);
+                    } else {
+                        console.log('Data inserted successfully.');
+                    }
+                })
+            } else {
+                throw new Error;
+            }
+        } catch (error) {
             throw(error);
         }
      }

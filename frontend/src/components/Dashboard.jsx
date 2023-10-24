@@ -455,6 +455,58 @@ const navigate = useNavigate();
     //   const toggleDropdown = () => {
     //       setDropdownVisible((dropdownVisible) => !dropdownVisible);
     //   }
+
+    //file import 
+
+    const [file, setFile] = useState(null);
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+      };
+
+      const handleFileUpload = async (e) => {
+        e.preventDefault();
+    
+        const upload_file_api = `${process.env.REACT_APP_API_URL}/api/uploadFile`;
+        try {
+          // Parse the Excel file to JSON before sending it to the server
+          parseExcelFile(file, (jsonData) => {
+            console.log(jsonData);
+            // Send the JSON data to the server using the fetch API
+            fetch(upload_file_api, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(jsonData),
+            })
+              .then((response) => {
+                if (response.status === 200) {
+                    
+                  console.log('File uploaded successfully.');
+                } else {
+                  console.error('Error uploading the file.');
+                }
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+          });
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+    
+      const parseExcelFile = (file, callback) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const data = e.target.result;
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheet = workbook.Sheets[workbook.SheetNames[0]];
+          const jsonData = XLSX.utils.sheet_to_json(sheet);
+          callback(jsonData);
+        };
+        reader.readAsArrayBuffer(file);
+      };
     return (
         <div>
             {loading && <p>...loading</p>}
@@ -487,10 +539,10 @@ const navigate = useNavigate();
                     </div>
                 </div>
                 <div className="middle-tabs">
-                    {/* <div {...getRootProps()} className="dropzone">
-                        <input {...getInputProps()}  type='file' placeholder='Import'/>
-                        <label htmlFor="file-input">Import Excel</label>
-                    </div> */}
+                    <div className='button-tabs'>
+                        <input type="file" accept=".xlsx" onChange={handleFileChange} />
+                        <button onClick={handleFileUpload}>Upload</button>
+                    </div>
                     <div className='button-tabs'>
                         <button onClick={exportToExcel}>Export to Excel</button>
                         {/* <button>Clear Table</button> */}

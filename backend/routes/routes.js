@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const DbService = require('../controller/controller');
 const nodemailer = require('nodemailer');
+const multer = require('multer');
+const upload = multer({ dest: '../storage'});
 
 
 router.post('/api/registerUsers', async(req, res) => {
@@ -311,6 +313,17 @@ router.post('/api/registerUsers', async(req, res) => {
   router.get('/api/combinedRoles', (req, res) => {
     const db = DbService.getDbLearningInstance();
     const result = db.combineRoles();
+    result.then(data => {
+      res.json({success: true, data: data});
+    })
+    .catch(err => res.json({error: err}));
+  });
+
+  router.post('/api/uploadFile',  (req, res) => {
+  const jsonData = req.body;
+    const db = DbService.getDbLearningInstance();
+    const result = db.fileUpload(jsonData);
+    console.log(jsonData);
     result.then(data => {
       res.json({success: true, data: data});
     })
