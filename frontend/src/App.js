@@ -3,12 +3,13 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import "react-toastify/dist/ReactToastify.css";
 
 import AdminPage from './components/AdminPage';
+import Attend from './components/Attend';
+import Confirm from './components/Confirm';
 import Dashboard from './components/Dashboard';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import Submit from './components/Submit';
-
 function App() {
   
   return (
@@ -20,6 +21,9 @@ function App() {
         <Route path='/feedback' element={<Submit />} />
         <Route path='/dashboard' element={<Dashboard/>} /> 
         <Route path='/adminPage' element={<AdminPage/>} />
+        <Route path='/attendData' element={<Attend />} />
+        <Route path='/confirmAttend' element={<Confirm />} />
+        
         {/* <Route
           path="/adminPage"
           element={
