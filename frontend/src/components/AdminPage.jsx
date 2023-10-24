@@ -219,6 +219,7 @@ function AdminPage() {
                                         <>
                                         {user.organiser_role === 'admin' ?(
                                             <>
+                                                <button><Link to='/attendData'>Qrcode</Link></button>
                                                 <button><Link to='/'>Home</Link></button>
                                                 <button><Link  to="/dashboard">Dashboard</Link></button>
                                                 <button onClick={handleEditForm}>{showEditDetails ? 'Close' : 'Event Details'}</button>

@@ -37,14 +37,28 @@ function Attend() {
             setQRCodeData(combinedData);
           }, [usersList]);
 
+          const handlePrint = () => {
+            window.print();
+        };
+
     return (
         <div>
             {loading && <p>...loading</p>}
             {error && <p>Error: {error}</p>}
             {!loading && !error && (
                 <div className='data-page'>
-               <QRCode value={qrCodeData} />
-            </div>
+                    <div className="data-page-content">
+                        <div className="data-text">
+                            <h1>Scan to confirm</h1>
+                        </div>
+                        <div className="data-code">
+                            <QRCode value={qrCodeData} />
+                        </div>
+                        <div className="button-container">
+                            <button onClick={handlePrint}>Print</button>
+                        </div>
+                    </div> 
+                </div>
             )}
         </div>
         

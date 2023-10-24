@@ -27,44 +27,60 @@ function Confirm() {
         }
       }
 
+      const handleBack = () => {
+        setScanEnabled(false);
+      }
     return(
         <div className="confirm-page">
+            < div className='header'>
+                <nav>
+                    <div className="nav-logo">
+                        <img src='/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg' alt='logo'
+                        className='logo'/>
+                    </div>
+                </nav>
+            </div>
+        <div className="confirm-content">
             <h1>Event Check-In</h1>
-            {/* <label>Email:
-                <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-            </label>
-            <label>Phone:
-                <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
-            </label>
-            <button onClick={() => setResult('')}>
-                Clear Result
-            </button>
-            <QrReader
-                onScan={handleScan}
-                onError={handleError}
-                style={{ width: '100%' }}
-            />
-            <p>{result}</p> */}
-             {!scanEnabled ? (
-                <div>
-                <label>Email:
-                    <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-                </label>
-                <label>Phone:
-                    <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
-                </label>
-                <button onClick={handleNext}>Next</button>
-                </div>
-            ) : (
-                <div>
-                <QrReader
-                    onScan={handleScan}
-                    onError={handleError}
-                    style={{ width: '100%' }}
-                />
-                <p>{result}</p>
-                </div>
-            )}
+            <div className="confirm-form">
+            {!scanEnabled ? (
+                    <div>
+                    <label>Email:
+                        <input 
+                        type="text" 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)} 
+                        required
+                        />
+                    </label>
+                    <label>Phone:
+                        <input type="text" 
+                        value={phone} 
+                        onChange={(e) => setPhone(e.target.value)} 
+                        required
+                        />
+                    </label>
+                    <div className="confirm-btn">
+                        <button onClick={handleNext}>Next</button>
+                    </div>
+                    </div>
+                ) : (
+                    <div>
+                    <QrReader
+                        onScan={handleScan}
+                        onError={handleError}
+                        style={{ width: '100%' }}
+                    />
+                    <p>{result}</p>
+                    <div className="confirm-btn">
+                        <button onClick={handleBack}>Back</button>
+                    </div>
+                    
+                    </div>
+                    
+                )}
+            </div> 
+            </div>
         </div>
     )
 }
