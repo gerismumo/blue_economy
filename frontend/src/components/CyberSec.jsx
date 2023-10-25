@@ -42,7 +42,7 @@ const navigate = useNavigate();
                 user.project_count.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 user.college_uni.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 user.job_speciality.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.registered_at.toLowerCase().includes(searchQuery.toLowerCase())  ||  
+                user.registered_at.toString().toLowerCase().includes(searchQuery.toLowerCase())  ||  
                 user.team_mates.toLowerCase().includes(searchQuery.toLowerCase())  ||
                 user.heard_where.toLowerCase().includes(searchQuery.toLowerCase())  ||
                 user.county.toLowerCase().includes(searchQuery.toLowerCase())  ||
