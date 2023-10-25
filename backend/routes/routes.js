@@ -404,6 +404,20 @@ router.post('/api/registerUsers', async(req, res) => {
     }
   })
 
+  //cyber security animationPlayState: 
+
+  router.post('/api/uploadCyberFile',  (req, res) => {
+    const jsonData = req.body;
+    console.log(jsonData);
+      const db = DbService.getDbLearningInstance();
+      const result = db.fileUploadCyber(jsonData);
+      // console.log(jsonData);
+      result.then(data => {
+        res.json({success: true, data: data});
+      })
+      .catch(err => res.json({error: err}));
+    });
+
   module.exports = router;
   
   

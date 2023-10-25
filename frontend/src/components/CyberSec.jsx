@@ -467,7 +467,7 @@ const navigate = useNavigate();
       const handleFileUpload = async (e) => {
         e.preventDefault();
     
-        const upload_file_api = `${process.env.REACT_APP_API_URL}/api/uploadFile`;
+        const upload_file_api = `${process.env.REACT_APP_API_URL}/api/uploadCyberFile`;
         try {
           // Parse the Excel file to JSON before sending it to the server
           parseExcelFile(file, (jsonData) => {

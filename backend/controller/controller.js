@@ -451,5 +451,48 @@ class DbLearning {
         }
      }
 
+     async fileUploadCyber(jsonData) {
+        try {
+            if (Array.isArray(jsonData)) {
+              
+                const valuesToInsert = jsonData.map(item => {
+                  return [
+                    item['First Name'],
+                    item['Last Name'],
+                    item['Full Name'],
+                    item['Email'],
+                    item['Portfolio Url'],
+                    item['Submitted Project?'],
+                    item['Project URLs'],
+                    item['City'],
+                    item['State'],
+                    item['Country'],
+                    item['Project Count'],
+                    item['College/University Name'],
+                    item["Job Specialty"],
+                    item['Registered At'],
+                    item['Do you have teammates?'],
+                    item['Who told you about this hackathon?'],
+                    item['County of Residence'],
+                    item['Phone number( For communication purposes only)']
+                  ];
+                });
+                const query = 'INSERT INTO cybersecurity_list (first_name,last_name,full_name, email, portifolio_url, submitted_project, project_url, city, state, country, project_count, college_uni, job_speciality,registered_at ,team_mates, heard_where, county, phone_number) VALUES ?';
+
+                connection.query(query, [valuesToInsert], (err, results) => {
+                    if(err) {
+                        console.error('Error inserting data: ' + err.message);
+                    } else {
+                        console.log('Data inserted successfully.');
+                    }
+                })
+            } else {
+                throw Error;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+     }
+
     }
     module.exports = DbLearning;
