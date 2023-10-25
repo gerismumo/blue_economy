@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import * as XLSX from 'xlsx';
 import { setAuthenticated } from '../utils/ProtectedRoute';
 
-function Dashboard() {
+function CyberSec() {
 const navigate = useNavigate();
     // const [importedData, setImportedData] = useState(null);
     const[usersList, setUsersList] = useState([]);
@@ -472,15 +472,11 @@ const navigate = useNavigate();
           // Parse the Excel file to JSON before sending it to the server
           parseExcelFile(file, (jsonData) => {
             console.log(jsonData);
-            const jsonDataString = JSON.stringify(jsonData);
-            const dataSizeInBytes = new TextEncoder().encode(jsonDataString).length;
-            console.log(`Data size: ${dataSizeInBytes} bytes`);
             // Send the JSON data to the server using the fetch API
             fetch(upload_file_api, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
-
               },
               body: JSON.stringify(jsonData),
             })
@@ -545,7 +541,7 @@ const navigate = useNavigate();
                 </div>
                 <div className="middle-tabs">
                     <div className='button-tabs'>
-                        <Link to="/cyberSecurity">CyberSecurity</Link>
+                        <Link to="/dashboard">Dashboard</Link>
                         <input type="file" accept=".xlsx" onChange={handleFileChange} />
                         <button onClick={handleFileUpload}>Upload</button>
                     </div>
@@ -986,4 +982,4 @@ const navigate = useNavigate();
     )
 }
 
-export default Dashboard;
+export default CyberSec;

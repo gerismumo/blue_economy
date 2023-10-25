@@ -4,6 +4,7 @@ const DbService = require('../controller/controller');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
 const upload = multer({ dest: '../storage'});
+const zlib = require('zlib');
 
 
 router.post('/api/registerUsers', async(req, res) => {
@@ -353,6 +354,7 @@ router.post('/api/registerUsers', async(req, res) => {
 
   router.post('/api/uploadFile',  (req, res) => {
   const jsonData = req.body;
+  console.log(jsonData);
     const db = DbService.getDbLearningInstance();
     const result = db.fileUpload(jsonData);
     console.log(jsonData);

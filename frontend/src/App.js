@@ -5,12 +5,13 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminPage from './components/AdminPage';
 import Attend from './components/Attend';
 import Confirm from './components/Confirm';
+import CyberSec from './components/CyberSec';
 import Dashboard from './components/Dashboard';
+import Eligble from './components/Eligble';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import Submit from './components/Submit';
-import Eligble from './components/Eligble';
 function App() {
   
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path='/attendData' element={<Attend />} />
         <Route path='/confirmAttend' element={<Confirm />} />
         <Route path='/confirmMessage' element={<Eligble />} />
+        <Route path='/cyberSecurity' element={<CyberSec />} />
         
         {/* <Route
           path="/adminPage"
