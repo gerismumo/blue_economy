@@ -7,9 +7,9 @@ function Home() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     let user = JSON.parse(localStorage.getItem('user'));
-    const handleButtonClick = () => {
-        navigate('/register');
-    }
+    // const handleButtonClick = () => {
+    //     navigate('/register');
+    // }
     const API_URL = `${process.env.REACT_APP_API_URL}/api/usersList`;
     const[usersList, setUsersList] = useState([]);
     useEffect(() => {
@@ -190,13 +190,13 @@ function Home() {
                              <p>Location: {eventDetails.event_location}</p>
                          </div>
                          
-                         <div className="register-button">
+                         {/* <div className="register-button">
                              <div className="rsvp-persons">
                                  <p>{usersList ? usersList.length : '0'} RSVP'd</p>
                                  
                              </div>
                              <button onClick={handleButtonClick}>RSVP Now</button>
-                         </div>
+                         </div> */}
                      </div>
                      </div>
                      
