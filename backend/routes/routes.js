@@ -122,7 +122,7 @@ router.post('/api/registerUsers', async(req, res) => {
         from : process.env.EMAIL_USERNAME,
         to : requestData.email,
         subject: 'Welcome to Blue Economy Summit',
-        text: `Dear ${requestData.name},\n\nThank you for registering for the Blue Economy Summit 2023. We are excited to have you join us!\n\nEvent Details:\nDate: ${formattedDate}\nLocation:\n${eventLocation}\nTime:\n${formatTime(eventTime)}\n\nLooking forward to seeing you at the event.\n\nBest regards,\nThe Blue Economy Summit Team`,
+        text: `Dear ${requestData.firstname},\n\nThank you for registering for the Blue Economy Summit 2023. We are excited to have you join us!\n\nEvent Details:\nDate: ${formattedDate}\nLocation:\n${eventLocation}\nTime:\n${formatTime(eventTime)}\n\nLooking forward to seeing you at the event.\n\nBest regards,\nThe Blue Economy Summit Team`,
       };
   
       transporter.sendMail(data).then(() => {
@@ -479,6 +479,35 @@ router.post('/api/registerUsers', async(req, res) => {
           to : getEmail,
           subject: 'Welcome to Blue Economy Summit ',
           text: `Dear ${getName},\n\nYou thank you for attending the Blue Economy Summit:\n\n Check out the event activities here:\n\n ${loginLink}\n`,
+        };
+    
+        transporter.sendMail(result).then(() => {
+          return ;
+        });
+      } else {
+        const getCyberData = await db.getUserByEmailCyber(email);
+        const getEmailCyber = getCyberData[0].email;
+        const getNameCyber = getCyberData[0].first_name;
+
+        let config = {
+          host: process.env.EMAIL_HOST,
+          port: process.env.EMAIL_PORT,
+          secure: process.env.EMAIL_SECURE,
+          auth: {
+            user: process.env.EMAIL_USERNAME,
+            pass: process.env.EMAIL_PASSWORD,
+          }
+        }
+    
+        const loginLink = `https://blueeconomysummit.co.ke/`;
+    
+        let transporter = nodemailer.createTransport(config);
+    
+        const result = {
+          from : process.env.EMAIL_USERNAME,
+          to : getEmailCyber,
+          subject: 'Welcome to Blue Economy Summit ',
+          text: `Dear ${getNameCyber},\n\nYou thank you for attending the Blue Economy Summit:\n\n Check out the event activities here:\n\n ${loginLink}\n`,
         };
     
         transporter.sendMail(result).then(() => {
