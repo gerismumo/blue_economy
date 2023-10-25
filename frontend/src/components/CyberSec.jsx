@@ -28,8 +28,9 @@ const navigate = useNavigate();
 
       const filteredData = usersList
         ? usersList.filter((user) => {
+          
             return (
-                user.attendee_id.toString().toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+                (user.attendee_id.toString().toLowerCase().includes(searchQuery.toLowerCase())) ||
                 user.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 user.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -199,18 +200,23 @@ const navigate = useNavigate();
         //   }
 
           const[formData, setFormData] = useState({
+            firstname: '',
+            lastname: '',
+            fullname: '',
             email: '',
-            name: '',
-            occupation: '',
-            company: '',
-            phoneNumber: '',
-            industry: '',
-            attendLastYear:'',
-            areaOfInterests:'',
-            joinMailList:'',
-            JoinAs:'',
-            describeYourProduct:'',
-            categoryFall:''
+            portfolioUrl: '',
+            submitProject: '',
+            projectUrl:'',
+            city:'',
+            state:'',
+            country:'',
+            projectCount:'',
+            collegeUni:'',
+            jobSpecialty:'',
+            teamMates:'',
+            heardHack:'',
+            county:'',
+            phoneNumber:'',
         })
     
         
@@ -225,28 +231,35 @@ const navigate = useNavigate();
         
         }
     
-        const [checkedBoxes, setCheckedBoxes] = useState([]);
+        // const [checkedBoxes, setCheckedBoxes] = useState([]);
 
-            const handleCheckboxClick = (event) => {
-                const { value } = event.target;
-                setCheckedBoxes((prevCheckedBoxes) => {
-                if (prevCheckedBoxes.includes(value)) {
-                    return prevCheckedBoxes.filter((item) => item !== value);
-                } else {
-                    return [...prevCheckedBoxes, value];
-                }
-                });
-            };
+        //     const handleCheckboxClick = (event) => {
+        //         const { value } = event.target;
+        //         setCheckedBoxes((prevCheckedBoxes) => {
+        //         if (prevCheckedBoxes.includes(value)) {
+        //             return prevCheckedBoxes.filter((item) => item !== value);
+        //         } else {
+        //             return [...prevCheckedBoxes, value];
+        //         }
+        //         });
+        //     };
 
             const resetFormFields = () => {
                 setFormData({
+                    firstname: '',
+                    lastname: '',
+                    fullname: '',
                     email: '',
-                    name: '',
-                    occupation: '',
-                    company: '',
-                    phoneNumber: '',
-                    industry: '',
-                    describeYourProduct: '',
+                    portfolioUrl: '',
+                    projectUrl:'',
+                    city:'',
+                    state:'',
+                    country:'',
+                    projectCount:'',
+                    collegeUni:'',
+                    jobSpecialty:'',
+                    county:'',
+                    phoneNumber:'',
                 }); 
             }
 
@@ -254,68 +267,61 @@ const navigate = useNavigate();
                 e.preventDefault();
                
                 const errors = {};
+                if(!formData.firstname) {
+                    errors.firstname = 'Please enter first Name'
+                }
+                if(!formData.lastname) {
+                    errors.lastname = 'Please enter lastname'
+                }
+                if(!formData.fullname) {
+                    errors.fullname = 'Please enter your Full Name'
+                }
                 if(!formData.email) {
                     errors.email = 'Please enter a valid email'
                 }
-                if(!formData.name) {
-                    errors.name = 'Please enter a valid name'
+                if(!formData.submitProject) {
+                    errors.submitProject = 'Please select an option'
                 }
-                if(!formData.occupation) {
-                    errors.occupation = 'Please enter your occupation'
+                if(!formData.city) {
+                    errors.city = 'Please enter City name'
                 }
-                if(!formData.company) {
-                    errors.company = 'Please enter company name'
+                if(!formData.state) {
+                    errors.state = 'Please enter State name';
                 }
-                if(!formData.phoneNumber) {
-                    errors.phoneNumber = 'Please enter phone number'
+                if(!formData.country) {
+                    errors.country = 'Please enter country name';
                 }
-                if(!formData.industry) {
-                    errors.industry = 'Please enter Industry name'
-                }
-                if(!formData.attendLastYear) {
-                    errors.attendLastYear = 'Please select an option';
-                }
-                if(!formData.areaOfInterests) {
-                    errors.areaOfInterests = 'Please select an option';
-                }
-                if(!formData.joinMailList) {
-                    errors.joinMailList = 'Please select an option';
+                if(!formData.county) {
+                    errors.county = 'Please enter county name';
                 }
                 if(!formData.JoinAs) {
                     errors.JoinAs = 'Please select an option';
                 }
-                if(!formData.describeYourProduct) {
-                    errors.describeYourProduct = 'Please enter a description';
+                if(!formData.phoneNumber) {
+                    errors.phoneNumber = 'Please enter a phone number';
                 }
-                if(!formData.categoryFall) {
-                    errors.categoryFall = 'Please select a option';
-                }
-
-                if(checkedBoxes.length === 0) {
-                    errors.checkBoxError = "Please select at least one option."
-                }
-                if(Object.keys(errors).length > 0) {
-                    setErrorMessages(errors);
-                    toast.error('Fill all required fields');
-                    return;
-                }
+                
                 const requestData = {
+                    firstname: formData.firstname,
+                    lastname: formData.lastname,
+                    fullname: formData.fullname,
                     email: formData.email,
-                    name: formData.name,
-                    occupation: formData.occupation,
-                    company: formData.company,
+                    portfolioUrl: formData.portfolioUrl,
+                    submitProject: formData.submitProject,
+                    projectUrl: formData.projectUrl,
+                    city: formData.city,
+                    state: formData.state,
+                    country: formData.country,
+                    projectCount: formData.projectCount,
+                    collegeUni: formData.collegeUni,
+                    jobSpecialty: formData.jobSpecialty,
+                    teamMates: formData.teamMates,
+                    heardHack: formData.heardHack,
+                    county: formData.county,
                     phoneNumber: formData.phoneNumber,
-                    industry: formData.industry,
-                    attendLastYear: formData.attendLastYear,
-                    areaOfInterests: formData.areaOfInterests,
-                    joinMailList: formData.joinMailList,
-                    JoinAs: formData.JoinAs,
-                    describeYourProduct: formData.describeYourProduct,
-                    categoryFall: formData.categoryFall,
-                    selectedCheckBoxes: checkedBoxes.join(','),
                   };
-                  
-                  const Register_User_Api = `${process.env.REACT_APP_API_URL}/api/registerUsers`;
+                  console.log('requestData',requestData)
+                  const Register_User_Api = `${process.env.REACT_APP_API_URL}/api/registerUsersCyber`;
                   fetch(Register_User_Api, {
                     method: 'POST',
                     headers: {
@@ -327,25 +333,29 @@ const navigate = useNavigate();
                 .then(result => {
                     if (result && result.success) {
                         toast.success('Registration was successfully registered');
-                        console.log('result', result.data);
+                        console.log('result', result.data.insertId);
                         setTimeout(() => {
                             setAddFormOpen(false);
                         }, 1000);
                         const newAttendee = {
-                            user_id : result.data.insertId,
-                            user_email: requestData.email,
-                            user_name: requestData.name,
-                            occupation: requestData.occupation,
-                            company:requestData.company,
-                            phone_number:requestData.phoneNumber,
-                            industry_in: requestData.industry,
-                            hear_about_event: requestData.selectedCheckBoxes,
-                            attend_last_year: requestData.attendLastYear,
-                            user_interest: requestData.areaOfInterests,
-                            join_newsletter: requestData.joinMailList,
-                            join_as: requestData.JoinAs,
-                            describe_product: requestData.describeYourProduct,
-                            category_fall: requestData.categoryFall
+                            attendee_id : result.data.insertId,
+                            first_name: requestData.firstname,
+                            last_name: requestData.lastname,
+                            full_name: requestData.fullname,
+                            email:requestData.email,
+                            portifolio_url:requestData.portfolioUrl,
+                            submitted_project: requestData.submitProject,
+                            project_url: requestData.projectUrl,
+                            city: requestData.city,
+                            state: requestData.state,
+                            country: requestData.country,
+                            project_countt: requestData.projectCount,
+                            college_uni: requestData.collegeUni,
+                            job_speciality: requestData.jobSpecialty,
+                            team_mates: requestData.teamMates,
+                            heard_where: requestData.heardHack,
+                            county: requestData.county,
+                            phone_number: requestData.phoneNumber,
                         }
                         setUsersList(prevList => [...prevList, newAttendee]);
                     } else {
@@ -354,15 +364,10 @@ const navigate = useNavigate();
                             setAddFormOpen(false);
                         }, 1000);
                     }
-                    setCheckedBoxes([]);
                     resetFormFields();
-                    document.getElementById('attend').selectedIndex = 0;
-                    document.getElementById('interests-area').selectedIndex = 0;
-                    document.getElementById('join-mail').selectedIndex = 0;
-                    document.getElementById('join-summit').selectedIndex = 0;
-                    document.getElementById('category-Fall').selectedIndex = 0;
-                    
-                    
+                    document.getElementById('submit-project').selectedIndex = 0;
+                    document.getElementById('team-select').selectedIndex = 0;
+                    document.getElementById('heard-select').selectedIndex = 0;    
                 })
                   .catch ((error) => {
                     throw(error);
@@ -816,6 +821,27 @@ const navigate = useNavigate();
                         </button>
                         {/* Place your form code here */}
                         <form onSubmit={handleSubmit}>
+                    <label htmlFor="firstname">First name</label>
+                    <span>{errorMessages.firstname}</span>
+                    <input type='text'
+                    name='firstname'
+                     value={formData.firstname}
+                     placeholder='John' 
+                     onChange={handleChange}/>
+                     <label htmlFor="lastname">Last name</label>
+                    <span>{errorMessages.lastname}</span>
+                    <input type='text'
+                    name='lastname'
+                     value={formData.lastname}
+                     placeholder='Doe' 
+                     onChange={handleChange}/>
+                     <label htmlFor="fullname">Full name</label>
+                    <span>{errorMessages.fullname}</span>
+                    <input type='text'
+                    name='fullname'
+                     value={formData.fullname}
+                     placeholder='John Doe' 
+                     onChange={handleChange}/>
                     <label htmlFor="email"  >Email</label>
                     <span>{errorMessages.email}</span>
                     <input 
@@ -825,165 +851,94 @@ const navigate = useNavigate();
                     value={formData.email}
                     onChange={handleChange}
                     />
-                    <label htmlFor="name">Full name</label>
-                    <span>{errorMessages.name}</span>
-                    <input type='text'
-                    name='name'
-                     value={formData.name}
-                     placeholder='John Doe' 
+                    <label htmlFor="portfoliourl">Portfolio Url</label>
+                    <span></span>
+                    <input type='url'
+                    name='portfolioUrl'
+                     value={formData.portfolioUrl}
                      onChange={handleChange}/>
-                    <label htmlFor="occupation">Designation/Occupation/Role</label>
-                    <span>{errorMessages.occupation}</span>
-                    <input type="text" 
-                    name='occupation'
-                    value={formData.occupation}
-                    onChange={handleChange}
-                    />
-                    <label htmlFor="company">Company/Organisation</label>
-                    <span>{errorMessages.company}</span>
+                     <label htmlFor="form">Submitted Project?</label>
+                    <span>{errorMessages.submitProject}</span>
+                     <select name="submitProject" id="submit-project" onChange={handleChange}>
+                        <option value=""></option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                    <label htmlFor="projecturls">Project URLs</label>
+                    <span></span>
+                    <input type='url'
+                    name='projectUrl'
+                     value={formData.projectUrl}
+                     onChange={handleChange}/>
+                     <label htmlFor="projecturls">City</label>
+                    <span>{errorMessages.city}</span>
                     <input type='text'
-                    name='company'
-                    value={formData.company}
-                    onChange={handleChange}
-                    />
-                    <label htmlFor="phoneNumber">Phone Number</label>
+                    name='city'
+                     value={formData.city}
+                     onChange={handleChange}/>
+                     <label htmlFor="state">State</label>
+                    <span>{errorMessages.state}</span>
+                    <input type='text'
+                    name='state'
+                     value={formData.state}
+                     onChange={handleChange}/>
+                     <label htmlFor="country">Country</label>
+                    <span>{errorMessages.country}</span>
+                    <input type='text'
+                    name='country'
+                     value={formData.country}
+                     onChange={handleChange}/>
+                     <label htmlFor="projectcount">Project Count</label>
+                    <span></span>
+                    <input type='number'
+                    name='projectCount'
+                     value={formData.projectCount}
+                     onChange={handleChange}
+                     min='0'/>
+                     <label htmlFor="projecturls">College/University Name</label>
+                    <span></span>
+                    <input type='text'
+                    name='collegeUni'
+                     value={formData.collegeUni}
+                     onChange={handleChange}/>
+                     <label htmlFor="projecturls">Job Specialty</label>
+                    <span></span>
+                    <input type='text'
+                    name='jobSpecialty'
+                     value={formData.jobSpecialty}
+                     onChange={handleChange}/>
+                     <label htmlFor="form">Do you have teammates?</label>
+                    <span></span>
+                     <select name="teamMates" id="team-select" onChange={handleChange}>
+                        <option value=""></option>
+                        <option value="Already have a team">Already have a team</option>
+                        <option value="Looking for teammates">Looking for teammates</option>
+                        <option value="Working solo">Working solo</option>
+                    </select>
+                    <label htmlFor="form">Who told you about this hackathon?</label>
+                    <span></span>
+                     <select name="heardHack" id="heard-select" onChange={handleChange}>
+                        <option value=""></option>
+                        <option value="Devpost">Devpost</option>
+                        <option value="The organizer">The organizer</option>
+                        <option value="Friend">Friend</option>
+                        <option value="My college">My college</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Twitter">Twitter</option>
+                        <option value="LinkedIn">LinkedIn</option>
+                    </select>
+                    <label htmlFor="projecturls">County of Residence</label>
+                    <span>{errorMessages.county}</span>
+                    <input type='text'
+                    name='county'
+                     value={formData.county}
+                     onChange={handleChange}/>
+                     <label htmlFor="projecturls">Phone number( For communication purposes only)</label>
                     <span>{errorMessages.phoneNumber}</span>
-                    <input type="tel" 
+                    <input type='text'
                     name='phoneNumber'
-                    value={formData.phoneNumber}
-                    onChange={handleChange} 
-                    />
-                    <label htmlFor="form">Which industry are you in?</label>
-                    <span>{errorMessages.industry}</span>
-                    <input type="text" 
-                    name='industry'
-                    value={formData.industry}
-                    onChange={handleChange}
-                    />
-                    <label htmlFor="form">How did you hear about the event?</label>
-                    <span>{errorMessages.checkBoxError}</span>
-                    <div className="select-checkboxes">
-                    <label className="checkbox-label">
-                        <input
-                            type="checkbox"
-                            name="hearChecks"
-                            className='event-CheckBox'
-                            value="Email"
-                            checked={checkedBoxes.includes('Email')}
-                            onChange={handleCheckboxClick}
-                        />
-                        Email
-                    </label>
-                    </div>
-                    <div className="select-checkboxes">
-                    <label className="checkbox-label">
-                        <input
-                            type="checkbox"
-                            name="hearChecks"
-                            className='event-CheckBox'
-                            value="SocialMedia"
-                            checked={checkedBoxes.includes('SocialMedia')}
-                            onChange={handleCheckboxClick}
-                        />
-                        Social Media
-                    </label>
-                    </div>
-                    {/* <div className="select-checkboxes">
-                    <label className="checkbox-label">
-                        <input
-                            type="checkbox"
-                            name="hearChecks"
-                            className='event-CheckBox'
-                            value="LinkedIn"
-                            checked={checkedBoxes.includes('LinkedIn')}
-                            onChange={handleCheckboxClick}
-                        />
-                        LinkedIn
-                    </label>
-                    </div> */}
-                    <div className="select-checkboxes">
-                    <label className="checkbox-label">
-                        <input
-                            type="checkbox"
-                            name="hearChecks"
-                            className='event-CheckBox'
-                            value="word Of Mouth"
-                            checked={checkedBoxes.includes('word Of Mouth')}
-                            onChange={handleCheckboxClick}
-                        />
-                        Word of Mouth
-                    </label>
-                    </div>
-                    {/* <div className="select-checkboxes">
-                    <label className="checkbox-label">
-                        <input
-                            type="checkbox"
-                            name="hearChecks"
-                            className='event-CheckBox'
-                            value="Whatsapp"
-                            checked={checkedBoxes.includes('Whatsapp')}
-                            onChange={handleCheckboxClick}
-                        />
-                        whatsapp
-                    </label>
-                    </div> */}
-                    
-                    <label htmlFor="form">Did you attend last year's Blue Economy Summit?</label>
-                    <span>{errorMessages.attendLastYear}</span>
-                    <select name="attendLastYear" id="attend" onChange={handleChange}>
-                        <option value=""></option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                    <label htmlFor="form">Which areas are of interest to you during the summit?</label>
-                    <span>{errorMessages.areaOfInterests}</span>
-                    <select name="areaOfInterests" id="interests-area" onChange={handleChange}>
-                        <option value=""></option>
-                        <option value="blue economy">Blue Economy</option>
-                        <option value="climate change">Climate Change</option>
-                        <option value="digital economy">Digital Economy</option>
-                        <option value="circular economy">Circular economy</option>
-                        <option value="cybersecurity ">Cybersecurity </option>
-                        <option value="all if possible">All if Possible</option>
-                    </select>
-                    <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>
-                    <span>{errorMessages.joinMailList}</span>
-                    <select name="joinMailList" id="join-mail" onChange={handleChange}>
-                        <option value=""></option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                    <label htmlFor="form">How will you be joining this year's summit?</label>
-                    <span>{errorMessages.JoinAs}</span>
-                    <select name="JoinAs" id="join-summit" onChange={handleChange}>
-                        <option value=""></option>
-                        <option value="Startup">Start Up</option>
-                        <option value="Delegate">Delegate</option>
-                        <option value="Government">Government</option>
-                        <option value="Exhibitor">Exhibitor</option>
-                        <option value="Sponsor/Donor">Sponsor/Donor</option>
-                    </select>
-                    <label htmlFor="form">Describe your product or the services that you offer?</label>
-                    <span>{errorMessages.describeYourProduct}</span>
-                    {/* <input type="text"
-                    name='describeYourProduct'
-                    value={formData.describeYourProduct}
-                    onChange={handleChange}
-                     /> */}
-                     <textarea
-                            name='describeYourProduct'
-                            value={formData.describeYourProduct}
-                            onChange={handleChange}
-                            rows={5} // Adjust the number of rows as needed
-                            cols={40} // Adjust the number of columns as needed
-                            ></textarea>
-                    <label htmlFor="form">Which category do you fall in?</label>
-                    <span>{errorMessages.categoryFall}</span>
-                    <select name="categoryFall" id='category-Fall' onChange={handleChange}>
-                        <option value=""></option>
-                        <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>
-                        <option value="Corporate Institution (KES 30,000)">Corporate Institution (KES 30,000)</option>
-                    </select>
+                     value={formData.phoneNumber}
+                     onChange={handleChange}/>
                     <div className="modal-button">
                             <button type='submit'>Register</button>
                     </div> 

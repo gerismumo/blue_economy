@@ -40,9 +40,65 @@ class DbLearning {
         }
     }
 
+    async addUsersCyber (requestData) {
+        try {
+            const query ='INSERT INTO cybersecurity_list (first_name,last_name,full_name, email, portifolio_url, submitted_project, project_url, city, state, country, project_count, college_uni, job_speciality, registered_at, team_mates, heard_where, county, phone_number) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?,?,?)';
+                const values = [
+                    requestData.firstname,
+                    requestData.lastname,
+                    requestData.fullname,
+                    requestData.email,
+                    requestData.portfolioUrl,
+                    requestData.submitProject,
+                    requestData.projectUrl,
+                    requestData.city,
+                    requestData.state,
+                    requestData.country,
+                    requestData.projectCount,
+                    requestData.collegeUni,
+                    requestData.jobSpecialty,
+                    requestData.teamMates,
+                    requestData.heardHack,
+                    requestData.county,
+                    requestData.phoneNumber,
+                ]
+            const addUser = await new Promise((resolve, reject) => {
+                connection.query(query, values, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    // console.log(result);
+                    resolve(result);
+
+                });
+            });
+            return addUser;
+        } catch (error) {
+            throw(error);
+        }
+    }
+
     async getUserByEmail(email) {
         try {
             const query = 'SELECT * FROM users_list WHERE user_email = ?';
+            const getUser = await new Promise((resolve,reject) => {
+                connection.query(query,[email], (err, result) => {
+                    if(err) {
+                        reject(err);
+                    }else {
+                        resolve(result.length > 0);
+                      }
+                });
+            });
+            return getUser;
+        } catch (error) {
+            throw(error);
+        }
+     }
+
+     async getUserByEmailCyber(email) {
+        try {
+            const query = 'SELECT * FROM cybersecurity_list WHERE email = ?';
             const getUser = await new Promise((resolve,reject) => {
                 connection.query(query,[email], (err, result) => {
                     if(err) {
@@ -121,7 +177,7 @@ class DbLearning {
         try {
             const query = 'DELETE FROM cybersecurity_list WHERE attendee_id = ? '
             const deleteUser = await new Promise((resolve, reject) => {
-                connection.query(query, [user_id], (err, result) => {
+                connection.query(query, [attendee_id], (err, result) => {
                     if (err) {
                         reject(err);
                     }

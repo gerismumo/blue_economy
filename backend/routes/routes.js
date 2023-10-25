@@ -69,6 +69,70 @@ router.post('/api/registerUsers', async(req, res) => {
       res.status(500).send({success:false, error: error.message});
     }
   });
+
+
+  router.post('/api/registerUsersCyber', async(req, res) => {
+    const requestData = req.body;
+    const db = DbService.getDbLearningInstance();
+  
+    try {
+      const userExists = await db.getUserByEmailCyber(requestData.email);
+      if (userExists) {
+        return res.status(400).json({ success: false, error: 'User already registered' });
+        
+      }
+      const eventDetails = await db.getEventDetails();
+      const eventDate = eventDetails[0].event_date;
+      const formattedDate = new Date(eventDate).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+        });
+      const eventLocation = eventDetails[0].event_location;
+      const eventTime = eventDetails[0].event_time;
+      const formatTime = (timeString) => {
+        const date = new Date(`2000-01-01T${timeString}`);
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+        // Convert hours from 24-hour format to 12-hour format
+        const displayHours = hours % 12 === 0 ? 12 : hours % 12;
+    
+        // Pad single-digit minutes with leading zero
+        const displayMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    
+        return `${displayHours}:${displayMinutes} ${ampm}`;
+      };
+  
+      const result = await db.addUsersCyber(requestData);
+      let config = {
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        secure: process.env.EMAIL_SECURE,
+        auth: {
+          user: process.env.EMAIL_USERNAME,
+          pass: process.env.EMAIL_PASSWORD,
+        }
+      }
+  
+      let transporter = nodemailer.createTransport(config);
+      // process.env.EMAIL_USERNAME
+      const data = {
+        from : process.env.EMAIL_USERNAME,
+        to : requestData.email,
+        subject: 'Welcome to Blue Economy Summit',
+        text: `Dear ${requestData.name},\n\nThank you for registering for the Blue Economy Summit 2023. We are excited to have you join us!\n\nEvent Details:\nDate: ${formattedDate}\nLocation:\n${eventLocation}\nTime:\n${formatTime(eventTime)}\n\nLooking forward to seeing you at the event.\n\nBest regards,\nThe Blue Economy Summit Team`,
+      };
+  
+      transporter.sendMail(data).then(() => {
+        return 
+      });
+      res.json({success: true, data:result });
+    } catch (error) {
+      res.status(500).send({success:false, error: error.message});
+    }
+  });
   
   //select users 
   router.get('/api/usersList', (req, res) => {
@@ -96,8 +160,9 @@ router.post('/api/registerUsers', async(req, res) => {
     .catch(err => res.json({success:false, err:err}));
   });
 
-  router.delete('/api/deleteUserCyber/:user_id', (req, res) => {
+  router.delete('/api/deleteUserCyber/:attendee_id', (req, res) => {
     const {attendee_id } = req.params;
+    // console.log(attendee_id);
      
     const db = DbService.getDbLearningInstance();
     const result = db.deleteUserCyber(attendee_id);
