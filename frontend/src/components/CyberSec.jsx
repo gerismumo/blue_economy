@@ -29,26 +29,30 @@ const navigate = useNavigate();
       const filteredData = usersList
         ? usersList.filter((user) => {
             return (
-                user.user_id.toString().toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
-                user.user_email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.user_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.occupation.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.phone_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.industry_in.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.hear_about_event.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.attend_last_year.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.user_interest.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.join_newsletter.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.join_as.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.describe_product.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.category_fall.toLowerCase().includes(searchQuery.toLowerCase())    
+                user.attendee_id.toString().toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+                user.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.portifolio_url.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.submitted_project.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.project_url.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.project_count.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.college_uni.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.job_speciality.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.registered_at.toLowerCase().includes(searchQuery.toLowerCase())  ||  
+                user.team_mates.toLowerCase().includes(searchQuery.toLowerCase())  ||
+                user.heard_where.toLowerCase().includes(searchQuery.toLowerCase())  ||
+                user.county.toLowerCase().includes(searchQuery.toLowerCase())  ||
+                user.phone_number.toLowerCase().includes(searchQuery.toLowerCase())  
             );
             })
         : []
         //get users list 
 
-        const User_List_Api = `${process.env.REACT_APP_API_URL}/api/usersList`;
+        const User_List_Api = `${process.env.REACT_APP_API_URL}/api/cyberSecurityList`;
         useEffect(() => {
             fetch(User_List_Api)
             .then(response => {
@@ -367,7 +371,7 @@ const navigate = useNavigate();
             const [attendedStatuses, setAttendedStatuses] = useState({});
             const fetchInitialAttendStatuses = async () => {
                 try {
-                    const attend_status_api = `${process.env.REACT_APP_API_URL}/api/attendStatus`;
+                    const attend_status_api = `${process.env.REACT_APP_API_URL}/api/attendStatusCyber`;
                   const response = await fetch(attend_status_api);
                   if (!response.ok) {
                     throw new Error('Failed to fetch initial attendance status from the database');
@@ -397,7 +401,7 @@ const navigate = useNavigate();
                 });
                 
                 try {
-                    const attend_status_ap = `${process.env.REACT_APP_API_URL}/api/attendedStatuses`;
+                    const attend_status_ap = `${process.env.REACT_APP_API_URL}/api/attendedStatusesCyber`;
                     const response = await fetch(attend_status_ap, {
                       method: 'PUT',
                       headers: {
@@ -566,21 +570,24 @@ const navigate = useNavigate();
                         <tr>
                             <th>Attend Status</th>
                             <th>Attended</th>
-                            <th>User ID</th>
+                            <th>Attendee ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
                             <th>Email</th>
-                            <th>Name</th>
-                            <th>Designation/Occupation/Role</th>
-                            <th>Company/ Organization Name</th>
-                            <th>Phone number(For communication purposes only)</th>
-                            <th>Which industry are you in?</th>
-                            <th>How did you hear about the event?</th>
-                            <th>Did you attend last year's Blue Economy Summit?</th>
-                            <th>Which areas are of interest to you during the summit?</th>
-                            <th>Do you consent joining our mailing list to receive our newsletter?</th>
-                            <th>How will you be joining this year's summit?</th>
-                            <th>Describe your product or the services that you offer?</th>
-                            <th>Which category do you fall in?</th>
-
+                            <th>Portfolio Url</th>
+                            <th>Submitted Project?</th>
+                            <th>Project URLs</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>Country</th>
+                            <th>Project Count</th>
+                            <th>College/University Name</th>
+                            <th>Job Specialty</th>
+                            <th>Registered At</th>
+                            <th>Do you have teammates?</th>
+                            <th>Who told you about this hackathon?</th>
+                            <th>County of Residence</th>
+                            <th>Phone number( For communication purposes only)</th>
                             {/* <th>Edit</th>
                             <th>Delete</th> */}
                         </tr>
@@ -590,28 +597,32 @@ const navigate = useNavigate();
                         <p>no available data</p>
                     ): (
                         filteredData.map(user => (
-                            <tr key={user.user_id}>
+                            <tr key={user.attendee_id}>
                                 <td><input type="checkbox"
                                  className='confirm-check'
-                                  name={user.user_id} 
-                                  checked={attendedStatuses[user.user_id]} 
+                                  name={user.attendee_id} 
+                                  checked={attendedStatuses[user.attendee_id]} 
                                   onChange={handleCheckboxConfirm} 
                                   /></td>
-                                  <td className='attend-text'>{attendedStatuses[user.user_id] ? 'Yes' : 'No'}</td>
-                                <td>{user.user_id}</td>
-                                <td>{user.user_email}</td>
-                                <td>{user.user_name}</td>
-                                <td>{user.occupation}</td>
-                                <td>{user.company}</td>
+                                  <td className='attend-text'>{attendedStatuses[user.attendee_id] ? 'Yes' : 'No'}</td>
+                                <td>{user.attendee_id}</td>
+                                <td>{user.first_name}</td>
+                                <td>{user.full_name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.portifolio_url}</td>
+                                <td>{user.submitted_project}</td>
+                                <td>{user.project_url}</td>
+                                <td>{user.city}</td>
+                                <td>{user.state}</td>
+                                <td>{user.country}</td>
+                                <td>{user.project_count}</td>
+                                <td>{user.college_uni}</td>
+                                <td>{user.job_speciality}</td>
+                                <td>{user.registered_at}</td>
+                                <td>{user.team_mates}</td>
+                                <td>{user.heard_where}</td>
+                                <td>{user.county}</td>
                                 <td>{user.phone_number}</td>
-                                <td>{user.industry_in}</td>
-                                <td>{user.hear_about_event}</td>
-                                <td>{user.attend_last_year}</td>
-                                <td>{user.user_interest}</td>
-                                <td>{user.join_newsletter}</td>
-                                <td>{user.join_as}</td>
-                                <td>{user.describe_product}</td>
-                                <td>{user.category_fall}</td>
                                 <td><button onClick={()=>handleEditUser(user)}>Edit</button></td>
                                 <td><button onClick={()=>handleDeleteUser(user.user_id)}>Delete</button></td>
                                 

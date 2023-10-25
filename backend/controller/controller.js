@@ -239,6 +239,28 @@ class DbLearning {
         }
      }
 
+     async selectAttendStatusCyber() {
+        try {
+            const query = 'SELECT * FROM cybersecurity_list';
+            const select = await new Promise((resolve, reject) => {
+                connection.query(query, (err, results) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        const attendedData = {};
+                        results.forEach(row => {
+                            attendedData[row.attendee_id] = row.attend_status === '1';
+                        });
+                        resolve(attendedData);
+                    }
+                });
+            });
+            return select;
+        } catch (error) {
+            throw(error);
+        }
+     }
+
      async getEventDetails() {
         try {
             const query = 'SELECT * FROM event_details';
@@ -494,5 +516,59 @@ class DbLearning {
         }
      }
 
+     async cyberSecurityList() {
+        try{
+            const query = 'SELECT * FROM cybersecurity_list';
+            const selectUsers = await new Promise((resolve, reject) => {
+                connection.query(query, (err, results) => {
+                    if(err) {
+                        reject(err);
+                    }
+                    resolve(results);
+                });
+            });
+            return selectUsers;
+        }catch (error) {
+            throw(error);
+        }
+    }
+
+    async getUserByUserIdCyber(attendee_id) {
+        try {
+            const query = 'SELECT * FROM cybersecurity_list WHERE attendee_id = ?';
+
+            const selectUser = await new Promise((resolve, reject) => {
+                connection.query(query, [attendee_id], (err, result) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+            return selectUser;
+        } catch (error) {
+            throw(error);
+        }
+     }
+
+     async confirmAttendCyber(userId, attendedStatus) {
+        try {
+            const query = 'UPDATE cybersecurity_list SET attend_status = ? WHERE attendee_id = ?';
+            const confirmStatus = await new Promise((resolve, reject) => {
+                connection.query(query, [attendedStatus, userId], (err, result) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+            return confirmStatus;
+        } catch (error) {
+            throw(error);
+        }
+     }
+     
     }
     module.exports = DbLearning;

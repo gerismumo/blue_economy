@@ -245,6 +245,16 @@ router.post('/api/registerUsers', async(req, res) => {
     })
     .catch((err) => res.json({error:err.message}));
   });
+
+  router.get('/api/attendStatusCyber', (req, res) => {
+    const db = DbService.getDbLearningInstance();
+    const result = db.selectAttendStatusCyber();
+    result
+    .then(data => {
+      res.json({success:true, data:data});
+    })
+    .catch((err) => res.json({error:err.message}));
+  });
   
   router.get('/api/eventDetails', (req, res) => {
     const db = DbService.getDbLearningInstance();
@@ -418,6 +428,60 @@ router.post('/api/registerUsers', async(req, res) => {
       .catch(err => res.json({error: err}));
     });
 
+    router.get('/api/cyberSecurityList', (req, res) => {
+      const db = DbService.getDbLearningInstance();
+      const result = db.cyberSecurityList();
+    
+      result.then(data => {
+        res.json({success: true, data: data});
+      })
+      .catch(err => res.json({error: err}));
+    });
+
+    router.put('/api/attendedStatusesCyber', async (req, res) => {
+      const {userId, attendedStatus} = req.body;
+      console.log(attendedStatus);
+      console.log(userId);
+      const db = DbService.getDbLearningInstance();
+      try {
+        const getUserDetails = await db.getUserByUserIdCyber(userId);
+        const getEmail = getUserDetails[0].email;
+        const getName = getUserDetails[0].first_name;
+        // console.log(getEmail);
+        // console.log(getName);
+        const data =  await db.confirmAttendCyber(userId, attendedStatus);
+        res.json({success:true, data:data});
+        if(attendedStatus === true) {
+          let config = {
+            host: process.env.EMAIL_HOST,
+            port: process.env.EMAIL_PORT,
+            secure: process.env.EMAIL_SECURE,
+            auth: {
+              user: process.env.EMAIL_USERNAME,
+              pass: process.env.EMAIL_PASSWORD,
+            }
+          }
+      
+          const loginLink = `https://blueeconomysummit.co.ke/`;
+      
+          let transporter = nodemailer.createTransport(config);
+      
+          const result = {
+            from : process.env.EMAIL_USERNAME,
+            to : getEmail,
+            subject: 'Welcome to Blue Economy Summit ',
+            text: `Dear ${getName},\n\nYou thank you for attending the Blue Economy Summit:\n\n Check out the event activities here:\n\n ${loginLink}\n`,
+          };
+      
+          transporter.sendMail(result).then(() => {
+            return ;
+          });
+        }
+      } catch (error) {
+        throw(error);
+      }
+    });
+    
   module.exports = router;
   
   
