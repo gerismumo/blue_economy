@@ -28,7 +28,7 @@ function RegistrationForm() {
   };
 
   return (
-    <div>
+    <div className='registration-page'>
       <h1>Check Registration</h1>
       <form onSubmit={handleFormSubmit}>
         <label>
