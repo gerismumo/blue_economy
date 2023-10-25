@@ -433,5 +433,23 @@ class DbLearning {
         }
      }
 
+     async selectUserByEmail() {
+        try {
+            const query = 'SELECT FROM users_list WHERE user_email = ?';
+            const selectUser = await new Promise((resolve, reject) => {
+                connection.query(query, (err, result) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+            return selectUser;
+        } catch (error) {
+            throw(error);
+        }
+     }
+
     }
     module.exports = DbLearning;

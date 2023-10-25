@@ -92,6 +92,12 @@ function Home() {
     
         return `${displayHours}:${displayMinutes} ${ampm}`;
       };
+      const handleQrCodeClick = () => {
+        navigate('/registration');
+      }
+      const handleRegistrationForm = () => {
+        navigate('/verify');
+      }
       
     return (
         <div>
@@ -129,6 +135,8 @@ function Home() {
                                  </>
                                  ) : (
                                     <>
+                                    <button onClick={handleQrCodeClick}>Registration</button>
+                                    <button onClick={handleRegistrationForm}>QrCode</button>
                                     <Link to="/confirmAttend">Scan Me</Link>
                                      <Link  to="/login">Login</Link>
                                     </>
@@ -165,6 +173,8 @@ function Home() {
                             
                             <Link  to="/login">Login</Link>
                             <Link to="/confirmAttend">Scan Me</Link>
+                            <button onClick={handleQrCodeClick}>Registration</button>
+                            <button onClick={handleRegistrationForm}>QrCode</button>
                             </>
                           
                          )}

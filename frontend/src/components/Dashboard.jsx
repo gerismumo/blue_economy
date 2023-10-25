@@ -472,9 +472,9 @@ const navigate = useNavigate();
           // Parse the Excel file to JSON before sending it to the server
           parseExcelFile(file, (jsonData) => {
             console.log(jsonData);
-            const jsonDataString = JSON.stringify(jsonData);
-            const dataSizeInBytes = new TextEncoder().encode(jsonDataString).length;
-            console.log(`Data size: ${dataSizeInBytes} bytes`);
+            // const jsonDataString = JSON.stringify(jsonData);
+            // const dataSizeInBytes = new TextEncoder().encode(jsonDataString).length;
+            // console.log(`Data size: ${dataSizeInBytes} bytes`);
             // Send the JSON data to the server using the fetch API
             fetch(upload_file_api, {
               method: 'POST',

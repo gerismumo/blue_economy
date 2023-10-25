@@ -11,7 +11,9 @@ import Eligble from './components/Eligble';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
+import RegistrationForm from './components/RegistrationForm';
 import Submit from './components/Submit';
+import Verify from './components/Verify';
 function App() {
   
   return (
@@ -27,6 +29,9 @@ function App() {
         <Route path='/confirmAttend' element={<Confirm />} />
         <Route path='/confirmMessage' element={<Eligble />} />
         <Route path='/cyberSecurity' element={<CyberSec />} />
+        <Route path='/registration' element={<RegistrationForm/>} />
+        <Route path='/verify' element={<Verify />} />
+    
         
         {/* <Route
           path="/adminPage"
