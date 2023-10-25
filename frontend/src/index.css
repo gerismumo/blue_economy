@@ -1486,7 +1486,10 @@ background-color: grey;
 .confirm-content button:hover {
   background-color: #0056b3;
 }
-
+.confirm-content #message {
+  color: red;
+  font-size: 16px;
+}
 /* .confirm-content .QrReader {
   margin-top: 20px;
 }
@@ -1559,6 +1562,9 @@ background-color: grey;
 }
 
 @media print {
+  .data-page .data-text {
+    display: none;
+  }
   .data-page .data-page, .data-page * {
       display: block;
   }

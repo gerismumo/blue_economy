@@ -29,15 +29,17 @@ function Attend() {
         // console.log(usersList);
         useEffect(() => {
             const userInformation = usersList.map(user => {
-              return `Name: ${user.user_name}, Email: ${user.user_email}, Phone: ${user.phone_number}`;
+              return `${user.user_email}`;
             });
         
-            const combinedData = userInformation.join('\n'); // Combine data with line breaks
+            const combinedData = userInformation.join(' '); // Combine data with line breaks
         
             setQRCodeData(combinedData);
+            console.log(combinedData);
           }, [usersList]);
-
+          
           const handlePrint = () => {
+            // const qrCodeElement = document.getElementById('qr-code');
             window.print();
         };
 
@@ -52,7 +54,7 @@ function Attend() {
                             <h1>Scan to confirm</h1>
                         </div>
                         <div className="data-code">
-                            <QRCode value={qrCodeData} />
+                            <QRCode value={qrCodeData} id="qr-code"/>
                         </div>
                         <div className="button-container">
                             <button onClick={handlePrint}>Print</button>

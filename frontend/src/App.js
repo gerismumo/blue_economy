@@ -10,6 +10,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import Submit from './components/Submit';
+import Eligble from './components/Eligble';
 function App() {
   
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path='/adminPage' element={<AdminPage/>} />
         <Route path='/attendData' element={<Attend />} />
         <Route path='/confirmAttend' element={<Confirm />} />
+        <Route path='/confirmMessage' element={<Eligble />} />
         
         {/* <Route
           path="/adminPage"

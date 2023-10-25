@@ -1,30 +1,46 @@
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Confirm() {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [result, setResult] = useState('');
   const [scanEnabled, setScanEnabled] = useState(false);
-
-  // Define the Html5QrcodeScanner instance in the component's state
   const [html5QrCode, setHtml5QrCode] = useState(null);
+
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const identifyQRCodeData = (qrCodeData) => {
       // Extract the data from the QR code
-      const extractedData = qrCodeData.split(',');
+      const extractedData = qrCodeData.split(' ');
+      console.log(extractedData);
       return extractedData;
     };
 
     const handleScan = (qrCodeData) => {
-      if (qrCodeData) {
+      if (qrCodeData ) {
         const data = identifyQRCodeData(qrCodeData);
+        if (data.includes(email)) {
+          setTimeout(() => {
+            setScanEnabled(false); 
+            navigate('/confirmMessage')
+          }, 2000); 
 
-        if (data[0] === email && data[1] === phone) {
-          setResult('You are eligible to attend the event.');
+          setTimeout(() => {
+            navigate('/')
+          }, 5000); 
+
         } else {
-          setResult('You are not eligible to attend the event.');
+        setTimeout(() => {
+            setScanEnabled(false); 
+            setResult('You are not eligible to attend the event.');
+            // toast.error('You are not eligible to attend the event.')
+          }, 6000);
         }
       }
     };
@@ -50,7 +66,7 @@ function Confirm() {
     } else {
       // Stop scanning
       if (html5QrCode) {
-        html5QrCode.stop();
+        html5QrCode.clear();
         setHtml5QrCode(null); // Clear the instance
       }
     }
@@ -58,13 +74,13 @@ function Confirm() {
     // Cleanup the QR code scanner when the component unmounts
     return () => {
       if (html5QrCode) {
-        html5QrCode.stop();
+        html5QrCode.clear();
       }
     };
   }, [scanEnabled, email, phone, html5QrCode]);
 
   const handleBack = () => {
-    setScanEnabled(false); // Stop scanning
+    setScanEnabled(false);
   };
 
   return (
@@ -80,44 +96,36 @@ function Confirm() {
           </div>
         </nav>
       </div>
+      <ToastContainer />
       <div className="confirm-content">
         <div className="confirm-form">
-            {!scanEnabled ? (
+          {!scanEnabled ? (
             <div>
-                <label>
+              <label>
                 Email:
                 <input
-                    type="text"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
-                </label>
-                <label>
-                Phone:
-                <input
-                    type="text"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    required
-                />
-                </label>
-                <div className="confirm-btn">
+              </label>
+              <div className="confirm-btn">
                 <button onClick={() => setScanEnabled(true)}>Next</button>
-                </div>
+              </div>
+              <p id='message'>{result}</p>
             </div>
-            ) : (
+          ) : (
             <div>
-                <div id="qr-reader" style={{ width: '100%', height: '300px' }}></div>
-                <p>{result}</p>
-                <div className="confirm-btn">
+              <div id="qr-reader" style={{ width: '100%', height: '300px' }}></div>
+              {/* <p>{result}</p> */}
+              <div className="confirm-btn">
                 <button onClick={handleBack}>Back</button>
-                </div>
+              </div>
             </div>
-            )}
+          )}
         </div>
       </div>
-      
     </div>
   );
 }
