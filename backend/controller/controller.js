@@ -117,6 +117,23 @@ class DbLearning {
         }
     }
 
+    async deleteUserCyber(attendee_id) {
+        try {
+            const query = 'DELETE FROM cybersecurity_list WHERE attendee_id = ? '
+            const deleteUser = await new Promise((resolve, reject) => {
+                connection.query(query, [user_id], (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    resolve(result);
+                });
+            });
+            return deleteUser;
+        } catch (error) {
+            throw(error);
+        }
+    }
+
     //edit users
     async  editUsers(user_id,
         user_email,user_name, occupation, company,phone_number, industry_in,

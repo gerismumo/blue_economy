@@ -75,14 +75,14 @@ const navigate = useNavigate();
         //handle delete user
 
         
-        const handleDeleteUser = async(user_id) => {
+        const handleDeleteUser = async(attendee_id) => {
             try {
-                const delete_user_api = `${process.env.REACT_APP_API_URL}/api/deleteUser/${user_id}`
+                const delete_user_api = `${process.env.REACT_APP_API_URL}/api/deleteUserCyber/${attendee_id}`
                 const response = await fetch(delete_user_api, {
                 method: 'DELETE',  
                 })
                 if(response.ok) {
-                    const updatedUsersList = usersList.filter((user) => user_id !== user.user_id);
+                    const updatedUsersList = usersList.filter((user) => attendee_id !== user.attendee_id);
                     setUsersList(updatedUsersList);
                     toast.success('Successfully deleted');
                 }
@@ -423,27 +423,31 @@ const navigate = useNavigate();
 
     const exportToExcel = () => {
         const dataToExport = filteredData.map((user) => ({
-          'User ID': user.user_id,
-          'User Email': user.user_email,
-          'User Names': user.user_name,
-          'Designation/Occupation/Role': user.occupation,
-          'Company/Organization Name': user.company,
-          'Phone number(For communication purposes only)': user.phone_number,
-          'Which industry are you in?': user.industry_in,
-          'How did you hear about the event?': user.hear_about_event,
-          'Did you attend last year\'s Blue Economy Summit?': user.attend_last_year,
-          'Which areas are of interest to you during the summit?': user.user_interest,
-          'Do you consent joining our mailing list to receive our newsletter?': user.join_newsletter,
-          'How will you be joining this year\'s summit?': user.join_as,
-          'Describe your product or the services that you offer?': user.describe_product,
-          'Which category do you fall in?': user.category_fall,
-          'Attended': attendedStatuses[user.user_id] ? 'Yes' : 'No',
+          'First Name': user.first_name,
+          'Last Name': user.last_name,
+          'Full Name': user.full_name,
+          'Email': user.email,
+          'Portfolio Url': user.portifolio_url,
+          'Submitted Project?': user.submitted_project,
+          'Project URLs': user.project_url,
+          'City': user.city,
+          'State': user.state,
+          'Country': user.country,
+          'Project Count':user.project_count ,
+          'College/University Name': user.college_uni,
+          'Job Specialty': user.job_speciality,
+          'Registered At': user.registered_at,
+          'Do you have teammates?': user.team_mates,
+          'Who told you about this hackathon?': user.heard_where,
+          'County of Residence': user.county,
+          'Phone number( For communication purposes only)': user.phone_number,
+          'Attended': attendedStatuses[user.attendee_id] ? 'Yes' : 'No',
         }));
       
         const worksheet = XLSX.utils.json_to_sheet(dataToExport);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Users Data');
-        XLSX.writeFile(workbook, 'users_data.xlsx');
+        XLSX.writeFile(workbook, 'cybersecurity_data.xlsx');
       };
    
       const logout = () => {
@@ -573,6 +577,7 @@ const navigate = useNavigate();
                             <th>Attendee ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>
+                            <th>Full Name</th>
                             <th>Email</th>
                             <th>Portfolio Url</th>
                             <th>Submitted Project?</th>
@@ -607,6 +612,7 @@ const navigate = useNavigate();
                                   <td className='attend-text'>{attendedStatuses[user.attendee_id] ? 'Yes' : 'No'}</td>
                                 <td>{user.attendee_id}</td>
                                 <td>{user.first_name}</td>
+                                <td>{user.last_name}</td>
                                 <td>{user.full_name}</td>
                                 <td>{user.email}</td>
                                 <td>{user.portifolio_url}</td>
@@ -623,8 +629,8 @@ const navigate = useNavigate();
                                 <td>{user.heard_where}</td>
                                 <td>{user.county}</td>
                                 <td>{user.phone_number}</td>
-                                <td><button onClick={()=>handleEditUser(user)}>Edit</button></td>
-                                <td><button onClick={()=>handleDeleteUser(user.user_id)}>Delete</button></td>
+                                {/* <td><button onClick={()=>handleEditUser(user)}>Edit</button></td> */}
+                                <td><button onClick={()=>handleDeleteUser(user.attendee_id)}>Delete</button></td>
                                 
                             </tr>
                         ))

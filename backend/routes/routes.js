@@ -95,6 +95,18 @@ router.post('/api/registerUsers', async(req, res) => {
     })
     .catch(err => res.json({success:false, err:err}));
   });
+
+  router.delete('/api/deleteUserCyber/:user_id', (req, res) => {
+    const {attendee_id } = req.params;
+     
+    const db = DbService.getDbLearningInstance();
+    const result = db.deleteUserCyber(attendee_id);
+    result
+    .then(data => {
+      res.json({success:true, data:data});
+    })
+    .catch(err => res.json({success:false, err:err}));
+  });
   //edit admin
   
   router.put('/api/editUser/:user_id', (req, res) => {
