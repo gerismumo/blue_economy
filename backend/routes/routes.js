@@ -457,6 +457,8 @@ router.post('/api/registerUsers', async(req, res) => {
     try {
       const getUserDetails = await  db.getUserByEmail(email);
       // console.log(getUserDetails);
+      const getCyberData = await db.getUserByEmailCyber(email);
+      await db.updateAttendStatusCyber(email);
       if(getUserDetails) {
         const getEmail = getUserDetails.user_email;
         const getName = getUserDetails.user_name;
@@ -487,9 +489,9 @@ router.post('/api/registerUsers', async(req, res) => {
           return ;
         });
         await db.updateAttendStatus(email);
-        res.json({message:'Email confirmed successfully'})
-      } else {
-        const getCyberData = await db.getUserByEmailCyber(email);
+        res.json({success: true, message:'Email confirmed successfully'})
+      } else if(getCyberData){
+        // const getCyberData = await db.getUserByEmailCyber(email);
         // console.log(getCyberData);
         const getEmailCyber = getCyberData.email;
         const getNameCyber = getCyberData.first_name;
@@ -518,8 +520,10 @@ router.post('/api/registerUsers', async(req, res) => {
         transporter.sendMail(result).then(() => {
           return ;
         });
-        await db.updateAttendStatusCyber(email);
-        res.json({message:'Email confirmed successfully'})
+         await db.updateAttendStatusCyber(email);
+        res.json({success: true, message:'Email confirmed successfully'})
+      } else {
+        res.json({success: false, message:'Email Not Found'})
       }
       
     } catch (error) {

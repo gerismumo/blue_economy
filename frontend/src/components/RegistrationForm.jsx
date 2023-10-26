@@ -20,11 +20,15 @@ function RegistrationForm() {
 
       if (response.ok) {
         const data = await response.json();
-        setMessage(data.message);
-        toast.success('Email confirmed successfully');
-        setTimeout(() => {
-          window.location.href = 'https://blueeconomysummit.co.ke/'; 
-        }, 1000); 
+        if(data.success) {
+          // setMessage(data.message);
+          toast.success(data.message);
+          setTimeout(() => {
+            window.location.href = 'https://blueeconomysummit.co.ke/'; 
+          }, 1000); 
+        }else {
+          setMessage(data.message);
+        }
       } else {
         setMessage('Email not found in the registration list.');
       }

@@ -559,6 +559,7 @@ class DbLearning {
             if (Array.isArray(jsonData)) {
               
                 const valuesToInsert = jsonData.map(item => {
+                    // const registeredAt = new Date(item['Registered At']);
                   return [
                     item['First Name'],
                     item['Last Name'],
@@ -652,7 +653,7 @@ class DbLearning {
      }
 
      async updateAttendStatus(email) {
-        const query = 'UPDATE users_list SET attend_status = 1 WHERE user_email = ?';
+        const query = 'UPDATE users_list SET attend_status = 1, confirmed_at = NOW() WHERE user_email = ?';
         return new Promise((resolve, reject) => {
             connection.query(query, [email], (err, result) => {
                 if (err) {
@@ -665,7 +666,7 @@ class DbLearning {
     }
 
     async updateAttendStatusCyber(email) {
-        const query = 'UPDATE  cybersecurity_list SET attend_status = 1 WHERE email = ?';
+        const query = 'UPDATE  cybersecurity_list SET attend_status = 1, confirmed_at = NOW() WHERE email = ?';
         return new Promise((resolve, reject) => {
             connection.query(query, [email], (err, result) => {
                 if (err) {

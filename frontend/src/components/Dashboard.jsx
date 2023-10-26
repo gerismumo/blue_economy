@@ -11,7 +11,7 @@ function Dashboard() {
 const navigate = useNavigate();
     // const [importedData, setImportedData] = useState(null);
     const[usersList, setUsersList] = useState([]);
-    let user = JSON.parse(localStorage.getItem('user'));
+    let person = JSON.parse(localStorage.getItem('user'));
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const[errorMessages, setErrorMessages] = useState({});
@@ -446,10 +446,10 @@ const navigate = useNavigate();
         navigate('/');
     }
     useEffect(() => {
-       if(!user){
+       if(!person){
         navigate('/');
       }
-      }, [navigate, user]);
+      }, [navigate, person]);
     //   const [dropdownVisible, setDropdownVisible] = useState(false);
 
     //   const toggleDropdown = () => {
@@ -539,14 +539,20 @@ const navigate = useNavigate();
                     />
                     <div className="no-users">
                         <p>{usersList ? usersList.length : '0'}</p>
-                        <p>registered Persons</p>
+                        <p>registered attendees</p>
                     </div>
                 </div>
                 <div className="middle-tabs">
                     <div className='button-tabs'>
                         <Link to="/cyberSecurity">CyberSecurity</Link>
-                        <input type="file" accept=".xlsx" onChange={handleFileChange} />
-                        <button onClick={handleFileUpload}>Upload</button>
+                        {person.organiser_role === 'admin'? (
+                            <>
+                                <input type="file" accept=".xlsx" onChange={handleFileChange} />
+                                <button onClick={handleFileUpload}>Upload</button>
+                            </>
+                        ): (
+                            <></>
+                        )}
                     </div>
                     <div className='button-tabs'>
                         <button onClick={exportToExcel}>Export to Excel</button>
@@ -557,7 +563,7 @@ const navigate = useNavigate();
                             <FontAwesomeIcon icon={faPlus} />
                         </div>
                         <div className="add-text">
-                            <p>add User</p>
+                            <p>add Attendee</p>
                         </div>
                     </div>
                 </div>
@@ -569,6 +575,7 @@ const navigate = useNavigate();
                         <tr>
                             <th>Attend Status</th>
                             <th>Attended</th>
+                            <th>Confirmed At</th>
                             <th>User ID</th>
                             <th>Email</th>
                             <th>Name</th>
@@ -601,6 +608,7 @@ const navigate = useNavigate();
                                   onChange={handleCheckboxConfirm} 
                                   /></td>
                                   <td className='attend-text'>{attendedStatuses[user.user_id] ? 'Yes' : 'No'}</td>
+                                  <td>{user.confirmed_at}</td>
                                 <td>{user.user_id}</td>
                                 <td>{user.user_email}</td>
                                 <td>{user.user_name}</td>
@@ -616,8 +624,13 @@ const navigate = useNavigate();
                                 <td>{user.describe_product}</td>
                                 <td>{user.category_fall}</td>
                                 <td><button onClick={()=>handleEditUser(user)}>Edit</button></td>
-                                <td><button onClick={()=>handleDeleteUser(user.user_id)}>Delete</button></td>
-                                
+                                {person.organiser_role === 'admin' ? (
+                                    <>
+                                        <td><button onClick={()=>handleDeleteUser(user.user_id)}>Delete</button></td>
+                                    </>
+                                ):(
+                                    <></>
+                                )}  
                             </tr>
                         ))
                     )}

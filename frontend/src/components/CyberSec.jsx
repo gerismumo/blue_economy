@@ -11,7 +11,7 @@ function CyberSec() {
 const navigate = useNavigate();
     // const [importedData, setImportedData] = useState(null);
     const[usersList, setUsersList] = useState([]);
-    let user = JSON.parse(localStorage.getItem('user'));
+    let person = JSON.parse(localStorage.getItem('user'));
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const[errorMessages, setErrorMessages] = useState({});
@@ -43,7 +43,7 @@ const navigate = useNavigate();
                 user.project_count.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 user.college_uni.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 user.job_speciality.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.registered_at.toString().toLowerCase().includes(searchQuery.toLowerCase())  ||  
+                // user.registered_at.toString().toLowerCase().includes(searchQuery.toLowerCase())  ||  
                 user.team_mates.toLowerCase().includes(searchQuery.toLowerCase())  ||
                 user.heard_where.toLowerCase().includes(searchQuery.toLowerCase())  ||
                 user.county.toLowerCase().includes(searchQuery.toLowerCase())  ||
@@ -441,7 +441,7 @@ const navigate = useNavigate();
           'Project Count':user.project_count ,
           'College/University Name': user.college_uni,
           'Job Specialty': user.job_speciality,
-          'Registered At': user.registered_at,
+        //   'Registered At': user.registered_at,
           'Do you have teammates?': user.team_mates,
           'Who told you about this hackathon?': user.heard_where,
           'County of Residence': user.county,
@@ -460,10 +460,10 @@ const navigate = useNavigate();
         navigate('/');
     }
     useEffect(() => {
-       if(!user){
+       if(!person){
         navigate('/');
       }
-      }, [navigate, user]);
+      }, [navigate, person]);
     //   const [dropdownVisible, setDropdownVisible] = useState(false);
 
     //   const toggleDropdown = () => {
@@ -497,6 +497,7 @@ const navigate = useNavigate();
                 if (response.status === 200) {
                     
                   console.log('File uploaded successfully.');
+                  window.location.reload();
                 } else {
                   console.error('Error uploading the file.');
                 }
@@ -549,14 +550,21 @@ const navigate = useNavigate();
                     />
                     <div className="no-users">
                         <p>{usersList ? usersList.length : '0'}</p>
-                        <p>registered Persons</p>
+                        <p>registered attendees</p>
                     </div>
                 </div>
                 <div className="middle-tabs">
                     <div className='button-tabs'>
                         <Link to="/dashboard">Dashboard</Link>
-                        <input type="file" accept=".xlsx" onChange={handleFileChange} />
-                        <button onClick={handleFileUpload}>Upload</button>
+                        {person.organiser_role === 'admin'? (
+                            <>
+                                <input type="file" accept=".xlsx" onChange={handleFileChange} />
+                                <button onClick={handleFileUpload}>Upload</button>
+                            </>
+                        ): (
+                            <></>
+                        )}
+                        
                     </div>
                     <div className='button-tabs'>
                         <button onClick={exportToExcel}>Export to Excel</button>
@@ -567,7 +575,7 @@ const navigate = useNavigate();
                             <FontAwesomeIcon icon={faPlus} />
                         </div>
                         <div className="add-text">
-                            <p>add User</p>
+                            <p>add attendee</p>
                         </div>
                     </div>
                 </div>
@@ -579,6 +587,7 @@ const navigate = useNavigate();
                         <tr>
                             <th>Attend Status</th>
                             <th>Attended</th>
+                            <th>Confirmed At</th>
                             <th>Attendee ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>
@@ -593,7 +602,7 @@ const navigate = useNavigate();
                             <th>Project Count</th>
                             <th>College/University Name</th>
                             <th>Job Specialty</th>
-                            <th>Registered At</th>
+                            {/* <th>Registered At</th> */}
                             <th>Do you have teammates?</th>
                             <th>Who told you about this hackathon?</th>
                             <th>County of Residence</th>
@@ -615,6 +624,7 @@ const navigate = useNavigate();
                                   onChange={handleCheckboxConfirm} 
                                   /></td>
                                   <td className='attend-text'>{attendedStatuses[user.attendee_id] ? 'Yes' : 'No'}</td>
+                                  <td>{user.confirmed_at}</td>
                                 <td>{user.attendee_id}</td>
                                 <td>{user.first_name}</td>
                                 <td>{user.last_name}</td>
@@ -629,13 +639,26 @@ const navigate = useNavigate();
                                 <td>{user.project_count}</td>
                                 <td>{user.college_uni}</td>
                                 <td>{user.job_speciality}</td>
-                                <td>{user.registered_at}</td>
+                                {/* <td>{user.registered_at}</td> */}
                                 <td>{user.team_mates}</td>
                                 <td>{user.heard_where}</td>
                                 <td>{user.county}</td>
                                 <td>{user.phone_number}</td>
                                 {/* <td><button onClick={()=>handleEditUser(user)}>Edit</button></td> */}
-                                <td><button onClick={()=>handleDeleteUser(user.attendee_id)}>Delete</button></td>
+                                {person ? (
+                                    <>
+                                    {person.organiser_role === 'admin'? (
+                                        <>
+                                         <td><button onClick={()=>handleDeleteUser(user.attendee_id)}>Delete</button></td>
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )}
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
+                                
                                 
                             </tr>
                         ))
