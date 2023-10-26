@@ -277,15 +277,15 @@ const navigate = useNavigate();
                 if(!formData.joinMailList) {
                     errors.joinMailList = 'Please select an option';
                 }
-                if(!formData.JoinAs) {
-                    errors.JoinAs = 'Please select an option';
-                }
-                if(!formData.describeYourProduct) {
-                    errors.describeYourProduct = 'Please enter a description';
-                }
-                if(!formData.categoryFall) {
-                    errors.categoryFall = 'Please select a option';
-                }
+                // if(!formData.JoinAs) {
+                //     errors.JoinAs = 'Please select an option';
+                // }
+                // if(!formData.describeYourProduct) {
+                //     errors.describeYourProduct = 'Please enter a description';
+                // }
+                // if(!formData.categoryFall) {
+                //     errors.categoryFall = 'Please select a option';
+                // }
 
                 if(checkedBoxes.length === 0) {
                     errors.checkBoxError = "Please select at least one option."
@@ -419,7 +419,6 @@ const navigate = useNavigate();
 
     const exportToExcel = () => {
         const dataToExport = filteredData.map((user) => ({
-          'User ID': user.user_id,
           'User Email': user.user_email,
           'User Names': user.user_name,
           'Designation/Occupation/Role': user.occupation,
@@ -941,7 +940,7 @@ const navigate = useNavigate();
                         <option value="No">No</option>
                     </select>
                     <label htmlFor="form">How will you be joining this year's summit?</label>
-                    <span>{errorMessages.JoinAs}</span>
+                    <span></span>
                     <select name="JoinAs" id="join-summit" onChange={handleChange}>
                         <option value=""></option>
                         <option value="Startup">Start Up</option>
@@ -951,7 +950,7 @@ const navigate = useNavigate();
                         <option value="Sponsor/Donor">Sponsor/Donor</option>
                     </select>
                     <label htmlFor="form">Describe your product or the services that you offer?</label>
-                    <span>{errorMessages.describeYourProduct}</span>
+                    <span></span>
                     {/* <input type="text"
                     name='describeYourProduct'
                     value={formData.describeYourProduct}
@@ -965,7 +964,7 @@ const navigate = useNavigate();
                             cols={40} // Adjust the number of columns as needed
                             ></textarea>
                     <label htmlFor="form">Which category do you fall in?</label>
-                    <span>{errorMessages.categoryFall}</span>
+                    <span></span>
                     <select name="categoryFall" id='category-Fall' onChange={handleChange}>
                         <option value=""></option>
                         <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>

@@ -504,10 +504,10 @@ class DbLearning {
               
                 const valuesToInsert = jsonData.map(item => {
                   return [
-                    item['User Email'],
-                    item['User Names'],
+                    item['Email Address'],
+                    item['Full Names'],
                     item['Designation/Occupation/Role'],
-                    item['Company/Organization Name'],
+                    item['Company/ Organization Name'],
                     item['Phone number(For communication purposes only)'],
                     item['Which industry are you in?'],
                     item['How did you hear about the event?'],

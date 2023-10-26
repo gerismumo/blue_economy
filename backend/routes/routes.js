@@ -441,10 +441,10 @@ router.post('/api/registerUsers', async(req, res) => {
 
   router.post('/api/uploadFile',  (req, res) => {
   const jsonData = req.body;
-  console.log(jsonData);
+  // console.log(jsonData);
     const db = DbService.getDbLearningInstance();
     const result = db.fileUpload(jsonData);
-    console.log(jsonData);
+    // console.log(jsonData);
     result.then(data => {
       res.json({success: true, data: data});
     })

@@ -22,6 +22,9 @@ function RegistrationForm() {
         const data = await response.json();
         setMessage(data.message);
         toast.success('Email confirmed successfully');
+        setTimeout(() => {
+          window.location.href = 'https://blueeconomysummit.co.ke/'; 
+        }, 1000); 
       } else {
         setMessage('Email not found in the registration list.');
       }
@@ -40,7 +43,7 @@ function RegistrationForm() {
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value.toLowerCase())}
             required
           />
         </label>
