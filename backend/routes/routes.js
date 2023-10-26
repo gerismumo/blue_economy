@@ -271,8 +271,8 @@ router.post('/api/registerUsers', async(req, res) => {
   
   router.put('/api/attendedStatuses', async (req, res) => {
     const {userId, attendedStatus} = req.body;
-    console.log(attendedStatus);
-    console.log(userId);
+    // console.log(attendedStatus);
+    // console.log(userId);
     const db = DbService.getDbLearningInstance();
     try {
       const getUserDetails = await db.getUserByUserId(userId);
@@ -535,7 +535,7 @@ router.post('/api/registerUsers', async(req, res) => {
 
   router.post('/api/uploadCyberFile',  (req, res) => {
     const jsonData = req.body;
-    console.log(jsonData);
+    // console.log(jsonData);
       const db = DbService.getDbLearningInstance();
       const result = db.fileUploadCyber(jsonData);
       // console.log(jsonData);
@@ -558,7 +558,7 @@ router.post('/api/registerUsers', async(req, res) => {
     router.put('/api/attendedStatusesCyber', async (req, res) => {
       const {userId, attendedStatus} = req.body;
       console.log(attendedStatus);
-      console.log(userId);
+      // console.log(userId);
       const db = DbService.getDbLearningInstance();
       try {
         const getUserDetails = await db.getUserByUserIdCyber(userId);
