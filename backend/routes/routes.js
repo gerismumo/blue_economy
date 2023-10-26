@@ -486,6 +486,7 @@ router.post('/api/registerUsers', async(req, res) => {
         transporter.sendMail(result).then(() => {
           return ;
         });
+        await db.updateAttendStatus(email);
         res.json({message:'Email confirmed successfully'})
       } else {
         const getCyberData = await db.getUserByEmailCyber(email);
@@ -517,6 +518,7 @@ router.post('/api/registerUsers', async(req, res) => {
         transporter.sendMail(result).then(() => {
           return ;
         });
+        await db.updateAttendStatusCyber(email);
         res.json({message:'Email confirmed successfully'})
       }
       

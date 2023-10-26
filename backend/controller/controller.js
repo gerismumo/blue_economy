@@ -650,6 +650,32 @@ class DbLearning {
             throw(error);
         }
      }
+
+     async updateAttendStatus(email) {
+        const query = 'UPDATE users_list SET attend_status = 1 WHERE user_email = ?';
+        return new Promise((resolve, reject) => {
+            connection.query(query, [email], (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    }
+
+    async updateAttendStatusCyber(email) {
+        const query = 'UPDATE  cybersecurity_list SET attend_status = 1 WHERE email = ?';
+        return new Promise((resolve, reject) => {
+            connection.query(query, [email], (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    }
      
     }
     module.exports = DbLearning;
