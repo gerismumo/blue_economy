@@ -487,6 +487,7 @@ const navigate = useNavigate();
                 if (response.status === 200) {
                     
                   console.log('File uploaded successfully.');
+                  window.location.reload();
                 } else {
                   console.error('Error uploading the file.');
                 }
@@ -511,6 +512,31 @@ const navigate = useNavigate();
         };
         reader.readAsArrayBuffer(file);
       };
+
+      //format data
+      function formatConfirmedAt(dateTimeString) {
+        if (!dateTimeString) {
+          return '';
+        }
+      
+        const date = new Date(dateTimeString);
+        const options = {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        };
+      
+        return date.toLocaleString('en-US', options);
+      }
+      
+      const[isDropDown, setDropDown] = useState(false);
+      const toggleDropdown = () => {
+        setDropDown((isDropDown) => !isDropDown);
+      }
     return (
         <div>
             {loading && <p>...loading</p>}
@@ -569,7 +595,27 @@ const navigate = useNavigate();
                         </div>
                     </div>
                 </div>
+                <div className="dropdown-bar" onClick={toggleDropdown}>
+                             {isDropDown ? 'Close' : 'Menu'}
+                </div>
             </div>
+            {isDropDown && (
+                <div className="dropdown-menu">
+                    <div className="menu-tabs">
+                            <Link to="/cyberSecurity">CyberSecurity</Link>
+                            {person.organiser_role === 'admin'? (
+                                <>
+                                    <input type="file" accept=".xlsx" onChange={handleFileChange} />
+                                    <button onClick={handleFileUpload}>Upload</button> 
+                                </>
+                            ): (
+                                <></>
+                            )}
+                            <button onClick={exportToExcel}>Export to Excel</button>
+                            <p onClick={handleAddNewUser} >add Attendee</p>
+                    </div>    
+                </div>
+            )}
             <ToastContainer />
             <div className="users-table">
                 <table>
@@ -610,7 +656,7 @@ const navigate = useNavigate();
                                   onChange={handleCheckboxConfirm} 
                                   /></td>
                                   <td className='attend-text'>{attendedStatuses[user.user_id] ? 'Yes' : 'No'}</td>
-                                  <td>{user.confirmed_at}</td>
+                                  <td>{formatConfirmedAt(user.confirmed_at)}</td>
                                 <td>{user.user_id}</td>
                                 <td>{user.user_email}</td>
                                 <td>{user.user_name}</td>

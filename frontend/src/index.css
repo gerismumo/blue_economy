@@ -348,7 +348,7 @@ p.error {
     height: 50px
   }
   .dashboard  nav .nav-home {
-    margin-right: 3px;
+    margin-right: 22px;
     gap: 20px;
   }
   .dashboard .dashboard-tabs{
@@ -410,7 +410,116 @@ p.error {
     max-width: 300px;
     border-radius: 5px;
   }
+  
 }
+.dropdown-bar {
+  display: none;
+}
+
+/* //dropdown menu  */
+@media screen and (max-width: 1115px) {
+  .dropdown-bar {
+    display: none;
+  }
+}
+ 
+@media screen and (max-width: 1115px) {
+  /* .dropdown-bar {
+    display: none !important;
+  } */
+
+  .dropdown-bar {
+    display: block;
+    background-color: #38b6ff; 
+    color: #fff;
+    padding: 5px 10px; 
+    right: 50px;
+    margin-right: 30px;
+    cursor: pointer; 
+    border-radius: 3px; 
+    transition: background-color 0.3s; 
+    text-align: center; 
+  }
+  .dropdown-bar:hover {
+    background-color: #1c87d9; 
+  }
+  .dropdown-menu {
+    position: fixed;
+    top: 170px;
+    right: 20px;
+    background-color: #fff; 
+    border: 1px solid #ddd; 
+    padding: 10px;
+    z-index: 1; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    width: 200px; 
+  }
+  .dashboard .middle-tabs{
+    display: none;
+  }
+  .dropdown-menu .menu-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .dropdown-menu .menu-tabs a {
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.2s; 
+    cursor: pointer;
+    padding: 1px 6px;
+    color: black; 
+    background-color: lightgray;
+    border-radius: 2px;
+  }
+  
+  .dropdown-menu .menu-tabs a:hover {
+    color: white; 
+    background-color: #38b6ff;
+  }
+  
+  
+  .dropdown-menu .menu-tabs button, .menu-tabs p {
+    background: lightgray; 
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 2px;
+    text-align: center;
+  }
+  
+  .dropdown-menu .menu-tabs button:hover, .menu-tabs p:hover {
+    background: #38b6ff; 
+    color: white;
+  }
+  
+  .dropdown-menu input[type="file"] + button {
+    background: lightgray;
+    color: black;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .dropdown-menu input[type="file"] + button:hover {
+    background: #38b6ff;
+    color: white;
+  }
+
+}
+
+/* .dropdown-menu{
+  display: none;
+}  */
+
+
+
+
 
 /* register component css */
 .register {
@@ -875,7 +984,6 @@ p.error {
   align-items: center;
 }
 .dropdown {
-  /* position: fixed; */
   top: 10px;
   right: 20px;
   cursor:grab;
