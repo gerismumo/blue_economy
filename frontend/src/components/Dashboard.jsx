@@ -547,8 +547,10 @@ const navigate = useNavigate();
                         <Link to="/cyberSecurity">CyberSecurity</Link>
                         {person.organiser_role === 'admin'? (
                             <>
+                            <div className="upload-tabs">
                                 <input type="file" accept=".xlsx" onChange={handleFileChange} />
                                 <button onClick={handleFileUpload}>Upload</button>
+                            </div>    
                             </>
                         ): (
                             <></>
