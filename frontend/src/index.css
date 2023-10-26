@@ -356,6 +356,7 @@ p.error {
     padding: 3px;
   }
   .dashboard .dashboard-tabs .search-tab{
+    margin-left: 10px;
     gap: 8px;
   }
   .dashboard .dashboard-tabs .search-tab .no-users{
@@ -445,7 +446,7 @@ p.error {
   }
   .dropdown-menu {
     position: fixed;
-    top: 170px;
+    top: 128px;
     right: 20px;
     background-color: #fff; 
     border: 1px solid #ddd; 

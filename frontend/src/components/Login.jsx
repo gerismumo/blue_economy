@@ -76,7 +76,7 @@ function Login() {
                   navigate('/dashboard');
                 }
                 
-              },3000)
+              },1000)
               
             } else {
               toast.error('Invalid email or role');
