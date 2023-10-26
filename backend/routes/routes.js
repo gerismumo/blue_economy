@@ -455,11 +455,13 @@ router.post('/api/registerUsers', async(req, res) => {
     const {email} = req.body;
     const db = DbService.getDbLearningInstance();
     try {
-      const getUserDetails = await  db.selectUserByEmail(email);
+      const getUserDetails = await  db.getUserByEmail(email);
+      // console.log(getUserDetails);
       if(getUserDetails) {
-        const getEmail = getUserDetails[0].user_email;
-        const getName = getUserDetails[0].user_name;
-  
+        const getEmail = getUserDetails.user_email;
+        const getName = getUserDetails.user_name;
+        // console.log(getEmail);
+        // console.log(getName);
         let config = {
           host: process.env.EMAIL_HOST,
           port: process.env.EMAIL_PORT,
@@ -484,10 +486,12 @@ router.post('/api/registerUsers', async(req, res) => {
         transporter.sendMail(result).then(() => {
           return ;
         });
+        res.json({message:'Email confirmed successfully'})
       } else {
         const getCyberData = await db.getUserByEmailCyber(email);
-        const getEmailCyber = getCyberData[0].email;
-        const getNameCyber = getCyberData[0].first_name;
+        // console.log(getCyberData);
+        const getEmailCyber = getCyberData.email;
+        const getNameCyber = getCyberData.first_name;
 
         let config = {
           host: process.env.EMAIL_HOST,
@@ -513,6 +517,7 @@ router.post('/api/registerUsers', async(req, res) => {
         transporter.sendMail(result).then(() => {
           return ;
         });
+        res.json({message:'Email confirmed successfully'})
       }
       
     } catch (error) {

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function RegistrationForm() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
+    const check_reg_api = `${process.env.REACT_APP_API_URL}/api/checkRegistration`
     try {
-      const response = await fetch('/api/checkRegistration', {
+      const response = await fetch(check_reg_api, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -16,9 +18,10 @@ function RegistrationForm() {
         body: JSON.stringify({ email }),
       });
 
-      if (response.status === 200) {
+      if (response.ok) {
         const data = await response.json();
         setMessage(data.message);
+        toast.success('Email confirmed successfully');
       } else {
         setMessage('Email not found in the registration list.');
       }
@@ -29,6 +32,7 @@ function RegistrationForm() {
 
   return (
     <div className='registration-page'>
+      <ToastContainer/>
       <h1>Check Registration</h1>
       <form onSubmit={handleFormSubmit}>
         <label>

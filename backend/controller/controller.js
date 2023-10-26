@@ -86,8 +86,12 @@ class DbLearning {
                     if(err) {
                         reject(err);
                     }else {
-                        resolve(result.length > 0);
+                        if (result.length > 0) {
+                            resolve(result[0]); 
+                        } else {
+                            resolve(null); 
                       }
+                    }
                 });
             });
             return getUser;
@@ -104,7 +108,11 @@ class DbLearning {
                     if(err) {
                         reject(err);
                     }else {
-                        resolve(result.length > 0);
+                        if (result.length > 0) {
+                            resolve(result[0]); 
+                        } else {
+                            resolve(null); 
+                      }
                       }
                 });
             });
@@ -528,23 +536,23 @@ class DbLearning {
         }
      }
 
-     async selectUserByEmail() {
-        try {
-            const query = 'SELECT FROM users_list WHERE user_email = ?';
-            const selectUser = await new Promise((resolve, reject) => {
-                connection.query(query, (err, result) => {
-                    if(err) {
-                        reject(err);
-                    } else {
-                        resolve(result);
-                    }
-                });
-            });
-            return selectUser;
-        } catch (error) {
-            throw(error);
-        }
-     }
+    //  async selectUserByEmail() {
+    //     try {
+    //         const query = 'SELECT * FROM users_list WHERE user_email = ?';
+    //         const selectUser = await new Promise((resolve, reject) => {
+    //             connection.query(query, (err, result) => {
+    //                 if(err) {
+    //                     reject(err);
+    //                 } else {
+    //                     resolve(result);
+    //                 }
+    //             });
+    //         });
+    //         return selectUser;
+    //     } catch (error) {
+    //         throw(error);
+    //     }
+    //  }
 
      async fileUploadCyber(jsonData) {
         try {

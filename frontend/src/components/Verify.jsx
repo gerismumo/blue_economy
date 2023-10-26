@@ -3,7 +3,7 @@ import QRCode from 'react-qr-code';
 
 function Verify() {
     // Define the registrationPageUrl
-    const registrationPageUrl = '/registration'; // Replace with your registration URL
+    const registrationPageUrl = 'https://rsvp.blueeconomysummit.co.ke/registration'; // Replace with your registration URL
 
     const [qrCodeScanned, setQRCodeScanned] = useState(false);
 
@@ -16,7 +16,7 @@ function Verify() {
         const handleBeforeUnload = (event) => {
             if (qrCodeScanned) {
                 // Redirect to the desired URL when the QR code is scanned
-                window.location.href = '/registration'; // Replace with your desired URL
+                window.location.href = 'https://rsvp.blueeconomysummit.co.ke/registration'; // Replace with your desired URL
             } else {
                 // You can show a warning message to the user if they try to navigate away
                 event.returnValue = 'You have not scanned the QR code.';
