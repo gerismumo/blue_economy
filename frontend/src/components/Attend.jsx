@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
+import { useNavigate } from 'react-router-dom';
 
 function Attend() {
+    const navigate = useNavigate();
+    let user = JSON.parse(localStorage.getItem('user'));
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [usersList, setUsersList] = useState([]);
@@ -42,6 +45,15 @@ function Attend() {
             // const qrCodeElement = document.getElementById('qr-code');
             window.print();
         };
+
+        useEffect(() => {
+            if(user.organiser_role !== 'admin'){
+                navigate('/login');
+            }
+            if(!user){
+                navigate('/');
+              }
+            }, [user,navigate])
 
     return (
         <div>

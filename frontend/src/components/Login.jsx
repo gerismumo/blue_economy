@@ -10,7 +10,7 @@ function Login() {
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+    setEmail(e.target.value.toLowerCase());
   };
 
   const handlePasswordChange = (e) => {

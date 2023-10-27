@@ -3,14 +3,10 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import "react-toastify/dist/ReactToastify.css";
 
 import AdminPage from './components/AdminPage';
-import Attend from './components/Attend';
-import Confirm from './components/Confirm';
 import CyberSec from './components/CyberSec';
 import Dashboard from './components/Dashboard';
-import Eligble from './components/Eligble';
 import Home from './components/Home';
 import Login from './components/Login';
-import Register from './components/Register';
 import RegistrationForm from './components/RegistrationForm';
 import Submit from './components/Submit';
 import Verify from './components/Verify';
@@ -19,15 +15,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<Home />} />
         <Route path='/feedback' element={<Submit />} />
         <Route path='/dashboard' element={<Dashboard/>} /> 
         <Route path='/adminPage' element={<AdminPage/>} />
-        <Route path='/attendData' element={<Attend />} />
-        <Route path='/confirmAttend' element={<Confirm />} />
-        <Route path='/confirmMessage' element={<Eligble />} />
         <Route path='/cyberSecurity' element={<CyberSec />} />
         <Route path='/registration' element={<RegistrationForm/>} />
         <Route path='/verify' element={<Verify />} />

@@ -591,7 +591,7 @@ const navigate = useNavigate();
                     <div className='button-tabs'>
                         <select onChange={handlePageSelect}>
                             <option value="">Select Dashboard</option>
-                            <option value="/dashboard">dashboard</option>
+                            <option value="/dashboard">Dashboard</option>
                         </select>
                         {person.organiser_role === 'admin'? (
                             <>

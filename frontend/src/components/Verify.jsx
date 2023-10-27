@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
+import { useNavigate } from 'react-router-dom';
 
 function Verify() {
+    const navigate = useNavigate();
+    let user = JSON.parse(localStorage.getItem('user'));
     // Define the registrationPageUrl
     const registrationPageUrl = 'https://rsvp.blueeconomysummit.co.ke/registration'; // Replace with your registration URL
 
@@ -11,14 +14,12 @@ function Verify() {
         window.print();
     };
 
-    // Listen for the beforeunload event
+ 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
             if (qrCodeScanned) {
-                // Redirect to the desired URL when the QR code is scanned
                 window.location.href = 'https://rsvp.blueeconomysummit.co.ke/registration'; // Replace with your desired URL
             } else {
-                // You can show a warning message to the user if they try to navigate away
                 event.returnValue = 'You have not scanned the QR code.';
             }
         };
@@ -34,6 +35,15 @@ function Verify() {
         // Set the flag to indicate that the QR code has been scanned
         setQRCodeScanned(true);
     };
+
+    useEffect(() => {
+        if(user.organiser_role !== 'admin'){
+            navigate('/login');
+        }
+        if(!user){
+            navigate('/');
+          }
+        }, [user,navigate])
 
     return (
         <div className='data-page'>
