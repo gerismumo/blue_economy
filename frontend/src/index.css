@@ -1057,72 +1057,82 @@ p.error {
   cursor:grab;
   display: flex;
   align-items: center;
-  margin-right: 30px;
+  margin-right: 40px;
   font-weight: 700;
   padding: 6px 10px;
   background-color: #38b6ff;
   border-radius: 3px;
   color: #ffffff;
 }
-/* .dropdown-content{
+.dropdown-content{
   display: none;
-} */
-.dropdown-content  {
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 70px;
-  right: 20px;
-  background-color: white;
-  color: black;
-  font-weight: 700;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  padding: 10px;
-  z-index: 999;
-  border: 1px solid #ccc;
-} 
+}
+@media screen and (max-width:800px) {
+  .dropdown-content  {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background-color: lightgray;
+    color: black;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    padding: 10px;
+    z-index: 999;
+    border: 0.1px solid grey;
+    margin-right: 30px;
+  } 
+}
+
 
 .dropdown-content a {
 color: black;
 text-decoration: none;
-padding: 5px 16px;
 display: block;
 cursor: pointer;
 margin-bottom: 3px;
+font-size: 16px;
+/* border-bottom: 1px solid black; */
+/* background-color:lightgray ; */
 }
 .dropdown-content a:hover{
-  background-color: lightgray;
+  color: white;
 }
 .dropdown-content .profile{
   background-color: white;
 }
 .dropdown-content button {
-  /* background-color: gre; */
   border: none;
   margin-bottom: 3px;
-  padding: 5px 16px;
-  background-color: white;
+  /* padding: 5px 16px;  */
+   background-color: lightgray;
   color: black;
-  font-weight: 700;
-  font-size: 17px;
+  /* font-weight: 700; */
+  font-size: 16px;
+  border-bottom: 1px solid black;
+}
+.dropdown-content button:last-child {
+  border: none;
 }
 .dropdown-content button:hover {
-  background-color: lightgray;
+  color: white;
+  background-color: #38b6ff;
 }
 .dropdown-content .profile-icon {
   margin-bottom: 3px;
   border-radius: 3px;
-  background-color: #ccc;
+  background-color: whitesmoke;
   color: black;
   padding: 8px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.dropdown-content .profile-icon:hover{
+/* .dropdown-content .profile-icon:hover{
   background-color: lightgray;
-}
+} */
 
 
 /* .dropdown-content a:hover {
@@ -1194,7 +1204,7 @@ background-color: grey;
 }
 
 /* Style for the logout button */
-  .links .dropdown-content button {
+  /* .links .dropdown-content button {
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -1202,7 +1212,7 @@ background-color: grey;
     display: block;
     text-align: left;
     background-color: white;
-  }
+  } */
   
 
   
@@ -1274,7 +1284,10 @@ background-color: grey;
 }
 
 /* admin page css */
-
+.admin-page {
+  display: flex;
+  flex-direction: column;
+}
 /* Style for the header */
 .admin-page .header{
   display: flex;
@@ -1293,6 +1306,7 @@ background-color: grey;
   align-items: center;
   justify-content: space-between;
   width: 100%;
+ 
 }
 /* .admin-page .home-header nav {
   display: flex;
@@ -1344,15 +1358,7 @@ background-color: grey;
   border-radius: 3px;
 }
 
-/* .admin-page .links .bigscreen button:hover,
-.admin-page .links .bigscreen a:hover {
-  background-color: #1c87d9;
-} */
 
-/* .admin-page .nav-home button:last-child,
-.admin-page .nav-home a:last-child {
-  margin-left: 20px;
-} */
 .admin-page .links .bigscreen {
   margin-left: 20px;
 }
@@ -1489,10 +1495,11 @@ background-color: grey;
  margin-top: 100px;
 }
 .admin-table {
- 
-  margin: 20px;
+ display: flex;
+ flex-direction: column;
+  margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
+  overflow: auto;
 }
 
 .admin-table h2 {
@@ -1506,6 +1513,7 @@ background-color: grey;
 .admin-table table {
   width: 100%;
   border-collapse: collapse;
+  overflow: auto;
 }
 
 .admin-table th, .admin-table td {
@@ -1562,12 +1570,18 @@ background-color: grey;
 }
 
 .admin-table {
-  padding: 7px 8px;
+  padding: 7px;
 }
-.admin-table table{
+/* .admin-page .table-organiser {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  overflow-x: auto;
+} */
+/* .admin-table table{
   padding: 0px;
   margin: 0;
-}
+} */
 .admin-table h2 {
   font-size: 20px;
   font-weight: 500;

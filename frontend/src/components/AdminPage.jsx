@@ -244,7 +244,8 @@ function AdminPage() {
         
                             </div>
                         </nav>
-                        {dropdownVisible && (
+                    </div>
+                    {dropdownVisible && (
                         <div className="dropdown-content" onClick={toggleDropdown}>
                             {user ? (
                                         <>
@@ -256,6 +257,7 @@ function AdminPage() {
                                                 </div>
                                                 <button><Link to='/'>Home</Link></button>
                                                 <button><Link  to="/dashboard">Dashboard</Link></button>
+                                                <button><Link to='/verify'>Qrcode</Link></button>
                                                 <button onClick={handleEditForm}>{showEditDetails ? 'Close' : 'Event Details'}</button>
                                                 <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add Organiser'}</button>
                                                 
@@ -270,32 +272,34 @@ function AdminPage() {
                                         <Link  to="/login">Login</Link>
                                     )}
                         </div>)}
-                    </div>
                     <ToastContainer />
-                    <div className="table-data">
+                    <div className="table-data" >
                         <div className="admin-table">
                         <h2>Event Organisers Table</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {adminList.map(admin => (
-                                    <tr key={admin.admin_id}>
-                                        <td>{admin.admin_id}</td>
-                                        <td>{admin.admin_name}</td>
-                                        <td>{admin.admin_email}</td>
-                                        <td><button onClick={() => handleDeleteUser(admin.admin_id)}>Delete</button></td>
+                        <div className="table-organiser">
+                            <table >
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Delete</th>
                                     </tr>
-                                )
-                                )}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {adminList.map(admin => (
+                                        <tr key={admin.admin_id}>
+                                            <td>{admin.admin_id}</td>
+                                            <td>{admin.admin_name}</td>
+                                            <td>{admin.admin_email}</td>
+                                            <td><button onClick={() => handleDeleteUser(admin.admin_id)}>Delete</button></td>
+                                        </tr>
+                                    )
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                        
                     </div>
                     </div>
                 

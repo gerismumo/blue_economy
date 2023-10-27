@@ -158,20 +158,20 @@ function Home() {
                                                  <h3 style={{marginTop: '-5px'}}>{user.admin_name}</h3>
                                                  <span style={{position: 'relative', fontSize: 'small', fontWeight:'700'}}>{user.organiser_role}</span>
                                              </div>
-                                             <Link  to="/adminPage">Admin Page </Link>
+                                             <button><Link  to="/adminPage">Admin page </Link></button>
                                              
                                          </>
                                      ) : (
                                          <></>
                                      )}
                                      
-                                     <Link  to="/dashboard">Dashboard</Link>
+                                     <button><Link  to="/dashboard">Dashboard</Link></button>
                                      <button onClick={() =>logout()}>Logout</button>
                                  </>
                          ) : (
                             <>
                             
-                            <Link  to="/login">Login</Link>
+                            <button><Link  to="/login">Login</Link></button>
                             {/* <Link to="/confirmAttend">Scan Me</Link> */}
                             <button onClick={handleQrCodeClick}>Registration</button>
                             {/* <button onClick={handleRegistrationForm}>QrCode</button> */}
