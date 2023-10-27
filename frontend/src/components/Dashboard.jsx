@@ -17,6 +17,7 @@ const navigate = useNavigate();
     const[errorMessages, setErrorMessages] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const[isDropDown, setDropDown] = useState(false);
 
     
 
@@ -185,6 +186,7 @@ const navigate = useNavigate();
           //add new user
           const handleAddNewUser = () => {
             setAddFormOpen(true);
+            setDropDown(false);
           }
 
         //   if(setAddFormOpen) {
@@ -533,10 +535,18 @@ const navigate = useNavigate();
         return date.toLocaleString('en-US', options);
       }
       
-      const[isDropDown, setDropDown] = useState(false);
+      
       const toggleDropdown = () => {
         setDropDown((isDropDown) => !isDropDown);
       }
+
+      const handlePageSelect = (event) => {
+        const targetLink = event.target.value;
+        if(targetLink) {
+            return navigate(targetLink);
+        }
+      }
+     
     return (
         <div>
             {loading && <p>...loading</p>}
@@ -570,7 +580,12 @@ const navigate = useNavigate();
                 </div>
                 <div className="middle-tabs">
                     <div className='button-tabs'>
-                        <Link to="/cyberSecurity">CyberSecurity</Link>
+                        <select onChange={handlePageSelect}>
+                            <option value="">select dashboard</option>
+                            {/* <option value="/dashboard">Dashboard</option> */}
+                            <option value="/cyberSecurity">CyberSecurity</option>
+                        </select>
+                        {/* <Link to="/cyberSecurity">CyberSecurity</Link> */}
                         {person.organiser_role === 'admin'? (
                             <>
                             <div className="upload-tabs">
@@ -602,7 +617,12 @@ const navigate = useNavigate();
             {isDropDown && (
                 <div className="dropdown-menu">
                     <div className="menu-tabs">
-                            <Link to="/cyberSecurity">CyberSecurity</Link>
+                       
+                        <select onChange={handlePageSelect}>
+                                <option value="">Select Dashboard</option>
+                                {/* <option value="/dashboard">dashboard</option> */}
+                                <option value="/cyberSecurity">CyberSecurity</option>
+                            </select>
                             {person.organiser_role === 'admin'? (
                                 <>
                                     <input type="file" accept=".xlsx" onChange={handleFileChange} />

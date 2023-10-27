@@ -126,6 +126,34 @@ p.error {
   align-items: center;
   gap: 30px;
 }
+
+.dashboard .middle-tabs select {
+  padding: 3px; 
+  font-size: 16px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  width: 150px; 
+  background-color: #fff; 
+}
+
+
+.dashboard .middle-tabs option {
+  font-size: 16px; 
+  padding: 5px; 
+}
+
+
+.dashboard .middle-tabs option:first-child {
+  font-style: italic;
+  color: #999; 
+}
+
+
+.dashboard .middle-tabs select:focus {
+  outline: none; 
+  border-color: #007bff; 
+}
+
 .dashboard .middle-tabs .button-tabs {
   display: flex;
   justify-content: center;
@@ -333,6 +361,7 @@ p.error {
   color: #ff5e5e;
   font-size: 12px;
  }
+ 
 
  @media (max-width: 768px) {
   .dashboard .header{
@@ -411,20 +440,29 @@ p.error {
     max-width: 300px;
     border-radius: 5px;
   }
+  .dropdown-menu {
+    top: 128px;
+  }
   
 }
 .dropdown-bar {
   display: none;
 }
 
+
 /* //dropdown menu  */
-@media screen and (max-width: 1115px) {
+@media screen and (max-width: 1138px) {
   .dropdown-bar {
     display: none;
   }
-}
  
-@media screen and (max-width: 1115px) {
+}
+@media (min-width: 768px) and (max-width: 1138px) {
+  .dropdown-menu {
+    top: 160px;
+  }
+}
+@media screen and (max-width: 1138px) {
   /* .dropdown-bar {
     display: none !important;
   } */
@@ -446,7 +484,7 @@ p.error {
   }
   .dropdown-menu {
     position: fixed;
-    top: 128px;
+   
     right: 20px;
     background-color: #fff; 
     border: 1px solid #ddd; 
@@ -510,6 +548,35 @@ p.error {
   .dropdown-menu input[type="file"] + button:hover {
     background: #38b6ff;
     color: white;
+  }
+
+  .dropdown-menu select {
+    padding: 3px; 
+    font-size: 16px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    width: 180px; 
+    background-color: #fff; 
+    align-items: center;
+    text-align: center;
+  }
+  
+  
+  .dropdown-menu option {
+    font-size: 16px; 
+    padding: 5px; 
+  }
+  
+  
+  .dropdown-menu option:first-child {
+    font-style: italic;
+    color: #999; 
+  }
+  
+  
+  .dropdown-menu select:focus {
+    outline: none; 
+    /* border-color: #007bff;  */
   }
 
 }
