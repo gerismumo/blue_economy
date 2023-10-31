@@ -648,6 +648,8 @@ const navigate = useNavigate();
                             <th>Attend Status</th>
                             <th>Attended</th>
                             <th>Confirmed At</th>
+                            <th>County</th>
+                            <th>Which areas are of interest to you during the summit?</th>
                             <th>Attendee ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>
@@ -685,6 +687,8 @@ const navigate = useNavigate();
                                   /></td>
                                   <td className='attend-text'>{attendedStatuses[user.attendee_id] ? 'Yes' : 'No'}</td>
                                   <td>{formatConfirmedAt(user.confirmed_at)}</td>
+                                  <td>{user.attendee_county ? (user.attendee_county):('')}</td>
+                                  <td>{user.attendee_interest ?(user.attendee_interest):('')}</td>
                                 <td>{user.attendee_id}</td>
                                 <td>{user.first_name}</td>
                                 <td>{user.last_name}</td>

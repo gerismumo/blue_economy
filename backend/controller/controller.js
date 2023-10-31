@@ -202,9 +202,9 @@ class DbLearning {
     async  editUsers(user_id,
         user_email,user_name, occupation, company,phone_number, industry_in,
         hear_about_event, attend_last_year, user_interest, join_newsletter,join_as,
-        describe_product, category_fall) {
+        describe_product, category_fall,attendee_county) {
         try {
-          const query = `UPDATE users_list SET user_email = ?, user_name = ?, occupation = ?, company = ?, phone_number = ?, industry_in = ?, hear_about_event = ?, attend_last_year = ?, user_interest = ?, join_newsletter = ?, join_as = ?, describe_product = ?, category_fall = ? WHERE user_id = ?`;
+          const query = `UPDATE users_list SET user_email = ?, user_name = ?, occupation = ?, company = ?, phone_number = ?, industry_in = ?, hear_about_event = ?, attend_last_year = ?, user_interest = ?, join_newsletter = ?, join_as = ?, describe_product = ?, category_fall = ?, attendee_county= ? WHERE user_id = ? `;
          
         
           const editUser = await new Promise((resolve, reject) => {
@@ -213,7 +213,7 @@ class DbLearning {
               [
                 user_email,user_name ,occupation, company,phone_number, industry_in,
         hear_about_event, attend_last_year, user_interest, join_newsletter,join_as,
-        describe_product, category_fall, user_id
+        describe_product, category_fall,attendee_county, user_id
               ],
               (err, result) => {
                 if (err) {
@@ -516,10 +516,11 @@ class DbLearning {
                     item['Do you consent joining our mailing list to receive our newsletter?'],
                     item["How will you be joining this year's summit?"],
                     item['Describe your product or the services that you offer?'],
-                    item['Which category do you fall in?']
+                    item['Which category do you fall in?'],
+                    item['County of Residence']
                   ];
                 });
-                const query = 'INSERT INTO users_list (user_email,user_name,occupation, company, phone_number, industry_in, hear_about_event, attend_last_year, user_interest, join_newsletter, join_as, describe_product, category_fall) VALUES ?';
+                const query = 'INSERT INTO users_list (user_email,user_name,occupation, company, phone_number, industry_in, hear_about_event, attend_last_year, user_interest, join_newsletter, join_as, describe_product, category_fall, attendee_county) VALUES ?';
 
                 connection.query(query, [valuesToInsert], (err, results) => {
                     if(err) {
@@ -692,7 +693,7 @@ class DbLearning {
     //    });
     // }
 
-    async fileUpload(fileData, fileName,fileId) {
+    async fileUploads(fileData, fileName,fileId) {
         const query = 'UPDATE email_details SET file_name = ?, file = ? WHERE file_id = ?';
         return new Promise((resolve, reject) => {
              connection.query(query,[fileName, fileData, fileId], (err, result) => {
@@ -719,5 +720,32 @@ class DbLearning {
             });
        });
     }
+
+    async updateAttendeeData(selectedCounty, areaOfInterest, email) {
+        const query = 'UPDATE users_list SET attendee_county= ?, attendee_interest= ? WHERE user_email= ?';
+        return new Promise((resolve, reject) => {
+            connection.query(query,[selectedCounty, areaOfInterest, email], (err, result) => {
+                if(err) {
+                    reject(err);
+                }else {
+                    resolve(result);
+                }
+            })
+        })
+    }
+
+    async updateAttendeeDataCyber(selectedCounty, areaOfInterest, email) {
+        const query = 'UPDATE  cybersecurity_list SET attendee_county= ?, attendee_interest= ? WHERE email= ?';
+        return new Promise((resolve, reject) => {
+            connection.query(query,[selectedCounty, areaOfInterest, email], (err, result) => {
+                if(err) {
+                    reject(err);
+                }else {
+                    resolve(result);
+                }
+            })
+        })
+    }
+
     }
     module.exports = DbLearning;

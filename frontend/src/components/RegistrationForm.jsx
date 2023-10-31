@@ -54,8 +54,6 @@ function RegistrationForm() {
   const [loading, setLoading] = useState(true)
   const [selectedCounty, setSelectedCounty] = useState(null);
 const [areaOfInterest, setAreaOfInterest] = useState('');
-const [successMessage, setSuccessMessage] = useState('');
-const [errorMessage, setErrorMessage] = useState('');
   
   const[countyList, setCountyList] = useState([]);
   const County_API = `${process.env.REACT_APP_API_URL}/api/counties`;
@@ -97,38 +95,40 @@ const [errorMessage, setErrorMessage] = useState('');
           setAreaOfInterest(event.target.value);
         };
 
-        const handleSubmit = (event) => {
+        const handleSubmit = async (event) => {
           event.preventDefault();
         
           const data = {
             selectedCounty: selectedCounty.value,
             areaOfInterest,
+            email
           };
           console.log('data',data, email);
           // Send the data to your backend using the Fetch API
-          fetch(`${process.env.REACT_APP_API_URL}/api/submitData`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          })
-            .then((response) => {
-              if (response.ok) {
-                return response.json();
-              } else {
-                throw new Error('Failed to submit data');
-              }
-            })
-            .then((responseData) => {
-              setSuccessMessage('Data submitted successfully');
-              setErrorMessage('');
-            })
-            .catch((error) => {
-              setSuccessMessage('');
-              setErrorMessage('Error submitting data: ' + error.message);
+          try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/updateSubmit`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
             });
-        };
+
+            if(response.ok) {
+              const data = await response.json();
+              if(data.success) {
+                setTimeout(() => {
+                  window.location.href = 'https://blueeconomysummit.co.ke/'; 
+                }, 1000); 
+              } else {
+                toast.error('Error occurred');
+              }
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+          
 
   return (
     <div className='registration-page'>

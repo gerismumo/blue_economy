@@ -182,6 +182,8 @@ router.post('/api/registerUsers', async(req, res) => {
   router.put('/api/editUser/:user_id', (req, res) => {
     const {user_id} = req.params;
     const editingUser = req.body;
+    // const {selectedCounty} = req.body;
+    // console.log(editingUser);
   
     const user_email = editingUser.user_email;
     const user_name  = editingUser.user_name;
@@ -196,12 +198,13 @@ router.post('/api/registerUsers', async(req, res) => {
     const join_as = editingUser.join_as;
     const describe_product = editingUser.describe_product;
     const category_fall = editingUser.category_fall;
+    const attendee_county = editingUser.attendee_county;
   
     const db = DbService.getDbLearningInstance();
     const result = db.editUsers(user_id,
        user_email,user_name, occupation, company,phone_number, industry_in,
        hear_about_event, attend_last_year, user_interest, join_newsletter,join_as,
-       describe_product, category_fall);
+       describe_product, category_fall, attendee_county);
     result
     .then(data => {
       res.json({success: true, data:data});
@@ -463,85 +466,34 @@ router.post('/api/registerUsers', async(req, res) => {
       const getUserDetails = await  db.getUserByEmail(email);
       // console.log(getUserDetails);
       const getCyberData = await db.getUserByEmailCyber(email);
-      const fileDetails = await db.selectFile();
+      // const fileDetails = await db.selectFile();
       // console.log(fileDetails[0].file_name);
       await db.updateAttendStatusCyber(email);
+      function getWeek(date) {
+        const currentDate = new Date(date);
+        currentDate.setHours(0, 0, 0, 0);
+        currentDate.setDate(currentDate.getDate() + 4 - (currentDate.getDay() || 7));
+        const yearStart = new Date(currentDate.getFullYear(), 0, 1);
+        const weekNo = Math.ceil(((currentDate - yearStart) / 86400000 + 1) / 7);
+        return weekNo;
+      }
+      const dayOfWeek = new Date().getDay(); // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
+      const currentDate = new Date();
       if(getUserDetails) {
-        const getEmail = getUserDetails.user_email;
-        const getName = getUserDetails.user_name;
-        // console.log(getEmail);
-        // console.log(getName);
-        let config = {
-          host: process.env.EMAIL_HOST,
-          port: process.env.EMAIL_PORT,
-          secure: process.env.EMAIL_SECURE,
-          auth: {
-            user: process.env.EMAIL_USERNAME,
-            pass: process.env.EMAIL_PASSWORD,
-          }
+        if (dayOfWeek === 2 && getWeek(currentDate) === getWeek(new Date())) {
+          await db.updateAttendStatus(email);
+          res.json({success: true, message:'Email confirmed successfully'})
+        }else{
+          res.json({success: false, message:'Not allowed to attend Today'})
         }
-    
-        const loginLink = `https://blueeconomysummit.co.ke/`;
-    
-        let transporter = nodemailer.createTransport(config);
-    
-        const result = {
-          from : process.env.EMAIL_USERNAME,
-          to : getEmail,
-          subject: 'Welcome to Blue Economy Summit ',
-          text: `Dear ${getName},\n\nYou thank you for attending the Blue Economy Summit:\n\n Check out the event activities here:\n\n ${loginLink}\n`,
-          attachments: [
-            {
-              filename: fileDetails[0].file_name, 
-              content: fileDetails[0].file, 
-            },
-          ],
-  
-        };
-    
-        transporter.sendMail(result).then(() => {
-          return ;
-        });
-        await db.updateAttendStatus(email);
-        res.json({success: true, message:'Email confirmed successfully'})
       } else if(getCyberData){
-        // const getCyberData = await db.getUserByEmailCyber(email);
-        // console.log(getCyberData);
-        const getEmailCyber = getCyberData.email;
-        const getNameCyber = getCyberData.first_name;
-
-        let config = {
-          host: process.env.EMAIL_HOST,
-          port: process.env.EMAIL_PORT,
-          secure: process.env.EMAIL_SECURE,
-          auth: {
-            user: process.env.EMAIL_USERNAME,
-            pass: process.env.EMAIL_PASSWORD,
-          }
+        if (dayOfWeek === 2 && getWeek(currentDate) === getWeek(new Date())) {
+          await db.updateAttendStatusCyber(email);
+          res.json({success: true, message:'Email confirmed successfully'})
+        }else{
+          res.json({success: false, message:'Not allowed to attend Today'})
         }
-    
-        const loginLink = `https://blueeconomysummit.co.ke/`;
-    
-        let transporter = nodemailer.createTransport(config);
-    
-        const result = {
-          from : process.env.EMAIL_USERNAME,
-          to : getEmailCyber,
-          subject: 'Welcome to Blue Economy Summit ',
-          text: `Dear ${getNameCyber},\n\nYou thank you for attending the Blue Economy Summit:\n\n Check out the event activities here:\n\n ${loginLink}\n`,
-          attachments: [
-            {
-              filename: fileDetails[0].file_name, 
-              content: fileDetails[0].file, 
-            },
-          ],
-        };
-    
-        transporter.sendMail(result).then(() => {
-          return ;
-        });
-         await db.updateAttendStatusCyber(email);
-        res.json({success: true, message:'Email confirmed successfully'})
+         
       } else {
         res.json({success: false, message:'Email Not Found'})
       }
@@ -619,6 +571,109 @@ router.post('/api/registerUsers', async(req, res) => {
       }
     });
 
+    router.put('/api/updateSubmit', async(req, res) => {
+      const data = req.body;
+      const selectedCounty = data.selectedCounty;
+      const areaOfInterest = data.areaOfInterest;
+      const email = data.email;
+      console.log(selectedCounty, areaOfInterest, email);
+      const db = DbService.getDbLearningInstance();
+      try {
+        await db.updateAttendeeData(selectedCounty, areaOfInterest, email);
+       await db.updateAttendeeDataCyber(selectedCounty, areaOfInterest, email);
+        const getUserDetails = await  db.getUserByEmail(email);
+        const getCyberData = await db.getUserByEmailCyber(email);
+        // console.log(getUserDetails);
+        await db.getUserByEmailCyber(email);
+        await db.selectFile();
+        const fileDetails = await db.selectFile();
+        // console.log(fileDetails[0].file_name);
+        await db.updateAttendStatusCyber(email);
+
+        if(getUserDetails ) {
+          const getEmail = getUserDetails.user_email;
+          const getName = getUserDetails.user_name;
+          // console.log(getEmail);
+          // console.log(getName);
+          let config = {
+            host: process.env.EMAIL_HOST,
+            port: process.env.EMAIL_PORT,
+            secure: process.env.EMAIL_SECURE,
+            auth: {
+              user: process.env.EMAIL_USERNAME,
+              pass: process.env.EMAIL_PASSWORD,
+            }
+          }
+      
+          const loginLink = `https://blueeconomysummit.co.ke/`;
+      
+          let transporter = nodemailer.createTransport(config);
+      
+          const result = {
+            from : process.env.EMAIL_USERNAME,
+            to : getEmail,
+            subject: 'Welcome to Blue Economy Summit ',
+            text: `Dear ${getName},\n\nYou thank you for attending the Blue Economy Summit:\n\n Check out the event activities here:\n\n ${loginLink}\n`,
+            attachments: [
+              {
+                filename: fileDetails[0].file_name, 
+                content: fileDetails[0].file, 
+              },
+            ],
+    
+          };
+      
+          transporter.sendMail(result).then(() => {
+            return ;
+          });
+          res.json({success: true});
+        } else if(getCyberData){
+          // const getCyberData = await db.getUserByEmailCyber(email);
+          // console.log(getCyberData);
+          const getEmailCyber = getCyberData.email;
+          const getNameCyber = getCyberData.first_name;
+  
+          let config = {
+            host: process.env.EMAIL_HOST,
+            port: process.env.EMAIL_PORT,
+            secure: process.env.EMAIL_SECURE,
+            auth: {
+              user: process.env.EMAIL_USERNAME,
+              pass: process.env.EMAIL_PASSWORD,
+            }
+          }
+      
+          const loginLink = `https://blueeconomysummit.co.ke/`;
+      
+          let transporter = nodemailer.createTransport(config);
+      
+          const result = {
+            from : process.env.EMAIL_USERNAME,
+            to : getEmailCyber,
+            subject: 'Welcome to Blue Economy Summit ',
+            text: `Dear ${getNameCyber},\n\nYou thank you for attending the Blue Economy Summit:\n\n Check out the event activities here:\n\n ${loginLink}\n`,
+            attachments: [
+              {
+                filename: fileDetails[0].file_name, 
+                content: fileDetails[0].file, 
+              },
+            ],
+          };
+      
+          transporter.sendMail(result).then(() => {
+            return ;
+          });
+          res.json({success: true})
+        } else {
+          res.json({success: false})
+        }
+        // res.json({success:true, data:result});
+      } catch (error) {
+        throw(error);
+      }
+
+    })
+
     router.put('/api/upload/:fileId', upload.single('file'), async(req, res) => {
       const {fileId} = req.params;
       // console.log('fileId',fileId);
@@ -631,7 +686,7 @@ router.post('/api/registerUsers', async(req, res) => {
       const db = DbService.getDbLearningInstance();
       
       try {
-        const result = await db.fileUpload(fileData, fileName,fileId);
+        const result = await db.fileUploads(fileData, fileName,fileId);
         res.json({success: true, message: result})
       }catch(error) {
         res.status(500).json({ success: false, error: error.message });

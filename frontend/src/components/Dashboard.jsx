@@ -2,10 +2,12 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Select from 'react-select';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as XLSX from 'xlsx';
 import { setAuthenticated } from '../utils/ProtectedRoute';
+
 
 function Dashboard() {
 const navigate = useNavigate();
@@ -19,7 +21,38 @@ const navigate = useNavigate();
     const [error, setError] = useState(null);
     const[isDropDown, setDropDown] = useState(false);
 
-    
+    const[countyList, setCountyList] = useState([]);
+      const County_API = `${process.env.REACT_APP_API_URL}/api/counties`;
+      
+      useEffect(() => {
+          fetch(County_API)
+          .then(response => {
+              if(!response.ok) {
+                  throw new Error('Error fetching event details');
+              }
+              return response.json();
+          })
+          .then(data => {
+              if (data.success) {
+                  setCountyList(data.data);
+                } else {
+                  console.log('Unexpected data format:', data);
+                }
+          })
+          .catch(error => {
+              console.log(error.message);
+          })
+      }, [County_API]);
+
+      const options = countyList.map((county) => ({
+        value: county.name,
+        label: county.name,
+      }));
+      const [selectedCounty, setSelectedCounty] = useState(null);
+      const handleCountyChange = (selectedOption) => {
+        setSelectedCounty(selectedOption);
+      };
+
 
       //handle search 
       const[searchQuery, setSearchQuery] = useState('');
@@ -123,18 +156,21 @@ const navigate = useNavigate();
               return {
                 ...prevEditingUser,
                 hear_about_event: updatedHearAboutEvent.join(','),
+                county: selectedCounty.value,
               };
             });
           };
-
+        //   const selectedCounty = selectedCounty.value;
           //submit edit data
           const handleSubmitEditData = async(e) => {
             e.preventDefault();
                 try {
+                    
                     if(!editingUser || !editingUser.user_id) {
                         console.log('Invalid editing user data or user_id');
                         return;
                     }
+                    
                     const API_URL = `${process.env.REACT_APP_API_URL}/api/editUser/${editingUser.user_id}`
                     const response = await fetch(API_URL, {
                         method: 'PUT',
@@ -199,16 +235,9 @@ const navigate = useNavigate();
           const[formData, setFormData] = useState({
             email: '',
             name: '',
-            occupation: '',
             company: '',
             phoneNumber: '',
-            industry: '',
-            attendLastYear:'',
             areaOfInterests:'',
-            joinMailList:'',
-            JoinAs:'',
-            describeYourProduct:'',
-            categoryFall:''
         })
     
         
@@ -225,26 +254,23 @@ const navigate = useNavigate();
     
         const [checkedBoxes, setCheckedBoxes] = useState([]);
 
-            const handleCheckboxClick = (event) => {
-                const { value } = event.target;
-                setCheckedBoxes((prevCheckedBoxes) => {
-                if (prevCheckedBoxes.includes(value)) {
-                    return prevCheckedBoxes.filter((item) => item !== value);
-                } else {
-                    return [...prevCheckedBoxes, value];
-                }
-                });
-            };
+            // const handleCheckboxClick = (event) => {
+            //     const { value } = event.target;
+            //     setCheckedBoxes((prevCheckedBoxes) => {
+            //     if (prevCheckedBoxes.includes(value)) {
+            //         return prevCheckedBoxes.filter((item) => item !== value);
+            //     } else {
+            //         return [...prevCheckedBoxes, value];
+            //     }
+            //     });
+            // };
 
             const resetFormFields = () => {
                 setFormData({
                     email: '',
                     name: '',
-                    occupation: '',
                     company: '',
-                    phoneNumber: '',
-                    industry: '',
-                    describeYourProduct: '',
+                    phoneNumber: '', 
                 }); 
             }
 
@@ -258,27 +284,27 @@ const navigate = useNavigate();
                 if(!formData.name) {
                     errors.name = 'Please enter a valid name'
                 }
-                if(!formData.occupation) {
-                    errors.occupation = 'Please enter your occupation'
-                }
+                // if(!formData.occupation) {
+                //     errors.occupation = 'Please enter your occupation'
+                // }
                 if(!formData.company) {
                     errors.company = 'Please enter company name'
                 }
                 if(!formData.phoneNumber) {
                     errors.phoneNumber = 'Please enter phone number'
                 }
-                if(!formData.industry) {
-                    errors.industry = 'Please enter Industry name'
-                }
-                if(!formData.attendLastYear) {
-                    errors.attendLastYear = 'Please select an option';
-                }
+                // if(!formData.industry) {
+                //     errors.industry = 'Please enter Industry name'
+                // }
+                // if(!formData.attendLastYear) {
+                //     errors.attendLastYear = 'Please select an option';
+                // }
                 if(!formData.areaOfInterests) {
                     errors.areaOfInterests = 'Please select an option';
                 }
-                if(!formData.joinMailList) {
-                    errors.joinMailList = 'Please select an option';
-                }
+                // if(!formData.joinMailList) {
+                //     errors.joinMailList = 'Please select an option';
+                // }
                 // if(!formData.JoinAs) {
                 //     errors.JoinAs = 'Please select an option';
                 // }
@@ -289,9 +315,9 @@ const navigate = useNavigate();
                 //     errors.categoryFall = 'Please select a option';
                 // }
 
-                if(checkedBoxes.length === 0) {
-                    errors.checkBoxError = "Please select at least one option."
-                }
+                // if(checkedBoxes.length === 0) {
+                //     errors.checkBoxError = "Please select at least one option."
+                // }
                 if(Object.keys(errors).length > 0) {
                     setErrorMessages(errors);
                     toast.error('Fill all required fields');
@@ -352,15 +378,8 @@ const navigate = useNavigate();
                             setAddFormOpen(false);
                         }, 1000);
                     }
-                    setCheckedBoxes([]);
                     resetFormFields();
-                    document.getElementById('attend').selectedIndex = 0;
                     document.getElementById('interests-area').selectedIndex = 0;
-                    document.getElementById('join-mail').selectedIndex = 0;
-                    document.getElementById('join-summit').selectedIndex = 0;
-                    document.getElementById('category-Fall').selectedIndex = 0;
-                    
-                    
                 })
                   .catch ((error) => {
                     throw(error);
@@ -421,19 +440,25 @@ const navigate = useNavigate();
 
     const exportToExcel = () => {
         const dataToExport = filteredData.map((user) => ({
-          'User Email': user.user_email,
-          'User Names': user.user_name,
-          'Designation/Occupation/Role': user.occupation,
-          'Company/Organization Name': user.company,
-          'Phone number(For communication purposes only)': user.phone_number,
-          'Which industry are you in?': user.industry_in,
-          'How did you hear about the event?': user.hear_about_event,
-          'Did you attend last year\'s Blue Economy Summit?': user.attend_last_year,
-          'Which areas are of interest to you during the summit?': user.user_interest,
-          'Do you consent joining our mailing list to receive our newsletter?': user.join_newsletter,
-          'How will you be joining this year\'s summit?': user.join_as,
-          'Describe your product or the services that you offer?': user.describe_product,
-          'Which category do you fall in?': user.category_fall,
+            'Full Names': user.user_name,
+            'Company/Organization Name': user.company,
+            'Email Address': user.user_email,
+            'Phone number(For communication purposes only)': user.phone_number,
+            'County of Residence': user.attendee_county,
+            'Which areas are of interest to you during the summit?': user.attendee_interest,
+          
+          
+        //   'Designation/Occupation/Role': user.occupation,
+          
+          
+        //   'Which industry are you in?': user.industry_in,
+        //   'How did you hear about the event?': user.hear_about_event,
+        //   'Did you attend last year\'s Blue Economy Summit?': user.attend_last_year,
+        //   'Which areas are of interest to you during the summit?': user.user_interest,
+        //   'Do you consent joining our mailing list to receive our newsletter?': user.join_newsletter,
+        //   'How will you be joining this year\'s summit?': user.join_as,
+        //   'Describe your product or the services that you offer?': user.describe_product,
+        //   'Which category do you fall in?': user.category_fall,
           'Attended': attendedStatuses[user.user_id] ? 'Yes' : 'No',
         }));
       
@@ -546,7 +571,9 @@ const navigate = useNavigate();
             return navigate(targetLink);
         }
       }
-     
+
+      
+    
     return (
         <div>
             {loading && <p>...loading</p>}
@@ -644,20 +671,22 @@ const navigate = useNavigate();
                             <th>Attend Status</th>
                             <th>Attended</th>
                             <th>Confirmed At</th>
+                            <th>County</th>
+                            <th>Which areas are of interest to you during the summit?</th>
                             <th>User ID</th>
                             <th>Email</th>
                             <th>Name</th>
-                            <th>Designation/Occupation/Role</th>
+                            {/* <th>Designation/Occupation/Role</th> */}
                             <th>Company/ Organization Name</th>
                             <th>Phone number(For communication purposes only)</th>
-                            <th>Which industry are you in?</th>
+                            {/* <th>Which industry are you in?</th>
                             <th>How did you hear about the event?</th>
-                            <th>Did you attend last year's Blue Economy Summit?</th>
-                            <th>Which areas are of interest to you during the summit?</th>
-                            <th>Do you consent joining our mailing list to receive our newsletter?</th>
+                            <th>Did you attend last year's Blue Economy Summit?</th> */}
+                            {/* <th>Which areas are of interest to you during the summit?</th> */}
+                            {/* <th>Do you consent joining our mailing list to receive our newsletter?</th>
                             <th>How will you be joining this year's summit?</th>
                             <th>Describe your product or the services that you offer?</th>
-                            <th>Which category do you fall in?</th>
+                            <th>Which category do you fall in?</th> */}
 
                             {/* <th>Edit</th>
                             <th>Delete</th> */}
@@ -677,20 +706,22 @@ const navigate = useNavigate();
                                   /></td>
                                   <td className='attend-text'>{attendedStatuses[user.user_id] ? 'Yes' : 'No'}</td>
                                   <td>{formatConfirmedAt(user.confirmed_at)}</td>
+                                  <td>{user.attendee_county ? (user.attendee_county):('')}</td>
+                                  <td>{user.attendee_interest ? (user.attendee_interest):('')}</td>
                                 <td>{user.user_id}</td>
                                 <td>{user.user_email}</td>
                                 <td>{user.user_name}</td>
-                                <td>{user.occupation}</td>
+                                {/* <td>{user.occupation}</td> */}
                                 <td>{user.company}</td>
                                 <td>{user.phone_number}</td>
-                                <td>{user.industry_in}</td>
+                                {/* <td>{user.industry_in}</td>
                                 <td>{user.hear_about_event}</td>
                                 <td>{user.attend_last_year}</td>
                                 <td>{user.user_interest}</td>
                                 <td>{user.join_newsletter}</td>
                                 <td>{user.join_as}</td>
                                 <td>{user.describe_product}</td>
-                                <td>{user.category_fall}</td>
+                                <td>{user.category_fall}</td> */}
                                 <td><button onClick={()=>handleEditUser(user)}>Edit</button></td>
                                 {person.organiser_role === 'admin' ? (
                                     <>
@@ -730,12 +761,12 @@ const navigate = useNavigate();
                         value={editingUser.user_name}
                         onChange={handleChanges}
                         />
-                        <label htmlFor="occupation">Designation/Occupation/Role</label>
+                        {/* <label htmlFor="occupation">Designation/Occupation/Role</label>
                         <input type="text" 
                         name='occupation'
                         value={editingUser.occupation}
                         onChange={handleChanges}
-                        />
+                        /> */}
                         <label htmlFor="company">Company/Organisation</label>
                         <input type='text'
                         name='company'
@@ -748,7 +779,13 @@ const navigate = useNavigate();
                         value={editingUser.phone_number}
                         onChange={handleChanges}
                         />
-                        <label htmlFor="form">Which industry are you in?</label>
+                        <Select
+                            value={selectedCounty}
+                            options={options}
+                            onChange={handleCountyChange}
+                            placeholder="Select a County"
+                            />
+                        {/* <label htmlFor="form">Which industry are you in?</label>
                         <input type="text" 
                         name='industry_in'
                         value={editingUser.industry_in}
@@ -780,7 +817,7 @@ const navigate = useNavigate();
                             />
                             Social Media
                         </label>
-                        </div>
+                        </div> */}
                         {/* <div className="select-checkboxes">
                         <label className="checkbox-label">
                             <input
@@ -794,7 +831,7 @@ const navigate = useNavigate();
                             LinkedIn
                         </label>
                         </div> */}
-                        <div className="select-checkboxes">
+                        {/* <div className="select-checkboxes">
                         <label className="checkbox-label">
                             <input
                                 type="checkbox"
@@ -806,7 +843,7 @@ const navigate = useNavigate();
                             />
                             Word of Mouth
                         </label>
-                        </div>
+                        </div> */}
                         {/* <div className="select-checkboxes">
                         <label className="checkbox-label">
                             <input
@@ -821,11 +858,11 @@ const navigate = useNavigate();
                         </label>
                         </div> */}
                         
-                        <label htmlFor="form">Did you attend last year's Blue Economy Summit?</label>
+                        {/* <label htmlFor="form">Did you attend last year's Blue Economy Summit?</label>
                         <select name="attend_last_year" id="attend" value={editingUser.attend_last_year} onChange={handleChanges}>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
-                        </select>
+                        </select> */}
                         <label htmlFor="form">Which areas are of interest to you during the summit?</label>
                         <select name="user_interest" id="interests-area" value={editingUser.user_interest} onChange={handleChanges}>
                             <option value="blue economy">Blue Economy</option>
@@ -835,7 +872,7 @@ const navigate = useNavigate();
                             <option value="cybersecurity ">Cybersecurity </option>
                             <option value="all if possible">All if Possible</option>
                         </select>
-                        <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>
+                        {/* <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>
                         <select name="join_newsletter" id="join-mail" value={editingUser.join_newsletter} onChange={handleChanges}>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
@@ -848,24 +885,24 @@ const navigate = useNavigate();
                             <option value="Exhibitor">Exhibitor</option>
                             <option value="Sponsor/Donor"></option>
                         </select>
-                        <label htmlFor="form">Describe your product or the services that you offer?</label>
+                        <label htmlFor="form">Describe your product or the services that you offer?</label> */}
                         {/* <input type="text"
                         name='describe_product'
                         value={editingUser.describe_product}
                         onChange={handleChanges}
                         /> */}
-                        <textarea
+                        {/* <textarea
                             name='describe_product'
                             value={editingUser.describe_product}
                             onChange={handleChanges}
-                            rows={5} // Adjust the number of rows as needed
-                            cols={40} // Adjust the number of columns as needed
+                            rows={5}
+                            cols={40} 
                             ></textarea>
                         <label htmlFor="form">Which category do you fall in?</label>
                         <select name="category_fall" value={editingUser.category_fall} onChange={handleChanges}>
                             <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>
                             <option value="Corporate Institution (KES 30,000)">Corporate Institution (KES 30,000)</option>
-                        </select>
+                        </select> */}
                         <div className="modal-button">
                             <button type='submit'>Submit</button>
                         </div> 
@@ -899,13 +936,13 @@ const navigate = useNavigate();
                      value={formData.name}
                      placeholder='John Doe' 
                      onChange={handleChange}/>
-                    <label htmlFor="occupation">Designation/Occupation/Role</label>
+                    {/* <label htmlFor="occupation">Designation/Occupation/Role</label>
                     <span>{errorMessages.occupation}</span>
                     <input type="text" 
                     name='occupation'
                     value={formData.occupation}
                     onChange={handleChange}
-                    />
+                    /> */}
                     <label htmlFor="company">Company/Organisation</label>
                     <span>{errorMessages.company}</span>
                     <input type='text'
@@ -920,7 +957,13 @@ const navigate = useNavigate();
                     value={formData.phoneNumber}
                     onChange={handleChange} 
                     />
-                    <label htmlFor="form">Which industry are you in?</label>
+                    <Select
+                            value={selectedCounty}
+                            options={options}
+                            onChange={handleCountyChange}
+                            placeholder="Select a County"
+                     />
+                    {/* <label htmlFor="form">Which industry are you in?</label>
                     <span>{errorMessages.industry}</span>
                     <input type="text" 
                     name='industry'
@@ -928,8 +971,8 @@ const navigate = useNavigate();
                     onChange={handleChange}
                     />
                     <label htmlFor="form">How did you hear about the event?</label>
-                    <span>{errorMessages.checkBoxError}</span>
-                    <div className="select-checkboxes">
+                    <span>{errorMessages.checkBoxError}</span> */}
+                    {/* <div className="select-checkboxes">
                     <label className="checkbox-label">
                         <input
                             type="checkbox"
@@ -954,7 +997,7 @@ const navigate = useNavigate();
                         />
                         Social Media
                     </label>
-                    </div>
+                    </div> */}
                     {/* <div className="select-checkboxes">
                     <label className="checkbox-label">
                         <input
@@ -968,7 +1011,7 @@ const navigate = useNavigate();
                         LinkedIn
                     </label>
                     </div> */}
-                    <div className="select-checkboxes">
+                    {/* <div className="select-checkboxes">
                     <label className="checkbox-label">
                         <input
                             type="checkbox"
@@ -980,7 +1023,7 @@ const navigate = useNavigate();
                         />
                         Word of Mouth
                     </label>
-                    </div>
+                    </div> */}
                     {/* <div className="select-checkboxes">
                     <label className="checkbox-label">
                         <input
@@ -995,13 +1038,13 @@ const navigate = useNavigate();
                     </label>
                     </div> */}
                     
-                    <label htmlFor="form">Did you attend last year's Blue Economy Summit?</label>
+                    {/* <label htmlFor="form">Did you attend last year's Blue Economy Summit?</label>
                     <span>{errorMessages.attendLastYear}</span>
                     <select name="attendLastYear" id="attend" onChange={handleChange}>
                         <option value=""></option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> */}
                     <label htmlFor="form">Which areas are of interest to you during the summit?</label>
                     <span>{errorMessages.areaOfInterests}</span>
                     <select name="areaOfInterests" id="interests-area" onChange={handleChange}>
@@ -1013,7 +1056,7 @@ const navigate = useNavigate();
                         <option value="cybersecurity ">Cybersecurity </option>
                         <option value="all if possible">All if Possible</option>
                     </select>
-                    <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>
+                    {/* <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>
                     <span>{errorMessages.joinMailList}</span>
                     <select name="joinMailList" id="join-mail" onChange={handleChange}>
                         <option value=""></option>
@@ -1031,26 +1074,26 @@ const navigate = useNavigate();
                         <option value="Sponsor/Donor">Sponsor/Donor</option>
                     </select>
                     <label htmlFor="form">Describe your product or the services that you offer?</label>
-                    <span></span>
+                    <span></span> */}
                     {/* <input type="text"
                     name='describeYourProduct'
                     value={formData.describeYourProduct}
                     onChange={handleChange}
                      /> */}
-                     <textarea
+                     {/* <textarea
                             name='describeYourProduct'
                             value={formData.describeYourProduct}
                             onChange={handleChange}
-                            rows={5} // Adjust the number of rows as needed
-                            cols={40} // Adjust the number of columns as needed
-                            ></textarea>
-                    <label htmlFor="form">Which category do you fall in?</label>
+                            rows={5} 
+                            cols={40} 
+                            ></textarea> */}
+                    {/* <label htmlFor="form">Which category do you fall in?</label>
                     <span></span>
                     <select name="categoryFall" id='category-Fall' onChange={handleChange}>
                         <option value=""></option>
                         <option value="StartUp(KES 5000)">StartUp(KES 5000)</option>
                         <option value="Corporate Institution (KES 30,000)">Corporate Institution (KES 30,000)</option>
-                    </select>
+                    </select> */}
                     <div className="modal-button">
                             <button type='submit'>Register</button>
                     </div> 
