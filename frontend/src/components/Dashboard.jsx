@@ -397,6 +397,7 @@ const navigate = useNavigate();
                       throw new Error('Failed to update attendance status in the database');
                     }
                     toast.success('Successfully updated');
+                    window.location.reload();
                   } catch (error) {
                     toast.error(error.message);
                   }

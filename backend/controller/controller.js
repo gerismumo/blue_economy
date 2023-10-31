@@ -271,12 +271,13 @@ class DbLearning {
 
      async confirmAttend(userId, attendedStatus) {
         try {
-            const query = 'UPDATE users_list SET attend_status = ? WHERE user_id = ?';
+            const query = 'UPDATE users_list SET attend_status = ?, confirmed_at = NOW() WHERE user_id = ?';
             const confirmStatus = await new Promise((resolve, reject) => {
                 connection.query(query, [attendedStatus, userId], (err, result) => {
                     if(err) {
                         reject(err);
                     } else {
+                        // console.log(result);
                         resolve(result);
                     }
                 });
@@ -626,12 +627,13 @@ class DbLearning {
 
      async confirmAttendCyber(userId, attendedStatus) {
         try {
-            const query = 'UPDATE cybersecurity_list SET attend_status = ? WHERE attendee_id = ?';
+            const query = 'UPDATE cybersecurity_list SET attend_status = ?, confirmed_at = NOW() WHERE attendee_id = ?';
             const confirmStatus = await new Promise((resolve, reject) => {
                 connection.query(query, [attendedStatus, userId], (err, result) => {
                     if(err) {
                         reject(err);
                     } else {
+                        console.log(result);
                         resolve(result);
                     }
                 });
