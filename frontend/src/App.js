@@ -8,9 +8,10 @@ import Dashboard from './components/Dashboard';
 import Home from './components/Home';
 import Login from './components/Login';
 import RegistrationForm from './components/RegistrationForm';
+import SelectCounty from './components/SelectCounty';
 import Submit from './components/Submit';
-import Verify from './components/Verify';
 import UploadFile from './components/UploadFile';
+import Verify from './components/Verify';
 function App() {
   
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path='/registration' element={<RegistrationForm/>} />
         <Route path='/verify' element={<Verify />} />
         <Route path='/uploadFile' element={<UploadFile />} />
+        <Route path='/selectCounty' element={<SelectCounty />} />
     
         
         {/* <Route

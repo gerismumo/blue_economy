@@ -1790,17 +1790,34 @@ background-color: grey;
 
 /* registration form  */
 .registration-page {
-  margin-top: 50px;
-  text-align: center;
-  padding: 20px;
-  border-radius: 8px;
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+ display: flex;
+ flex-direction: column;
 }
 
+.registration-page .header {
+  background-color: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  width: 100%;
+}
+.registration-page .header nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px ;
+}
+.registration-page nav .logo {
+  width: 400px;
+  height: 60px
+}
+.registration-page .register-details {
+  margin-top: 95px;
+}
 .registration-page h1 {
   font-size: 24px;
   margin-bottom: 20px;
   color: #333;
+  text-align: center;
 }
 
 
@@ -1863,6 +1880,74 @@ background-color: grey;
 }
 
 
+
+.select-county form {
+  text-align: left;
+}
+.select-county form .county {
+  width: 400px;
+}
+.select-county label {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* Style the Select component */
+.select-county .Select {
+  width: 100%;
+}
+.select-county .select__control {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-height: 44px;
+  width: 100%;
+}
+
+.select-county .Select__menu {
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+}
+
+.select-county .Select__option {
+  cursor: pointer;
+  padding: 10px;
+  transition: background 0.3s;
+}
+
+.select-county .Select__option:hover {
+  background: #f0f0f0;
+}
+
+/* Style the select dropdown */
+.select-county #interests-area {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+/* Style the submit button in the select form */
+.select-county button[type="submit"] {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.select-county button[type="submit"]:hover {
+  background: #0056b3;
+}
+
+
+/* edits registration css */
+
+/* upload css */
 .upload-container {
   display: flex;
   flex-direction: column;
@@ -1924,3 +2009,6 @@ background-color: grey;
 .current-file button:hover {
   background-color: #007bff;
 }
+
+
+/* select option */

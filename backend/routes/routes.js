@@ -649,10 +649,10 @@ router.post('/api/registerUsers', async(req, res) => {
     router.get('/api/counties', (req, res) => {
       try {
         const data = require('../data/counties.json');
-        res.json(data);
+        res.json({success: true, data});
       } catch (error) {
         console.error('Error reading JSON data:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({success: false, error: 'Internal Server Error' });
       }
     });
     
