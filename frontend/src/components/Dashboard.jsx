@@ -122,7 +122,6 @@ const navigate = useNavigate();
         }
 
         //handle edit 
-        
         const handleEditUser = (user) => {
             if(user) {
                 setEditingUser(user);
@@ -130,7 +129,17 @@ const navigate = useNavigate();
             }  
         }
 
-        const hearAboutEventValues = editingUser ? editingUser.hear_about_event.split(',') : [];
+        // const handleCountyChangeEdit = (selectedOption) => {
+        //     setEditingUser(selectedOption);
+        //   };
+        
+        const handleChangesCounty = (selectedOption) => {
+            setEditingUser((prevEditingUser) => ({
+              ...prevEditingUser,
+              attendee_county: selectedOption.value,
+            }));
+          };
+
         const handleChanges = (event) => {
             const { name, value } = event.target;
             setEditingUser((prevEditingUser) => ({
@@ -138,39 +147,15 @@ const navigate = useNavigate();
               [name]: value,
             }));
           }
-          const handleCheckboxChange = (event) => {
-            const checkboxValue = event.target.value;
-            const isChecked = event.target.checked;
-          
-            setEditingUser((prevEditingUser) => {
-              let updatedHearAboutEvent = [...hearAboutEventValues];
-          
-              if (isChecked) {
-                updatedHearAboutEvent.push(checkboxValue);
-              } else {
-                updatedHearAboutEvent = updatedHearAboutEvent.filter(
-                  (value) => value !== checkboxValue
-                );
-              }
-          
-              return {
-                ...prevEditingUser,
-                hear_about_event: updatedHearAboutEvent.join(','),
-                county: selectedCounty.value,
-              };
-            });
-          };
-        //   const selectedCounty = selectedCounty.value;
-          //submit edit data
+        
           const handleSubmitEditData = async(e) => {
             e.preventDefault();
                 try {
-                    
                     if(!editingUser || !editingUser.user_id) {
                         console.log('Invalid editing user data or user_id');
                         return;
                     }
-                    
+                    console.log('editingUser',editingUser);
                     const API_URL = `${process.env.REACT_APP_API_URL}/api/editUser/${editingUser.user_id}`
                     const response = await fetch(API_URL, {
                         method: 'PUT',
@@ -191,17 +176,11 @@ const navigate = useNavigate();
                                         ...user,
                                         user_email: editingUser.user_email,
                                         user_name: editingUser.user_name,
-                                        occupation: editingUser.occupation,
                                         company: editingUser.company,
                                         phone_number: editingUser.phone_number,
-                                        industry_in: editingUser.industry_in,
-                                        hear_about_event: editingUser.hear_about_event,
-                                        attend_last_year: editingUser.attend_last_year,
-                                        user_interest: editingUser.user_interest,
-                                        join_newsletter: editingUser.join_newsletter,
-                                        join_as: editingUser.join_as,
-                                        describe_product: editingUser.describe_product,
-                                        category_fall: editingUser.category_fall
+                                        attendee_interest: editingUser.user_interest,
+                                        attendee_county: editingUser.attendee_county,
+
                                     };
                                 }
                                 return user;
@@ -252,7 +231,7 @@ const navigate = useNavigate();
         
         }
     
-        const [checkedBoxes, setCheckedBoxes] = useState([]);
+        // const [checkedBoxes, setCheckedBoxes] = useState([]);
 
             // const handleCheckboxClick = (event) => {
             //     const { value } = event.target;
@@ -326,18 +305,12 @@ const navigate = useNavigate();
                 const requestData = {
                     email: formData.email,
                     name: formData.name,
-                    occupation: formData.occupation,
                     company: formData.company,
                     phoneNumber: formData.phoneNumber,
-                    industry: formData.industry,
-                    attendLastYear: formData.attendLastYear,
-                    areaOfInterests: formData.areaOfInterests,
-                    joinMailList: formData.joinMailList,
-                    JoinAs: formData.JoinAs,
-                    describeYourProduct: formData.describeYourProduct,
-                    categoryFall: formData.categoryFall,
-                    selectedCheckBoxes: checkedBoxes.join(','),
+                    areaOfInterests: formData.areaOfInterests, 
+                    county: selectedCounty.value,
                   };
+                  console.log('requestData',requestData);
                   
                   const Register_User_Api = `${process.env.REACT_APP_API_URL}/api/registerUsers`;
                   fetch(Register_User_Api, {
@@ -359,17 +332,10 @@ const navigate = useNavigate();
                             user_id : result.data.insertId,
                             user_email: requestData.email,
                             user_name: requestData.name,
-                            occupation: requestData.occupation,
                             company:requestData.company,
                             phone_number:requestData.phoneNumber,
-                            industry_in: requestData.industry,
-                            hear_about_event: requestData.selectedCheckBoxes,
-                            attend_last_year: requestData.attendLastYear,
-                            user_interest: requestData.areaOfInterests,
-                            join_newsletter: requestData.joinMailList,
-                            join_as: requestData.JoinAs,
-                            describe_product: requestData.describeYourProduct,
-                            category_fall: requestData.categoryFall
+                            attendee_county: requestData.county,
+                            attendee_interest: requestData.areaOfInterests,
                         }
                         setUsersList(prevList => [...prevList, newAttendee]);
                     } else {
@@ -780,9 +746,9 @@ const navigate = useNavigate();
                         onChange={handleChanges}
                         />
                         <Select
-                            value={selectedCounty}
+                            value={{ value: editingUser.attendee_county, label: editingUser.attendee_county }}
                             options={options}
-                            onChange={handleCountyChange}
+                            onChange={handleChangesCounty}
                             placeholder="Select a County"
                             />
                         {/* <label htmlFor="form">Which industry are you in?</label>

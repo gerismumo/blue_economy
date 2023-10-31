@@ -187,24 +187,17 @@ router.post('/api/registerUsers', async(req, res) => {
   
     const user_email = editingUser.user_email;
     const user_name  = editingUser.user_name;
-    const occupation = editingUser.occupation;
     const company = editingUser.company;
     const phone_number = editingUser.phone_number;
-    const industry_in = editingUser.industry_in;
-    const hear_about_event = editingUser.hear_about_event;
-    const attend_last_year = editingUser.attend_last_year;
     const user_interest = editingUser.user_interest;
-    const join_newsletter = editingUser.join_newsletter;
-    const join_as = editingUser.join_as;
-    const describe_product = editingUser.describe_product;
-    const category_fall = editingUser.category_fall;
     const attendee_county = editingUser.attendee_county;
-  
+    console.log(user_id,
+      user_email,user_name,  company,phone_number,
+     user_interest,attendee_county);
     const db = DbService.getDbLearningInstance();
     const result = db.editUsers(user_id,
-       user_email,user_name, occupation, company,phone_number, industry_in,
-       hear_about_event, attend_last_year, user_interest, join_newsletter,join_as,
-       describe_product, category_fall, attendee_county);
+       user_email,user_name,  company,phone_number,
+      user_interest,attendee_county);
     result
     .then(data => {
       res.json({success: true, data:data});
