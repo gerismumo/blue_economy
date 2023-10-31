@@ -1861,3 +1861,66 @@ background-color: grey;
   transform: scale(1.05);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.upload-container .header {
+  background-color: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  width: 100%;
+}
+.upload-container .header nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px ;
+}
+.upload-container  nav .logo {
+  width: 400px;
+  height: 60px
+}
+.upload-container  nav a {
+  text-decoration: none;
+  color: white;
+}
+.upload-container  nav button {
+  background-color: #38b6ff;
+  outline: none;
+  border: none;
+  padding: 5px 13px;
+  border-radius: 3px;
+}
+.upload-container  nav button:hover {
+  background-color: #007bff;
+}
+.upload-container .file-container {
+  margin-top: 95px;
+}
+.upload-container .current-file, .upload-file{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.upload-container .upload-button,
+.current-file button {
+  background-color: #38b6ff;
+  color: #fff;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 3x;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.upload-container .upload-button:hover,
+.current-file button:hover {
+  background-color: #007bff;
+}

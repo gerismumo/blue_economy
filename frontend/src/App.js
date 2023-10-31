@@ -10,6 +10,7 @@ import Login from './components/Login';
 import RegistrationForm from './components/RegistrationForm';
 import Submit from './components/Submit';
 import Verify from './components/Verify';
+import UploadFile from './components/UploadFile';
 function App() {
   
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path='/cyberSecurity' element={<CyberSec />} />
         <Route path='/registration' element={<RegistrationForm/>} />
         <Route path='/verify' element={<Verify />} />
+        <Route path='/uploadFile' element={<UploadFile />} />
     
         
         {/* <Route

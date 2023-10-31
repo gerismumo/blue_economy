@@ -219,6 +219,7 @@ function AdminPage() {
                                         <>
                                         {user.organiser_role === 'admin' ?(
                                             <>
+                                                <button><Link to='/uploadFile'>UploadFile</Link></button>
                                                 <button><Link to='/verify'>Qrcode</Link></button>
                                                 <button><Link to='/'>Home</Link></button>
                                                 <button><Link  to="/dashboard">Dashboard</Link></button>

@@ -3,8 +3,13 @@ const router = express.Router();
 const DbService = require('../controller/controller');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
-const upload = multer({ dest: '../storage'});
 const zlib = require('zlib');
+
+
+const storage = multer.memoryStorage(); 
+const upload = multer({ storage: storage });
+
+
 
 
 router.post('/api/registerUsers', async(req, res) => {
@@ -458,6 +463,8 @@ router.post('/api/registerUsers', async(req, res) => {
       const getUserDetails = await  db.getUserByEmail(email);
       // console.log(getUserDetails);
       const getCyberData = await db.getUserByEmailCyber(email);
+      const fileDetails = await db.selectFile();
+      // console.log(fileDetails[0].file_name);
       await db.updateAttendStatusCyber(email);
       if(getUserDetails) {
         const getEmail = getUserDetails.user_email;
@@ -483,6 +490,13 @@ router.post('/api/registerUsers', async(req, res) => {
           to : getEmail,
           subject: 'Welcome to Blue Economy Summit ',
           text: `Dear ${getName},\n\nYou thank you for attending the Blue Economy Summit:\n\n Check out the event activities here:\n\n ${loginLink}\n`,
+          attachments: [
+            {
+              filename: fileDetails[0].file_name, 
+              content: fileDetails[0].file, 
+            },
+          ],
+  
         };
     
         transporter.sendMail(result).then(() => {
@@ -515,6 +529,12 @@ router.post('/api/registerUsers', async(req, res) => {
           to : getEmailCyber,
           subject: 'Welcome to Blue Economy Summit ',
           text: `Dear ${getNameCyber},\n\nYou thank you for attending the Blue Economy Summit:\n\n Check out the event activities here:\n\n ${loginLink}\n`,
+          attachments: [
+            {
+              filename: fileDetails[0].file_name, 
+              content: fileDetails[0].file, 
+            },
+          ],
         };
     
         transporter.sendMail(result).then(() => {
@@ -557,7 +577,7 @@ router.post('/api/registerUsers', async(req, res) => {
 
     router.put('/api/attendedStatusesCyber', async (req, res) => {
       const {userId, attendedStatus} = req.body;
-      console.log(attendedStatus);
+      // console.log(attendedStatus);
       // console.log(userId);
       const db = DbService.getDbLearningInstance();
       try {
@@ -596,6 +616,43 @@ router.post('/api/registerUsers', async(req, res) => {
         }
       } catch (error) {
         throw(error);
+      }
+    });
+
+    router.put('/api/upload/:fileId', upload.single('file'), async(req, res) => {
+      const {fileId} = req.params;
+      // console.log('fileId',fileId);
+      if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded.' });
+      }
+      const fileData = req.file.buffer;
+      const fileName = req.file.originalname;
+    ;
+      const db = DbService.getDbLearningInstance();
+      
+      try {
+        const result = await db.fileUpload(fileData, fileName,fileId);
+        res.json({success: true, message: result})
+      }catch(error) {
+        res.status(500).json({ success: false, error: error.message });
+      }
+    });
+
+    router.get('/api/fileDetails', (req, res) => {
+      const db = DbService.getDbLearningInstance();
+      const result = db.selectFile();
+      result
+      .then((data) => res.json({success: true, data: data}))
+      .catch((err) => res.json({success: false, err: err}))
+    });
+
+    router.get('/api/counties', (req, res) => {
+      try {
+        const data = require('../data/counties.json');
+        res.json(data);
+      } catch (error) {
+        console.error('Error reading JSON data:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
       }
     });
     

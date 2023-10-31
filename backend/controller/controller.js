@@ -677,6 +677,47 @@ class DbLearning {
             });
         });
     }
+
+    // async fileUpload(fileData, fileName) {
+    //    const query = 'INSERT INTO email_details (file_name, file) VALUES (?,?)';
+    //    return new Promise((resolve, reject) => {
+    //         connection.query(query,[fileName, fileData], (err, result) => {
+    //             if(err) {
+    //                 console.log(err);
+    //                 reject(err);
+    //             }else{
+    //                 resolve(result);
+    //             }
+    //         });
+    //    });
+    // }
+
+    async fileUpload(fileData, fileName,fileId) {
+        const query = 'UPDATE email_details SET file_name = ?, file = ? WHERE file_id = ?';
+        return new Promise((resolve, reject) => {
+             connection.query(query,[fileName, fileData, fileId], (err, result) => {
+                 if(err) {
+                     console.log(err);
+                     reject(err);
+                 }else{
+                     resolve(result);
+                 }
+             });
+        });
+     }
      
+    async selectFile() {
+        const query = 'SELECT * FROM email_details';
+        return new Promise((resolve, reject) => {
+            connection.query(query, (err, result) => {
+                if(err) {
+                    console.log(err);
+                    reject(err);
+                }else{
+                    resolve(result);
+                }
+            });
+       });
+    }
     }
     module.exports = DbLearning;
