@@ -576,7 +576,7 @@ const navigate = useNavigate();
                         <select onChange={handlePageSelect}>
                             <option value="">select dashboard</option>
                             {/* <option value="/dashboard">Dashboard</option> */}
-                            <option value="/cyberSecurity">CyberSecurity</option>
+                            <option value="/cyberSecurity">StartUps Pitching</option>
                         </select>
                         {/* <Link to="/cyberSecurity">CyberSecurity</Link> */}
                         {person.organiser_role === 'admin'? (
@@ -835,7 +835,6 @@ const navigate = useNavigate();
                             <option value="climate change">Climate Change</option>
                             <option value="digital economy">Digital Economy</option>
                             <option value="circular economy">Circular economy</option>
-                            <option value="cybersecurity ">Cybersecurity </option>
                             <option value="all if possible">All if Possible</option>
                         </select>
                         {/* <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>
@@ -1019,7 +1018,6 @@ const navigate = useNavigate();
                         <option value="climate change">Climate Change</option>
                         <option value="digital economy">Digital Economy</option>
                         <option value="circular economy">Circular economy</option>
-                        <option value="cybersecurity ">Cybersecurity </option>
                         <option value="all if possible">All if Possible</option>
                     </select>
                     {/* <label htmlFor="form">Do you consent joining our mailing list to receive our newsletter?</label>

@@ -571,7 +571,7 @@ const navigate = useNavigate();
                     <div className='button-tabs'>
                         <select onChange={handlePageSelect}>
                             <option value="">Select Dashboard</option>
-                            <option value="/dashboard">Dashboard</option>
+                            <option value="/dashboard">Main Summit</option>
                         </select>
                         {person.organiser_role === 'admin'? (
                             <>
@@ -759,10 +759,7 @@ const navigate = useNavigate();
                             />
                              <label htmlFor="form">Which areas are of interest to you during the summit?</label>
                         <select name="user_interest" id="interests-area" value={editingUser.user_interest} onChange={handleChanges}>
-                            <option value="blue economy">Blue Economy</option>
-                            <option value="climate change">Climate Change</option>
-                            <option value="digital economy">Digital Economy</option>
-                            <option value="circular economy">Circular economy</option>
+                            <option value="startupspitching">Startups Pitching</option>
                             <option value="cybersecurity ">Cybersecurity </option>
                             <option value="all if possible">All if Possible</option>
                         </select>
@@ -823,10 +820,7 @@ const navigate = useNavigate();
                     <span>{errorMessages.areaOfInterests}</span>
                     <select name="areaOfInterests" id="interests-area" onChange={handleChange}>
                         <option value=""></option>
-                        <option value="blue economy">Blue Economy</option>
-                        <option value="climate change">Climate Change</option>
-                        <option value="digital economy">Digital Economy</option>
-                        <option value="circular economy">Circular economy</option>
+                        <option value="startupspitching">Startups Pitching</option>
                         <option value="cybersecurity ">Cybersecurity </option>
                         <option value="all if possible">All if Possible</option>
                     </select>

@@ -25,7 +25,7 @@ function RegistrationForm() {
 
       if (response.ok) {
         const emailCheck = await response.json();
-        console.log('emailCheck', emailCheck);
+        // console.log('emailCheck', emailCheck);
         if(emailCheck.success) {
           // setMessage(data.message);
           toast.success(emailCheck.message);
@@ -103,7 +103,7 @@ const [areaOfInterest, setAreaOfInterest] = useState('');
             areaOfInterest,
             email
           };
-          console.log('data',data, email);
+          // console.log('data',data, email);
           // Send the data to your backend using the Fetch API
           try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/api/updateSubmit`, {
@@ -131,76 +131,83 @@ const [areaOfInterest, setAreaOfInterest] = useState('');
           
 
   return (
-    <div className='registration-page'>
-      < div className='header'>
-                        <nav>
-                            <div className="header-logo">
-                                <img src="/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg" alt="logo" width="200px" 
-                                        className="logo-image"
-                                    />
-                            </div>
-                       </nav>     
-      </div>
-      <ToastContainer/>
-      <div className="register-details">
-      {closeSelectForm && (
-        <>
-        <h1>Check Registration</h1>
-        <form onSubmit={handleFormSubmit}>
-          <label>
-            Enter your email:
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value.toLowerCase())}
-              required
-            />
-          </label>
-          <button type="submit">Check Registration</button>
-        </form>
-        <p>{message}</p>
-        </>
-        
-      )}
-      
-        {openSelectForm && (
-          <div className="user-details">
-          <div className="select-county">
-              <form onSubmit={handleSubmit}>
-                  <label htmlFor="">Select County</label>
-                  <div className="county">
-                    <Select
-                    value={selectedCounty}
-                    options={options}
-                    onChange={handleCountyChange}
-                    placeholder="Select a County"
-                    />
-                  </div>
-                  
-                  <label htmlFor="">Which areas are of interest to you during the summit?</label>
-                  <select 
-                      id="interests-area"
-                      name="areaOfInterests"
-                      value={areaOfInterest}
-                      onChange={handleAreaOfInterestChange}
-                  >
-                      <option value=""></option>
-                      <option value="blue economy">Blue Economy</option>
-                      <option value="climate change">Climate Change</option>
-                      <option value="digital economy">Digital Economy</option>
-                      <option value="circular economy">Circular economy</option>
-                      <option value="cybersecurity ">Cybersecurity </option>
-                      <option value="all if possible">All if Possible</option>
-                  </select>
-                  <button type="submit">Submit</button>
-              </form>
-              
+    <div>
+       {loading && <p>...loading</p>}
+       {error && <p>Error: {error}</p>}
+       {!loading && !error && (
+          <div className='registration-page'>
+          < div className='header'>
+                            <nav>
+                                <div className="header-logo">
+                                    <img src="/images/WhatsApp Image 2023-10-11 at 17.14.19.jpeg" alt="logo" width="200px" 
+                                            className="logo-image"
+                                        />
+                                </div>
+                           </nav>     
           </div>
-      </div>
-        )}
-      </div>
-      
+          <ToastContainer/>
+          <div className="register-details">
+          {closeSelectForm && (
+            <>
+            <h1>Check Registration</h1>
+            <form onSubmit={handleFormSubmit}>
+              <label>
+                Enter your email:
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value.toLowerCase())}
+                  required
+                />
+              </label>
+              <button type="submit">Check Registration</button>
+            </form>
+            <p>{message}</p>
+            </>
+            
+          )}
+          
+            {openSelectForm && (
+              <div className="user-details">
+              <div className="select-county">
+                  <form onSubmit={handleSubmit}>
+                      <label htmlFor="">Select County</label>
+                      <div className="county">
+                        <Select
+                        value={selectedCounty}
+                        options={options}
+                        onChange={handleCountyChange}
+                        placeholder="Select a County"
+                        />
+                      </div>
+                      
+                      <label htmlFor="">Which areas are of interest to you during the summit?</label>
+                      <select 
+                          id="interests-area"
+                          name="areaOfInterests"
+                          value={areaOfInterest}
+                          onChange={handleAreaOfInterestChange}
+                      >
+                          <option value=""></option>
+                          <option value="blue economy">Blue Economy</option>
+                          <option value="climate change">Climate Change</option>
+                          <option value="digital economy">Digital Economy</option>
+                          <option value="circular economy">Circular economy</option>
+                          <option value="cybersecurity ">Cybersecurity </option>
+                          <option value="all if possible">All if Possible</option>
+                      </select>
+                      <button type="submit">Submit</button>
+                  </form>
+                  
+              </div>
+          </div>
+            )}
+          </div>
+          
+        </div>
+       )}
     </div>
+    
   );
 }
 

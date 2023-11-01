@@ -309,6 +309,7 @@ router.post('/api/registerUsers', async(req, res) => {
       // console.log(getEmail);
       // console.log(getName);
       const data =  await db.confirmAttend(userId, attendedStatus);
+      const fileDetails = await db.selectFile();
       res.json({success:true, data:data});
       if(attendedStatus === true) {
         let config = {
@@ -330,6 +331,12 @@ router.post('/api/registerUsers', async(req, res) => {
           to : getEmail,
           subject: 'Welcome to Blue Economy Summit ',
           text: `Dear ${getName},\n\nYou thank you for attending the Blue Economy Summit:\n\n Check out the event activities here:\n\n ${loginLink}\n`,
+          attachments: [
+            {
+              filename: fileDetails[0].file_name, 
+              content: fileDetails[0].file, 
+            },
+          ],
         };
     
         transporter.sendMail(result).then(() => {
@@ -372,10 +379,10 @@ router.post('/api/registerUsers', async(req, res) => {
   });
   
   router.put('/api/updateDetails', (req, res) => {
-    const {about_event, event_date,event_time, event_location  } = req.body;
+    const {about_event, event_date,event_time, event_location,cyber_date, summit_date  } = req.body;
   
     const db = DbService.getDbLearningInstance();
-    const result = db.updateEventDetails(about_event, event_date,event_time, event_location);
+    const result = db.updateEventDetails(about_event, event_date,event_time, event_location,cyber_date, summit_date);
     result
     .then(data => {
       res.json({success:true, data:data})
@@ -488,6 +495,13 @@ router.post('/api/registerUsers', async(req, res) => {
       const getCyberData = await db.getUserByEmailCyber(email);
       // const fileDetails = await db.selectFile();
       // console.log(fileDetails[0].file_name);
+      const eventDetails = await db.getEventDetails();
+      const cyberDate = new Date(eventDetails[0].cyber_date);
+      const summitDate = new Date(eventDetails[0].summit_date);
+      const cyberDay = cyberDate.getDay();
+      const summitDay = summitDate.getDay();
+      // console.log(cyberDay, summitDay);
+
       await db.updateAttendStatusCyber(email);
       function getWeek(date) {
         const currentDate = new Date(date);
@@ -500,14 +514,14 @@ router.post('/api/registerUsers', async(req, res) => {
       const dayOfWeek = new Date().getDay(); // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
       const currentDate = new Date();
       if(getUserDetails) {
-        if (dayOfWeek === 3 && getWeek(currentDate) === getWeek(new Date())) {
+        if (dayOfWeek === summitDay && getWeek(currentDate) === getWeek(new Date())) {
           await db.updateAttendStatus(email);
           res.json({success: true, message:'Email confirmed successfully'})
         }else{
           res.json({success: false, message:'Not allowed to attend Today'})
         }
       } else if(getCyberData){
-        if (dayOfWeek === 2 && getWeek(currentDate) === getWeek(new Date())) {
+        if (dayOfWeek === cyberDay && getWeek(currentDate) === getWeek(new Date())) {
           await db.updateAttendStatusCyber(email);
           res.json({success: true, message:'Email confirmed successfully'})
         }else{
@@ -559,6 +573,7 @@ router.post('/api/registerUsers', async(req, res) => {
         // console.log(getEmail);
         // console.log(getName);
         const data =  await db.confirmAttendCyber(userId, attendedStatus);
+        const fileDetails = await db.selectFile();
         res.json({success:true, data:data});
         if(attendedStatus === true) {
           let config = {
@@ -580,6 +595,12 @@ router.post('/api/registerUsers', async(req, res) => {
             to : getEmail,
             subject: 'Welcome to Blue Economy Summit ',
             text: `Dear ${getName},\n\nYou thank you for attending the Blue Economy Summit:\n\n Check out the event activities here:\n\n ${loginLink}\n`,
+            attachments: [
+              {
+                filename: fileDetails[0].file_name, 
+                content: fileDetails[0].file, 
+              },
+            ],
           };
       
           transporter.sendMail(result).then(() => {

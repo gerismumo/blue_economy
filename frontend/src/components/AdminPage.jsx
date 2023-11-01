@@ -13,7 +13,9 @@ function AdminPage() {
         about_event: '',
         event_date: '',
         event_time: '',
-        event_location: ''
+        event_location: '',
+        cyber_date: '',
+        summit_date:'',
     });
 
     const event_detail_api = `${process.env.REACT_APP_API_URL}/api/eventDetails`;
@@ -47,7 +49,7 @@ function AdminPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        console.log('eventDetails',eventDetails);
         try {
             const update_detail_api = `${process.env.REACT_APP_API_URL}/api/updateDetails`;
             const response = await fetch(update_detail_api, {
@@ -366,6 +368,20 @@ function AdminPage() {
                                     type="text"
                                     name="event_location"
                                     value={eventDetails.event_location}
+                                    onChange={handleInputChange}
+                                />
+                                <label>StartUps Day:</label>
+                                <input
+                                    type="date"
+                                    name="cyber_date"
+                                    value={eventDetails.cyber_date}
+                                    onChange={handleInputChange}
+                                />
+                                <label>Main Summit Day:</label>
+                                <input
+                                    type="date"
+                                    name="summit_date"
+                                    value={eventDetails.summit_date}
                                     onChange={handleInputChange}
                                 />
                                 <div className="modal-button">
