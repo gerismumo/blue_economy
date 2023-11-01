@@ -132,9 +132,6 @@ const [areaOfInterest, setAreaOfInterest] = useState('');
 
   return (
     <div>
-       {loading && <p>...loading</p>}
-       {error && <p>Error: {error}</p>}
-       {!loading && !error && (
           <div className='registration-page'>
           < div className='header'>
                             <nav>
@@ -205,10 +202,10 @@ const [areaOfInterest, setAreaOfInterest] = useState('');
           </div>
           
         </div>
-       )}
+      
     </div>
-    
-  );
+  )
+
 }
 
 export default RegistrationForm;

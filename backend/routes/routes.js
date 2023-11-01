@@ -751,6 +751,22 @@ router.post('/api/registerUsers', async(req, res) => {
         res.status(500).json({success: false, error: 'Internal Server Error' });
       }
     });
+
+    router.post('/api/deleteUsersData', (req, res) => {
+      const db = DbService.getDbLearningInstance();
+      const result = db.deleteUsersData();
+      result
+      .then(res.json({success: true, message: 'deleted successfully'}))
+      .catch((err) => res.json({success: false, err: err}))
+    });
+
+    router.post('/api/deleteCyberData', (req, res) => {
+      const db = DbService.getDbLearningInstance();
+      const result = db.deleteCyberData();
+      result
+      .then(res.json({success: true}))
+      .catch((err) => res.json({success: false, err: err}))
+    })
     
   module.exports = router;
   

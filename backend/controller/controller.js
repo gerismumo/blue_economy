@@ -770,5 +770,31 @@ class DbLearning {
         });
     }
 
+    async deleteUsersData() {
+        const query = 'DELETE FROM users_list';
+        return new Promise((resolve, reject) => {
+            connection.query(query, (err, result) => {
+                if(err) {
+                    reject(err);
+                }else {
+                    resolve(result);
+                }
+            })
+        })
+    }
+
+    async deleteCyberData() {
+        const query = 'DELETE FROM cybersecurity_list';
+        return new Promise((resolve, reject) => {
+            connection.query(query, (err, result) => {
+                if(err) {
+                    reject(err);
+                }else {
+                    resolve(result);
+                }
+            })
+        })
+    }
+
     }
     module.exports = DbLearning;

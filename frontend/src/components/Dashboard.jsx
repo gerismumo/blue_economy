@@ -538,7 +538,20 @@ const navigate = useNavigate();
         }
       }
 
-      
+      const handleDeleteData = () => {
+        const api_delete = `${process.env.REACT_APP_API_URL}/api/deleteUsersData`;
+        fetch(api_delete, {
+          method: 'POST',
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            toast.success(data.message);
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      };
     
     return (
         <div>
@@ -656,6 +669,7 @@ const navigate = useNavigate();
 
                             {/* <th>Edit</th>
                             <th>Delete</th> */}
+                            <th colSpan={2}>{person.organiser_role === 'admin'? (<button onClick={handleDeleteData}>Delete All</button>):('')}</th>
                         </tr>
                     </thead>
                     <tbody>

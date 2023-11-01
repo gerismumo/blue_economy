@@ -63,6 +63,7 @@ p.error {
   color: #ffffff;
   font-weight: bold;
 }
+
 .dashboard  nav .nav-home button {
   text-decoration: none;
   font-weight: bold;
@@ -254,6 +255,19 @@ p.error {
   border-radius: 3px;
   font-weight: 700;
   font-size: 18px;
+}
+.dashboard .users-table th button {
+  background-color: rgb(248, 10, 10);
+  color: #ffffff;
+  padding: 6px 12px;
+  outline: none;
+  border: none;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 18px;
+}
+.dashboard .users-table th button:hover {
+  background-color: rgb(164, 6, 6);
 }
 .dashboard .users-table td button:hover{
   background-color: #1c87d9;
@@ -1888,13 +1902,23 @@ background-color: grey;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-
+.registration-page .register-details {
+  overflow: auto;
+}
 
 .select-county form {
   text-align: left;
 }
 .select-county form .county {
   width: 400px;
+}
+@media (max-width: 768px) {
+  .select-county form .county {
+    width: 300px;
+  }
+  .select-county .Select {
+    width: 80%;
+  }
 }
 .select-county label {
   font-size: 18px;
