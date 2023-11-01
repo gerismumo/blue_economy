@@ -401,6 +401,25 @@ const navigate = useNavigate();
             }
 
     //export to excel
+    function formatConfirmedAt(dateTimeString) {
+        if (!dateTimeString) {
+          return '';
+        }
+      
+        const date = new Date(dateTimeString);
+        const options = {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        };
+      
+        return date.toLocaleString('en-US', options);
+      }
+      
 
     const exportToExcel = () => {
         const dataToExport = filteredData.map((user) => ({
@@ -424,6 +443,7 @@ const navigate = useNavigate();
         //   'Describe your product or the services that you offer?': user.describe_product,
         //   'Which category do you fall in?': user.category_fall,
           'Attended': attendedStatuses[user.user_id] ? 'Yes' : 'No',
+          'Confirmed At': formatConfirmedAt(user.confirmed_at),
         }));
       
         const worksheet = XLSX.utils.json_to_sheet(dataToExport);
@@ -505,24 +525,6 @@ const navigate = useNavigate();
       };
 
       //format data
-      function formatConfirmedAt(dateTimeString) {
-        if (!dateTimeString) {
-          return '';
-        }
-      
-        const date = new Date(dateTimeString);
-        const options = {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: true,
-        };
-      
-        return date.toLocaleString('en-US', options);
-      }
       
       
       const toggleDropdown = () => {

@@ -500,7 +500,7 @@ router.post('/api/registerUsers', async(req, res) => {
       const dayOfWeek = new Date().getDay(); // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
       const currentDate = new Date();
       if(getUserDetails) {
-        if (dayOfWeek === 2 && getWeek(currentDate) === getWeek(new Date())) {
+        if (dayOfWeek === 3 && getWeek(currentDate) === getWeek(new Date())) {
           await db.updateAttendStatus(email);
           res.json({success: true, message:'Email confirmed successfully'})
         }else{

@@ -261,6 +261,7 @@ function AdminPage() {
                                                 <button><Link to='/verify'>Qrcode</Link></button>
                                                 <button onClick={handleEditForm}>{showEditDetails ? 'Close' : 'Event Details'}</button>
                                                 <button onClick={handleAdminAddClick}>{showAdminAddForm ? 'Close' : 'Add Organiser'}</button>
+                                                <button><Link to='/uploadFile'>UploadFile</Link></button>
                                                 
                                                 
                                             </>

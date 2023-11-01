@@ -417,28 +417,36 @@ const navigate = useNavigate();
             }
 
     //export to excel
+    function formatConfirmedAt(dateTimeString) {
+        if (!dateTimeString) {
+          return '';
+        }
+      
+        const date = new Date(dateTimeString);
+        const options = {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        };
+      
+        return date.toLocaleString('en-US', options);
+      }
+
 
     const exportToExcel = () => {
         const dataToExport = filteredData.map((user) => ({
-          'First Name': user.first_name,
-          'Last Name': user.last_name,
-          'Full Name': user.full_name,
-          'Email': user.email,
-          'Portfolio Url': user.portifolio_url,
-          'Submitted Project?': user.submitted_project,
-          'Project URLs': user.project_url,
-          'City': user.city,
-          'State': user.state,
-          'Country': user.country,
-          'Project Count':user.project_count ,
-          'College/University Name': user.college_uni,
-          'Job Specialty': user.job_speciality,
-        //   'Registered At': user.registered_at,
-          'Do you have teammates?': user.team_mates,
-          'Who told you about this hackathon?': user.heard_where,
-          'County of Residence': user.county,
+          'Full Names': user.full_name,
+          'Company/Organization Name': user.company,
+          'Email Address': user.email,
           'Phone number( For communication purposes only)': user.phone_number,
+          'County of Residence': user.attendee_county,
+          'Which areas are of interest to you during the summit?': user.attendee_interest,
           'Attended': attendedStatuses[user.attendee_id] ? 'Yes' : 'No',
+          'Confirmed At': formatConfirmedAt(user.confirmed_at),
         }));
       
         const worksheet = XLSX.utils.json_to_sheet(dataToExport);
@@ -515,25 +523,7 @@ const navigate = useNavigate();
         reader.readAsArrayBuffer(file);
       };
 
-      function formatConfirmedAt(dateTimeString) {
-        if (!dateTimeString) {
-          return '';
-        }
       
-        const date = new Date(dateTimeString);
-        const options = {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: true,
-        };
-      
-        return date.toLocaleString('en-US', options);
-      }
-
       
       const toggleDropdown = () => {
         setDropDown((isDropDown) => !isDropDown);
