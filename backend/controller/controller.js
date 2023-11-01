@@ -35,7 +35,7 @@ class DbLearning {
 
     async addUsersCyber (requestData) {
         try {
-            const query ='INSERT INTO cybersecurity_list (first_name,last_name,full_name, email, portifolio_url, submitted_project, project_url, city, state, country, project_count, college_uni, job_speciality, registered_at, team_mates, heard_where, county, phone_number) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?,?,?)';
+            const query ='INSERT INTO cybersecurity_list (first_name,last_name,full_name, email, portifolio_url, submitted_project, project_url, company, state, country, project_count, college_uni, job_speciality, registered_at, team_mates, heard_where, county, phone_number,attendee_interest,attendee_county) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?,?,?,?,?)';
                 const values = [
                     requestData.firstname,
                     requestData.lastname,
@@ -44,7 +44,7 @@ class DbLearning {
                     requestData.portfolioUrl,
                     requestData.submitProject,
                     requestData.projectUrl,
-                    requestData.city,
+                    requestData.company,
                     requestData.state,
                     requestData.country,
                     requestData.projectCount,
@@ -52,12 +52,15 @@ class DbLearning {
                     requestData.jobSpecialty,
                     requestData.teamMates,
                     requestData.heardHack,
-                    requestData.county,
+                    requestData.countys,
                     requestData.phoneNumber,
+                    requestData.areaOfInterests,
+                    requestData.county,
                 ]
             const addUser = await new Promise((resolve, reject) => {
                 connection.query(query, values, (err, result) => {
                     if (err) {
+                        // console.log(err);
                         reject(err);
                     }
                     // console.log(result);
@@ -203,6 +206,35 @@ class DbLearning {
               query,
               [
                 user_email,user_name,company,phone_number,user_interest,attendee_county, user_id
+              ],
+              (err, result) => {
+                if (err) {
+                  reject(err);
+                }
+                console.log(result);
+                resolve(result);
+              }
+            );
+          });
+      
+          return editUser;
+        } catch (error) {
+          throw error;
+        }
+      }
+     
+
+      async  editUsersCyber(attendee_id,
+        user_email,user_name,company,phone_number,user_interest, attendee_county) {
+        try {
+          const query = `UPDATE cybersecurity_list SET email = ?, full_name = ?, company = ?, phone_number = ?, attendee_interest = ?, attendee_county= ? WHERE attendee_id = ? `;
+         
+        
+          const editUser = await new Promise((resolve, reject) => {
+            connection.query(
+              query,
+              [
+                user_email,user_name,company,phone_number,user_interest,attendee_county, attendee_id
               ],
               (err, result) => {
                 if (err) {
@@ -554,12 +586,12 @@ class DbLearning {
                   return [
                     item['First Name'],
                     item['Last Name'],
-                    item['Full Name'],
-                    item['Email'],
+                    item['Full Names'],
+                    item['Email Address'],
                     item['Portfolio Url'],
                     item['Submitted Project?'],
                     item['Project URLs'],
-                    item['City'],
+                    item['Company/ Organization Name'],
                     item['State'],
                     item['Country'],
                     item['Project Count'],
@@ -569,7 +601,7 @@ class DbLearning {
                     item['Do you have teammates?'],
                     item['Who told you about this hackathon?'],
                     item['County of Residence'],
-                    item['Phone number( For communication purposes only)']
+                    item['Phone number(For communication purposes only)'],
                   ];
                 });
                 const query = 'INSERT INTO cybersecurity_list (first_name,last_name,full_name, email, portifolio_url, submitted_project, project_url, city, state, country, project_count, college_uni, job_speciality,registered_at ,team_mates, heard_where, county, phone_number) VALUES ?';

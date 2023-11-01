@@ -205,6 +205,33 @@ router.post('/api/registerUsers', async(req, res) => {
     .catch(err => res.json({error: err}));
   });
   
+  //
+  router.put('/api/editUserCyber/:attendee_id', (req, res) => {
+    const {attendee_id} = req.params;
+    const editingUser = req.body;
+    // const {selectedCounty} = req.body;
+    // console.log(editingUser);
+  
+    const user_email = editingUser.email;
+    const user_name  = editingUser.full_name;
+    const company = editingUser.company;
+    const phone_number = editingUser.phone_number;
+    const user_interest = editingUser.attendee_interest;
+    const attendee_county = editingUser.attendee_county;
+    // console.log(attendee_id,
+    //   user_email,user_name,  company,phone_number,
+    //  user_interest,attendee_county);
+    const db = DbService.getDbLearningInstance();
+    const result = db.editUsersCyber(attendee_id,
+       user_email,user_name,  company,phone_number,
+      user_interest,attendee_county);
+    result
+    .then(data => {
+      res.json({success: true, data:data});
+    })
+    .catch(err => res.json({error: err}));
+  });
+  
   //admin login
   
   // app.post('/api/adminLogin', async(req, res) => {

@@ -66,17 +66,14 @@ const navigate = useNavigate();
                 user.user_id.toString().toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
                 user.user_email.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 user.user_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.occupation.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                // user.occupation.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 user.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.phone_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.industry_in.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.hear_about_event.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.attend_last_year.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.user_interest.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.join_newsletter.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.join_as.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.describe_product.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.category_fall.toLowerCase().includes(searchQuery.toLowerCase())    
+                user.phone_number.toLowerCase().includes(searchQuery.toLowerCase()) 
+                // user.user_interest.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                // user.join_newsletter.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                // user.join_as.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                // user.describe_product.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                // user.category_fall.toLowerCase().includes(searchQuery.toLowerCase())    
             );
             })
         : []
@@ -615,7 +612,7 @@ const navigate = useNavigate();
                         <select onChange={handlePageSelect}>
                                 <option value="">Select Dashboard</option>
                                 {/* <option value="/dashboard">dashboard</option> */}
-                                <option value="/cyberSecurity">CyberSecurity</option>
+                                <option value="/cyberSecurity">StartUps Pitching</option>
                             </select>
                             {person.organiser_role === 'admin'? (
                                 <>
