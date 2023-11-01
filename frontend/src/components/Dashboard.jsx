@@ -652,7 +652,7 @@ const navigate = useNavigate();
                             <th>Confirmed At</th>
                             <th>County</th>
                             <th>Which areas are of interest to you during the summit?</th>
-                            <th>User ID</th>
+                            {/* <th>User ID</th> */}
                             <th>Email</th>
                             <th>Name</th>
                             {/* <th>Designation/Occupation/Role</th> */}
@@ -688,7 +688,7 @@ const navigate = useNavigate();
                                   <td>{formatConfirmedAt(user.confirmed_at)}</td>
                                   <td>{user.attendee_county ? (user.attendee_county):('')}</td>
                                   <td>{user.attendee_interest ? (user.attendee_interest):('')}</td>
-                                <td>{user.user_id}</td>
+                                {/* <td>{user.user_id}</td> */}
                                 <td>{user.user_email}</td>
                                 <td>{user.user_name}</td>
                                 {/* <td>{user.occupation}</td> */}
